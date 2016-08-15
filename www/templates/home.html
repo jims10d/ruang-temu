@@ -1,0 +1,46 @@
+<ion-view view-title="Timeline" cache-view="false">
+<ion-nav-buttons side="right">
+  <button class="button button-clear icon-button ion-ios-search"></button>
+</ion-nav-buttons>
+
+<ion-content overflow-scroll=true scroll-sista="tabs" style="background-color: #ececec;">
+ <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh()" refreshing-text="Fetching ..." refreshing-icon="ion-loading-b"></ion-refresher>
+<!--List Posting-->
+<div class="list card" class="padding" ng-repeat="data in dataPost" >
+
+  <div class="item item-avatar" style="min-height: 60px;">
+    <img ng-src="img/ben.png">
+    <h2>{{data.employee}}</h2>
+    <p>{{data.date | date:'yyyy-MM-dd, h:mm a'}}</p>
+  </div>
+
+  <div class="item item-body" style="padding-top:0px; padding-left:0px; padding-right:0px; padding-bottom:10px; border-bottom: 1px solid; border-color: #ececec;">
+    <img class="full-image" ng-src="img\healthy-food.jpg">
+    <h1 style="padding-left:16px; padding-right:16px; margin-top:8px; margin-bottom: 8px; font-size:24px">
+      {{data.title}}
+    </h1>
+    <p style="padding-left:16px; padding-right:16px; color:black; margin-top:0px; margin-bottom:0px; height:20px; overflow:hidden; text-align:justify">
+      {{data.content}}
+    </p>
+       <a style="padding-left:16px; padding-right:16px;" ng-href="#/app/post" ng-click="getPost()">read more</a>
+
+    <p style="padding-left:16px; padding-right:16px; color:black;">
+      <a href="#" class="subdued">{{data.like}} Like</a>
+      <a href="#" class="subdued">{{data.comment}} Comments</a>
+      <a href="#" class="subdued">Share</a>
+      <i class="icon ion-heart" style="padding-top:1px; padding-left: 4px; float:right; color:gray"></i>
+      <a href="#" class="subdued" style="float:right;">10k</a>
+    </p>
+  </div>
+</div>
+<!--End List Posting-->
+
+
+
+</ion-content>
+<!--Create Post Button-->
+<ion-buttons start id="floating-button" style="margin-right:10px;" onclick="location.href='#/app/create_post'">
+  <i class="icon ion-plus" style="font-size:30px"></i>
+</ion-buttons>
+<!--End Create Post Button-->
+</ion-view>
