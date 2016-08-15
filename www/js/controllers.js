@@ -184,14 +184,26 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 
 .controller('Create_postCtrl', function($scope, $state, PostService, $ionicPopup, $ionicPlatform,$ionicLoading) {  
 	//implement logic here
+
+	 $scope.data = {
+	 	receiver1 : "a",
+   		receiver2 : "b",
+   		receiver3 : "c",
+   		receiver4 : "d",
+   		receiver5 : "e"
+     };
+
+ // //    var receiverCollect = $scope.data.receiver1 + ', ' + $scope.data.receiver2;
+ //    console.log(receiverCollect);
+ //    console.log($scope.data.receiver2);
 	$scope.profile = {};
 	$scope.data={};
+	$scope.division={};
 	$scope.data.date = moment().format();
 	$scope.data.category = "Healthy";
 	$scope.data.privacy = "Public";
 	$scope.data.priority = "Low";
-	$scope.data.receiver = "All";
-	console.log($scope.data);
+	// $scope.data.receiver = receiverCollect;
 	PostService.getUser(localStorage.getItem("userid"),localStorage.getItem("token")).success(function(data) {
 		$scope.profile = data;
 		$scope.data.employee = $scope.profile.username;
@@ -208,7 +220,34 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 
 	
 	$scope.tambahPost = function(){
-		console.log($scope.data)
+		// var receiver1 = $scope.data.receiver1;
+		// var receiver2 = $scope.data.receiver2;
+		// var receiver3 = $scope.data.receiver3;
+		// var receiver4 = $scope.data.receiver4;
+		// var receiver5 = $scope.data.receiver5;
+		//  console.log(receiver1 + ' ' + receiver2 + ' ' + receiver3 + ' ' + receiver4 + ' ' + receiver5);
+		// if(receiver1 === "General Business Solution, Jasa Teknologi Informasi, Division Name 3, Division Name 4"){
+		// $scope.data.receiver = receiver1; 
+		// console.log($scope.data.receiver);
+		// } 
+		// else if(receiver2 === "General Business Solution"){
+		// $scope.data.receiver = receiver2; 
+		// console.log($scope.data.receiver);
+		// } 
+		// else if(receiver3 === "Jasa Teknologi Informasi"){
+		// $scope.data.receiver = receiver3; 
+		// console.log($scope.data.receiver);
+		// } 
+		// else if(receiver4 === "Division Name 3"){
+		// $scope.data.receiver = receiver4; 
+		// console.log($scope.data.receiver);
+		// } 
+		// else if(receiver5 === "Division Name 4"){
+		// $scope.data.receiver = receiver5; 
+		// console.log($scope.data.receiver);
+		// }
+		// else console.log("yiha");
+		$scope.data.receiver = $scope.division.receiver1 + $scope.division.receiver2 + $scope.division.receiver3 + $scope.division.receiver4 + $scope.division.receiver5;		
 		PostService.tambahPost($scope.data).success(function(data) {
 			$ionicLoading.hide();
 			localStorage.setItem("postid",data.id);
@@ -217,7 +256,8 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 				title: 'Succes!',
 				template: 'Berhasil buat post'
 			});
-			$state.go($state.current, {}, {reload: true});
+			// $state.go($state.current, {}, {reload: true});
+			$state.go('app.home');
 		}).error(function(data) {
 			$ionicLoading.hide();
 			console.log(data)

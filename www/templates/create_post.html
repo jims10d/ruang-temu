@@ -27,11 +27,11 @@
 
       <ul ng-show="Share" class="list" style="background:#fafafa;">
         <ion-list>
-          <ion-checkbox ng-model="filter.all" ng-model="isChecked">All</ion-checkbox>
-          <ion-checkbox ng-model="filter.gbs" ng-model="isChecked">General Business Solution</ion-checkbox>
-          <ion-checkbox ng-model="filter.jti" ng-model="isChecked">Jasa Teknologi Informasi</ion-checkbox>
-          <ion-checkbox ng-model="filter.name3" ng-model="isChecked">Division Name 3</ion-checkbox>
-          <ion-checkbox ng-model="filter.name4" ng-model="isChecked">Division Name 4</ion-checkbox>
+          <ion-checkbox ng-model="division.receiver1"  ng-true-value="''" ng-false-value="''" >All</ion-checkbox>
+          <ion-checkbox ng-model="division.receiver2"  ng-true-value="'General Business Solution'" ng-false-value="''" ng-checked="division.receiver1">General Business Solution</ion-checkbox>
+          <ion-checkbox ng-model="division.receiver3"  ng-true-value="'Jasa Teknologi Informasi'" ng-false-value="''" ng-checked="division.receiver1">Jasa Teknologi Informasi</ion-checkbox>
+          <ion-checkbox ng-model="division.receiver4"  ng-true-value="'Division Name 3'" ng-false-value="''" ng-checked="division.receiver1">Division Name 3</ion-checkbox>
+          <ion-checkbox ng-model="division.receiver5"  ng-true-value="'Division Name 4'" ng-false-value="''" ng-checked="division.receiver1">Division Name 4</ion-checkbox>
         </ion-list>
       </ul>
 
