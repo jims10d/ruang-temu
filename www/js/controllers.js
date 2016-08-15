@@ -185,13 +185,13 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 .controller('Create_postCtrl', function($scope, $state, PostService, $ionicPopup, $ionicPlatform,$ionicLoading) {  
 	//implement logic here
 
-	 $scope.data = {
-	 	receiver1 : "a",
-   		receiver2 : "b",
-   		receiver3 : "c",
-   		receiver4 : "d",
-   		receiver5 : "e"
-     };
+	 // $scope.data = {
+	 // 	receiver1 : "a",
+  //  		receiver2 : "b",
+  //  		receiver3 : "c",
+  //  		receiver4 : "d",
+  //  		receiver5 : "e"
+  //    };
 
  // //    var receiverCollect = $scope.data.receiver1 + ', ' + $scope.data.receiver2;
  //    console.log(receiverCollect);

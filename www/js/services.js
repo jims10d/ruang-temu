@@ -161,7 +161,6 @@ angular.module('starter.services', [])
 		tambahPost: function(data){
 			var deferred = $q.defer();
 			var promise = deferred.promise;
-			console.log("hai")
 			$http.post(BACKEND.URL+'/Posts',data,{ headers: { 'Content-Type': 'application/json' } }).success(function(response){
 				console.log(response);
 				deferred.resolve(response);

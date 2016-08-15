@@ -69,15 +69,15 @@ angular.module('starter', ['ionic', 'ionic-material', 'starter.controllers', 'st
       }
     }
   })
-  .state('app.post-view', {
-    url: '/post-view',
-    views: {
-      'home': {
-        templateUrl: 'templates/post-view.html',
-        controller: 'PostDetailCtrl'
-      }
-    }
-  })
+  // .state('app.post-view', {
+  //   url: '/post-view',
+  //   views: {
+  //     'home': {
+  //       templateUrl: 'templates/post-view.html',
+  //       controller: 'PostDetailCtrl'
+  //     }
+  //   }
+  // })
   .state('app.profile', {
     url: '/profile',
     views: {
