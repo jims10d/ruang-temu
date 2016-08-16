@@ -1,59 +1,68 @@
-<ion-view view-title="View Post" cache-view="false">
-<ion-nav-buttons side="left">
-  <button class="button button-clear icon-button mdi mdi-arrow-left" ng-click="back()"></button>
-</ion-nav-buttons>
-<ion-content overflow-scroll=true scroll-sista="tabs" style="background-color: #ececec;">
-<div class="list card" class="padding" >
+<ion-view view-title="Create Post" hide-back-button="true" text-center cache-view="false">
+  <ion-nav-buttons side="left">
+    <button class="button button-clear icon-button mdi mdi-arrow-left" ng-click="back()"></button>
+  </ion-nav-buttons>
 
-  <div class="item item-avatar" style="min-height: 60px;">
-    <img src="img\ben.png">
-    <h2>{{viewPost.employee}}</h2>
-    <p>{{viewPost.date | date:'yyyy-MM-dd, h:mm a'}}</p>
-  </div>
+  <ion-nav-buttons side="right">
+    <button class="button button-clear icon-button icon ion-android-attach" onclick="document.getElementById('upload').click()" type="button"></button>
+    <button class="button button-clear icon-button icon ion-android-send" onclick="document.getElementById('createpost').click()"></button>
+  </ion-nav-buttons>
+  <ion-content overflow-scroll=true scroll-sista="tabs" style="background-color:#fff;">
 
-  <div class="item item-body" style="padding-top:0px; padding-left:0px; padding-right:0px; padding-bottom:10px; border-bottom: 1px solid; border-color: #ececec;">
-    <img class="full-image" ng-src="img\healthy-food.jpg">
-    <h1 style="padding-left:16px; padding-right:16px; margin-top:8px; margin-bottom: 8px; font-size:24px">
-     {{viewPost.title}}
-    </h1>
-    <p style="padding-left:16px; padding-right:16px; color:black; margin-top:0px; text-align:justify">
-      {{viewPost.content}}
-    </p>
-    <p style="padding-left:16px; padding-right:16px; color:black;">
-      <a href="#" class="subdued">{{viewPost.like}} Like</a>
-      <a href="#" class="subdued">{{viewPost.comment}} Comments</a>
-      <a href="#" class="subdued">Share</a>
-      <i class="icon ion-heart" style="padding-top:1px; padding-left: 4px; float:right; color:gray"></i>
-      <a href="#" class="subdued" style="float:right;">10k</a>
-    </p>
-  </div>
+    <!-- list post -->
+    <form method="post" enctype="text/plain">    
 
-  <div class="list">
+      <!--input attach file-->
+      <input id="upload" type="file" style="display: none;">
 
-    <a class="item item-avatar" href="#" style="padding-bottom:0px;">
-      <img ng-src="img\healthy-food.jpg">
-      <h2>Neneng Yani</h2>
-      <div class="item item-text-wrap" style="padding:0px;">
-      <p style="padding-right:16px;">Absolutely adore everything related to slim</p>
+      <!-- button -->
+      <div class="button-bar">
+        <button id="share" ng-click="Share = !Share; Privacy = false; Category = false;" class="button icon ion-android-people" style="padding-top:10px; border-radius:0px; background:#24afe5; color:white;">
+        </button>
+
+        <button ng-click="Privacy = !Privacy; Share = false; Category = false;" class="button icon ion-android-lock" style="padding-top:10px; background:#24afe5; color:white;">
+        </button>
+
+        <button ng-click="Category = !Category; Privacy = false; Share = false;" class="button icon ion-pricetag" style="padding-top:10px; border-radius:0px; background:#24afe5; color:white;">
+        </button>
       </div>
-    </a>
 
-    <a class="item item-avatar" href="#" style="padding-bottom:0px;">
-      <img ng-src="img\healthy-food.jpg">
-      <h2>Stephen Hamilton</h2>
-      <div class="item item-text-wrap" style="padding:0px;">
-      <p style="padding-right:16px;">Ooooh gitu toh</p>
-      </div>
-    </a>
+      <ul ng-show="Share" class="list" style="background:#fafafa;">
+        <ion-list>
+          <ion-checkbox ng-model="data.div_all">All</ion-checkbox>
+          <ion-checkbox ng-model="data.div_gbs">General Business Solution</ion-checkbox>
+          <ion-checkbox ng-model="data.div_jti">Jasa Teknologi Informasi</ion-checkbox>
+        </ion-list>
+      </ul>
 
- </div>
-</div>
+      <ul ng-show="Privacy" class="list" style="background:#fafafa;">
+        <ion-list>
+          <ion-radio ng-model="data.privacy" ng-true-value="public">Public</ion-radio>
+          <ion-radio ng-model="data.privacy" ng-true-value="internal">Internal Only</ion-radio>
+        </ion-list>
+      </ul>
 
-<a class="item item-icon-left item-icon-right" style="padding:0px;">
-     <textarea id="comment" placeholder="Enter your comment here..." style="width:80%; padding-top:10px; padding-left:10px;"></textarea>
-    <i class="icon ion-android-send" style="background-color:#24afe5; color:white; right:0px; padding-left:20px; padding-right:20px;"></i>
-</a>
+      <ul ng-show="Category" class="list" style="background:#fafafa;">
+        <ion-list>
+          <ion-checkbox ng-model="data.priority" ng-true-value="important">Important</ion-checkbox>
+          <ion-checkbox ng-model="data.category_technology">Technology</ion-checkbox>
+          <ion-checkbox ng-model="data.category_business">Business</ion-checkbox>
+        </ion-list>
+      </ul>
 
-</ion-content>
+      <div class="list padding">
+        <label class="item item-input item-floating-label" style="padding:0">
+          <span class="input-label">Title</span>
+          <input id="title" type="text" placeholder="Title" ng-model="data.title">
+        </label>
+        <label class="item item-input item-floating-label" style="padding:0">
+          <span class="input-label">Content Information</span>
+          <textarea id="content" style="height:200px;background:transparent" placeholder="Content Information" ng-model="data.content"></textarea>
+        </label>
+      </div>  
+      
+      <input type="submit" value="Create" class="button button-block button-calm-900 text-center" ng-click="tambahPost()" id="createpost" style="display:none"></input>        
+
+    </form>
+  </ion-content>
 </ion-view>
-
