@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <ion-view view-title="View Post" cache-view="false">
 <ion-nav-buttons side="left">
   <button class="button button-clear icon-button mdi mdi-arrow-left" ng-click="back()"></button>
@@ -43,17 +44,80 @@
       <h2>Stephen Hamilton</h2>
       <div class="item item-text-wrap" style="padding:0px;">
       <p style="padding-right:16px;">Ooooh gitu toh</p>
+=======
+<ion-view view-title="Create Post" hide-back-button="true" text-center cache-view="false">
+  <ion-nav-buttons side="left">
+    <button class="button button-clear icon-button mdi mdi-arrow-left" ng-click="back()"></button>
+  </ion-nav-buttons>
+
+  <ion-nav-buttons side="right">
+    <button class="button button-clear icon-button icon ion-android-attach" onclick="document.getElementById('upload').click()" type="button"></button>
+    <button class="button button-clear icon-button icon ion-android-send" onclick="document.getElementById('createpost').click()"></button>
+  </ion-nav-buttons>
+  <ion-content overflow-scroll=true scroll-sista="tabs" style="background-color:#fff;">
+
+    <!-- list post -->
+    <form method="post" enctype="text/plain">    
+
+      <!--input attach file-->
+      <input id="upload" type="file" style="display: none;">
+
+      <!-- button -->
+      <div class="button-bar">
+        <button id="share" ng-click="Share = !Share; Privacy = false; Category = false;" class="button icon ion-android-people" style="padding-top:10px; border-radius:0px; background:#24afe5; color:white;">
+        </button>
+
+        <button ng-click="Privacy = !Privacy; Share = false; Category = false;" class="button icon ion-android-lock" style="padding-top:10px; background:#24afe5; color:white;">
+        </button>
+
+        <button ng-click="Category = !Category; Privacy = false; Share = false;" class="button icon ion-pricetag" style="padding-top:10px; border-radius:0px; background:#24afe5; color:white;">
+        </button>
+>>>>>>> 1a88105b0566799e026808cc44db8366e758628c
       </div>
-    </a>
 
- </div>
-</div>
+      <ul ng-show="Share" class="list" style="background:#fafafa;">
+        <ion-list>
+          <ion-checkbox ng-model="data.div_all">All</ion-checkbox>
+          <ion-checkbox ng-model="data.div_gbs">General Business Solution</ion-checkbox>
+          <ion-checkbox ng-model="data.div_jti">Jasa Teknologi Informasi</ion-checkbox>
+        </ion-list>
+      </ul>
 
+<<<<<<< HEAD
 <p class="item item-icon-left item-icon-right" style="padding:0px;">
      <textarea id="comment" ng-model="data.comment" placeholder="Enter your comment here..." style="width:80%; padding-top:10px; padding-left:10px;"></textarea>
     <i ng-click="addKomentar()" class="icon ion-android-send" style="background-color:#24afe5; color:white; right:0px; padding-left:20px; padding-right:20px;"></i>
 </p>
+=======
+      <ul ng-show="Privacy" class="list" style="background:#fafafa;">
+        <ion-list>
+          <ion-radio ng-model="data.privacy" ng-true-value="public">Public</ion-radio>
+          <ion-radio ng-model="data.privacy" ng-true-value="internal">Internal Only</ion-radio>
+        </ion-list>
+      </ul>
+>>>>>>> 1a88105b0566799e026808cc44db8366e758628c
 
-</ion-content>
+      <ul ng-show="Category" class="list" style="background:#fafafa;">
+        <ion-list>
+          <ion-checkbox ng-model="data.priority" ng-true-value="important">Important</ion-checkbox>
+          <ion-checkbox ng-model="data.category_technology">Technology</ion-checkbox>
+          <ion-checkbox ng-model="data.category_business">Business</ion-checkbox>
+        </ion-list>
+      </ul>
+
+      <div class="list padding">
+        <label class="item item-input item-floating-label" style="padding:0">
+          <span class="input-label">Title</span>
+          <input id="title" type="text" placeholder="Title" ng-model="data.title">
+        </label>
+        <label class="item item-input item-floating-label" style="padding:0">
+          <span class="input-label">Content Information</span>
+          <textarea id="content" style="height:200px;background:transparent" placeholder="Content Information" ng-model="data.content"></textarea>
+        </label>
+      </div>  
+      
+      <input type="submit" value="Create" class="button button-block button-calm-900 text-center" ng-click="tambahPost()" id="createpost" style="display:none"></input>        
+
+    </form>
+  </ion-content>
 </ion-view>
-

@@ -2,53 +2,48 @@
   <ion-nav-buttons side="left">
     <button class="button button-clear icon-button mdi mdi-arrow-left" ng-click="back()"></button>
   </ion-nav-buttons>
-  <!--<ion-nav-buttons side="right">
-    <button class="button button-clear icon-button ion-android-attach"></button>
-    <button class="button button-clear icon-button ion-android-send"></button>
-  </ion-nav-buttons>-->
-  
   <ion-content overflow-scroll=true scroll-sista="tabs" style="background-color:#fff;">
+<<<<<<< HEAD
     <!--<ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh()" refreshing-text="Fetching ..." refreshing-icon="ion-loading-b"></ion-refresher>-->
     
+=======
+
+>>>>>>> 1a88105b0566799e026808cc44db8366e758628c
     <!-- list post -->
     <form method="post" enctype="text/plain">    
 
       <!-- button -->
       <div class="button-bar">
-        <button id="share" ng-click="Share = !Share; Privacy = false; Tag = false;" class="button icon ion-android-people" style="padding-top:10px; border-radius:0px; background:#24afe5; color:white;">
+        <button id="share" ng-click="Share = !Share; Privacy = false; Category = false;" class="button icon ion-android-people" style="padding-top:10px; border-radius:0px; background:#24afe5; color:white;">
         </button>
 
-        <button ng-click="Privacy = !Privacy; Share = false; Tag = false;" class="button icon ion-android-lock" style="padding-top:10px; background:#24afe5; color:white;">
+        <button ng-click="Privacy = !Privacy; Share = false; Category = false;" class="button icon ion-android-lock" style="padding-top:10px; background:#24afe5; color:white;">
         </button>
 
-        <button ng-click="Tag = !Tag; Privacy = false; Share = false;" class="button icon ion-pricetag" style="padding-top:10px; border-radius:0px; background:#24afe5; color:white;">
+        <button ng-click="Category = !Category; Privacy = false; Share = false;" class="button icon ion-pricetag" style="padding-top:10px; border-radius:0px; background:#24afe5; color:white;">
         </button>
       </div>
 
       <ul ng-show="Share" class="list" style="background:#fafafa;">
         <ion-list>
-          <ion-checkbox ng-model="division.receiver1"  ng-true-value="''" ng-false-value="''" >All</ion-checkbox>
-          <ion-checkbox ng-model="division.receiver2"  ng-true-value="'General Business Solution'" ng-false-value="''" ng-checked="division.receiver1">General Business Solution</ion-checkbox>
-          <ion-checkbox ng-model="division.receiver3"  ng-model="isChecked" ng-true-value="'Jasa Teknologi Informasi'" ng-false-value="''" ng-checked="division.receiver1">Jasa Teknologi Informasi</ion-checkbox>
-          <ion-checkbox ng-model="division.receiver4"  ng-true-value="'Division Name 3'" ng-false-value="''" ng-checked="division.receiver1">Division Name 3</ion-checkbox>
-          <ion-checkbox ng-model="division.receiver5"  ng-true-value="'Division Name 4'" ng-false-value="''" ng-checked="division.receiver1">Division Name 4</ion-checkbox>
+          <ion-checkbox ng-model="data.div_all">All</ion-checkbox>
+          <ion-checkbox ng-model="data.div_gbs">General Business Solution</ion-checkbox>
+          <ion-checkbox ng-model="data.div_jti">Jasa Teknologi Informasi</ion-checkbox>
         </ion-list>
       </ul>
 
       <ul ng-show="Privacy" class="list" style="background:#fafafa;">
         <ion-list>
-          <ion-radio ng-model="filter.public">Public</ion-radio>
-          <ion-radio ng-model="filter.internal">Internal Only</ion-radio>
+          <ion-radio ng-model="data.privacy" ng-true-value="public">Public</ion-radio>
+          <ion-radio ng-model="data.privacy" ng-true-value="internal">Internal Only</ion-radio>
         </ion-list>
       </ul>
 
-      <ul ng-show="Tag" class="list" style="background:#fafafa;">
+      <ul ng-show="Category" class="list" style="background:#fafafa;">
         <ion-list>
-          <ion-checkbox ng-model="filter.important">Important</ion-checkbox>
-          <ion-checkbox ng-model="filter.technology">Technology</ion-checkbox>
-          <ion-checkbox ng-model="filter.business">Business</ion-checkbox>
-          <ion-checkbox ng-model="filter.healthy">Healthy</ion-checkbox>
-          <ion-checkbox ng-model="filter.category">Category Name 4</ion-checkbox>
+          <ion-checkbox ng-model="data.priority" ng-true-value="important">Important</ion-checkbox>
+          <ion-checkbox ng-model="data.category_technology">Technology</ion-checkbox>
+          <ion-checkbox ng-model="data.category_business">Business</ion-checkbox>
         </ion-list>
       </ul>
 

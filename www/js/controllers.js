@@ -340,6 +340,7 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 	}
 })
 
+<<<<<<< HEAD
 .controller('Create_postCtrl', function($scope, $state, PostService, $ionicPopup, $ionicPlatform, $ionicLoading, $cordovaImagePicker) {  
 	//implement logic here
 	document.addEventListener("deviceready", function () {
@@ -363,6 +364,9 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 			});
 		}
 	}, false);
+=======
+.controller('Create_postCtrl', function($scope, $state, PostService, $ionicPopup, $ionicPlatform,$ionicLoading) {  
+>>>>>>> 1a88105b0566799e026808cc44db8366e758628c
 
 	$scope.profile = {};
 	$scope.data={};
@@ -386,8 +390,13 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 		});
 	});
 
+<<<<<<< HEAD
 	$scope.tambahPost = function(){
 		$scope.data.receiver = $scope.division.receiver1 + $scope.division.receiver2 + $scope.division.receiver3 + $scope.division.receiver4 + $scope.division.receiver5;		
+=======
+	
+	$scope.tambahPost = function(){	
+>>>>>>> 1a88105b0566799e026808cc44db8366e758628c
 		PostService.tambahPost($scope.data).success(function(data) {
 			$ionicLoading.hide();
 			localStorage.setItem("postid",data.id);
@@ -411,7 +420,6 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 
 .controller('ProfileCtrl', function($scope, $state, $ionicPopup, $ionicPlatform, $ionicLoading, LoginService) {  
 	//implement logic here
-	$scope.profile = {};
 	$ionicLoading.show({
 		content: 'Loading',
 		animation: 'fade-in',
@@ -433,6 +441,7 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 		});
 	});
 })
+<<<<<<< HEAD
 
 // .controller('SocialCtrl', function($scope, $cordovaSocialSharing, $ionicPlatform) {
 
@@ -550,3 +559,5 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 // }
 // });
 
+=======
+>>>>>>> 1a88105b0566799e026808cc44db8366e758628c
