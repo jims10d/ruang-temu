@@ -93,7 +93,7 @@ input[id="comment"]::-moz-placeholder, textarea[id="comment"]::-moz-placeholder 
   padding-top:30%;
 }
 .item-floating-label, .list .item.item-floating-label{
-  border-bottom:2px solid #fff;
+  border-bottom:2px solid #ccc;
 }
 .login-form{
   background-color: rgba(3, 18, 24, 0.86);

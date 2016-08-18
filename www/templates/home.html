@@ -6,11 +6,11 @@
 <ion-content overflow-scroll=true scroll-sista="tabs" style="background-color: #ececec;">
  <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh()" refreshing-text="Fetching ..." refreshing-icon="ion-loading-b"></ion-refresher>
 <!--List Posting-->
-<div class="list card" class="padding" ng-repeat="data in dataPost" >
+<div ng-href="#/app/post/{{data.id}}" class="list card" class="padding" ng-repeat="data in dataPost" >
 
   <div class="item item-avatar" style="min-height: 60px;">
     <img ng-src="img/ben.png">
-    <h2>{{data.employee}}</h2>
+    <h2>{{data.writer}}</h2>
     <p>{{data.date | date:'yyyy-MM-dd, h:mm a'}}</p>
   </div>
 
@@ -22,14 +22,14 @@
     <p style="padding-left:16px; padding-right:16px; color:black; margin-top:0px; margin-bottom:0px; height:20px; overflow:hidden; text-align:justify">
       {{data.content}}
     </p>
-       <a style="padding-left:16px; padding-right:16px;" ng-href="#/app/post" ng-click="getPost()">read more</a>
+       <a style="padding-left:16px; padding-right:16px;" ng-href="#/app/post/{{data.id}}">read more</a>
 
     <p style="padding-left:16px; padding-right:16px; color:black;">
       <a href="#" class="subdued">{{data.like}} Like</a>
       <a href="#" class="subdued">{{data.comment}} Comments</a>
-      <a href="#" class="subdued">Share</a>
-      <i class="icon ion-heart" style="padding-top:1px; padding-left: 4px; float:right; color:gray"></i>
-      <a href="#" class="subdued" style="float:right;">10k</a>
+      <a class="subdued" ng-controller="PostDetailCtrl" ng-click="shareNative()">Share</a>
+     <!--  <i class="icon ion-heart" style="padding-top:1px; padding-left: 4px; float:right; color:gray"></i> -->
+      <!-- <a href="#" class="subdued" style="float:right;">10k</a> -->
     </p>
   </div>
 </div>

@@ -7,30 +7,30 @@
 
   <div class="item item-avatar" style="min-height: 60px;">
     <img src="img\ben.png">
-    <h2>{{viewPost.employee}}</h2>
-    <p>{{viewPost.date | date:'yyyy-MM-dd, h:mm a'}}</p>
+    <h2>{{itemData.writer}}</h2>
+    <p>{{itemData.date | date:'yyyy-MM-dd, h:mm a'}}</p>
   </div>
 
   <div class="item item-body" style="padding-top:0px; padding-left:0px; padding-right:0px; padding-bottom:10px; border-bottom: 1px solid; border-color: #ececec;">
     <img class="full-image" ng-src="img\healthy-food.jpg">
     <h1 style="padding-left:16px; padding-right:16px; margin-top:8px; margin-bottom: 8px; font-size:24px">
-     {{viewPost.title}}
+     {{itemData.title}}
     </h1>
     <p style="padding-left:16px; padding-right:16px; color:black; margin-top:0px; text-align:justify">
-      {{viewPost.content}}
+      {{itemData.content}}
     </p>
     <p style="padding-left:16px; padding-right:16px; color:black;">
-      <a href="#" class="subdued">{{viewPost.like}} Like</a>
-      <a href="#" class="subdued">{{viewPost.comment}} Comments</a>
-      <a href="#" class="subdued">Share</a>
-      <i class="icon ion-heart" style="padding-top:1px; padding-left: 4px; float:right; color:gray"></i>
-      <a href="#" class="subdued" style="float:right;">10k</a>
+      <a href="#" class="subdued">{{itemData.like}} Like</a>
+      <a href="#" class="subdued">{{itemData.comment}} Comments</a>
+      <a class="subdued" ng-controller="PostDetailCtrl" ng-click="shareNative()">Share</a>
+     <!--  <i class="icon ion-heart" style="padding-top:1px; padding-left: 4px; float:right; color:gray"></i> -->
+      <!-- <a href="#" class="subdued" style="float:right;">10k</a> -->
     </p>
   </div>
 
   <div class="list">
 
-    <a class="item item-avatar" href="#" style="padding-bottom:0px;">
+    <a class="item item-avatar" style="padding-bottom:0px;">
       <img ng-src="img\healthy-food.jpg">
       <h2>Neneng Yani</h2>
       <div class="item item-text-wrap" style="padding:0px;">
@@ -38,7 +38,7 @@
       </div>
     </a>
 
-    <a class="item item-avatar" href="#" style="padding-bottom:0px;">
+    <a class="item item-avatar" style="padding-bottom:0px;">
       <img ng-src="img\healthy-food.jpg">
       <h2>Stephen Hamilton</h2>
       <div class="item item-text-wrap" style="padding:0px;">
@@ -49,10 +49,10 @@
  </div>
 </div>
 
-<a class="item item-icon-left item-icon-right" style="padding:0px;">
-     <textarea id="comment" placeholder="Enter your comment here..." style="width:80%; padding-top:10px; padding-left:10px;"></textarea>
-    <i class="icon ion-android-send" style="background-color:#24afe5; color:white; right:0px; padding-left:20px; padding-right:20px;"></i>
-</a>
+<p class="item item-icon-left item-icon-right" style="padding:0px;">
+     <textarea id="comment" ng-model="data.comment" placeholder="Enter your comment here..." style="width:80%; padding-top:10px; padding-left:10px;"></textarea>
+    <i ng-click="addKomentar()" class="icon ion-android-send" style="background-color:#24afe5; color:white; right:0px; padding-left:20px; padding-right:20px;"></i>
+</p>
 
 </ion-content>
 </ion-view>

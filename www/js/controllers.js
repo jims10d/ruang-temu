@@ -91,23 +91,33 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 		$state.go('login');
 	};
 })
-.controller('HomeCtrl', function($scope, $state, $stateParams, $ionicPopup, $ionicPlatform,$ionicLoading, PostService) { 
-	$scope.viewPost = {}; 
+.controller('HomeCtrl', function($scope, $state, $stateParams, $ionicPopup, $ionicPlatform,$ionicLoading, PostService, $cordovaSocialSharing, $window) { 
+	
+ // $scope.whatsappShare=function(){
+ //    window.plugins.socialSharing.shareViaWhatsApp('Digital Signature Maker', null /* img */, "https://play.google.com/store/apps/details?id=com.prantikv.digitalsignaturemaker" /* url */, null, function(errormsg){alert("Error: Cannot Share")});
+ //  }
 
-	$scope.getPost = function(){
+ 	// $ionicPlatform.ready(function() {
+	
+	// });
 
-	PostService.getPost(localStorage.getItem("postid"),localStorage.getItem("token")).success(function(data) {
-			$scope.viewPost = data;
-			console.log(data);
-			$ionicLoading.hide();
-		}).error(function(data) {
-			$ionicLoading.hide();
-			var alertPopup = $ionicPopup.alert({
-				title: 'Request Failed!',
-				template: 'Error get user post data'
-			});
-		});
-	}
+
+	// $scope.getPost = function(){
+	// $scope.viewPost = {}; 
+
+
+	// PostService.getPost(localStorage.getItem("postid"),localStorage.getItem("token")).success(function(data) {
+	// 		$scope.viewPost = data;
+	// 		console.log(data);
+	// 		$ionicLoading.hide();
+	// 	}).error(function(data) {
+	// 		$ionicLoading.hide();
+	// 		var alertPopup = $ionicPopup.alert({
+	// 			title: 'Request Failed!',
+	// 			template: 'Error get user post data'
+	// 		});
+	// 	});
+	// }
 
 	$ionicLoading.show({
 		content: 'Loading',
@@ -127,6 +137,7 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 		PostService.getAll(localStorage.getItem("token")).success(function(data) {
 			console.log(data);
 			$scope.dataPost=data;
+
 		})
 		.error(function(data) {
 			$ionicLoading.hide();
@@ -140,20 +151,167 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 
 })
 
-.controller('PostDetailCtrl', function($scope, $state, $ionicPopup, $ionicPlatform,$ionicLoading, PostService) {  
+.controller('PostDetailCtrl', function($scope, $state, $stateParams, $ionicPopup, $ionicPlatform, $ionicLoading, PostService, ionicMaterialInk, ionicMaterialMotion, $cordovaSocialSharing) {  
 	//implement logic here
-	$scope.viewPost = {}; 
-	PostService.getPost(localStorage.getItem("postid"),localStorage.getItem("token")).success(function(data) {
-			$scope.viewPost = data;
+	// $scope.viewPost = {}; 
+	// PostService.getPost(localStorage.getItem("postid"),localStorage.getItem("token")).success(function(data) {
+	// 		$scope.viewPost = data;
+	// 		console.log(data);
+	// 		$ionicLoading.hide();
+	// 	}).error(function(data) {
+	// 		$ionicLoading.hide();
+	// 		var alertPopup = $ionicPopup.alert({
+	// 			title: 'Request Failed!',
+	// 			template: 'Error get user post data'
+	// 		});
+	// 	});
+
+	ionicMaterialInk.displayEffect();
+	$scope.itemData={};
+	$scope.$on('$ionicView.enter', function(){
+		PostService.getPost($stateParams.dataId).success(function(data) {
+			$scope.itemData=data;
 			console.log(data);
-			$ionicLoading.hide();
-		}).error(function(data) {
+			console.log($scope.itemData.id);
+
+				$scope.addKomentar = function(){
+					PostService.tambahKomentar($scope.itemData.comment).success(function(data) {
+						$ionicLoading.hide();
+						var alertPopup = $ionicPopup.alert({
+							title: 'Succes!',
+							template: 'Berhasil post data komentar'
+						});
+						$state.go($state.current, {}, {reload: true});
+					}).error(function(data) {
+						$ionicLoading.hide();
+						var alertPopup = $ionicPopup.alert({
+							title: 'Post Data Failed!',
+							template: 'Gagal post data komentar'
+						});
+					});
+				}
+
+			$scope.shareNative = function() {
+		     $ionicPlatform.ready(function() {
+			  console.log($cordovaSocialSharing);
+				  
+			  $cordovaSocialSharing
+			    .share($scope.itemData.content, $scope.itemData.title, "https://www.google.nl/images/srpr/logo4w.png", "www.google.com") // Share via native share sheet
+			    .then(function(result) {
+			      // Success!
+			       console.log("success");
+			    }, function(err) {
+			      // An error occured. Show a message to the user
+			      console.log("failed");
+			    });
+
+			  $cordovaSocialSharing
+			    .shareViaTwitter($scope.itemData.content, "https://www.google.nl/images/srpr/logo4w.png", "www.google.com")
+			    .then(function(result) {
+			      // Success!
+			       console.log("success");
+			    }, function(err) {
+			      // An error occurred. Show a message to the user
+			       console.log("failed");
+			    });
+
+			  // $cordovaSocialSharing
+			  //   .shareViaWhatsApp("message", "https://www.google.nl/images/srpr/logo4w.png", "www.google.com")
+			  //   .then(function(result) {
+			  //     // Success!
+			  //      console.log("success");
+			  //   }, function(err) {
+			  //     // An error occurred. Show a message to the user
+			  //      console.log("failed");
+			  //   });
+
+			  $cordovaSocialSharing
+			    .shareViaFacebook($scope.itemData.content, "https://www.google.nl/images/srpr/logo4w.png", "www.google.com")
+			    .then(function(result) {
+			      // Success!
+			       console.log("success");
+			    }, function(err) {
+			      // An error occurred. Show a message to the user
+			       console.log("failed");
+			    });
+
+			    $cordovaSocialSharing
+			    .shareViaInstagram($scope.itemData.content, "https://www.google.nl/images/srpr/logo4w.png", "www.google.com")
+			    .then(function(result) {
+			      // Success!
+			       console.log("success");
+			    }, function(err) {
+			      // An error occurred. Show a message to the user
+			       console.log("failed");
+			    });
+
+			  // access multiple numbers in a string like: '0612345678,0687654321'
+			  $cordovaSocialSharing
+			    .shareViaSMS($scope.itemData.content, '089521000542')
+			    .then(function(result) {
+			      // Success!
+			       console.log("success");
+
+			    }, function(err) {
+			      // An error occurred. Show a message to the user
+			       console.log("failed");
+			    });
+
+			// toArr, ccArr and bccArr must be an array, file can be either null, string or array
+			  $cordovaSocialSharing
+			    .shareViaEmail(message, subject, toArr, ccArr, ['bcc', 'bcc'], null)
+			    .then(function(result) {
+			      // Success!
+			       console.log("success");
+
+			    }, function(err) {
+			      // An error occurred. Show a message to the user
+			       console.log("failed");
+			    });
+
+			  // $cordovaSocialSharing
+			  //   .canShareVia('whatsapp', 'msg', null, null)
+			  //   .then(function(result) {
+			  //     // Success!
+			  //      console.log("success");
+
+			  //   }, function(err) {
+			  //     // An error occurred. Show a message to the user
+			  //      console.log("failed");
+			  //   });
+
+			    $cordovaSocialSharing
+			    .canShareVia('instagram', 'msg', null, null)
+			    .then(function(result) {
+			      // Success!
+			       console.log("success");
+
+			    }, function(err) {
+			      // An error occurred. Show a message to the user
+			       console.log("failed");
+			    });
+
+			  $cordovaSocialSharing
+			    .canShareViaEmail()
+			    .then(function(result) {
+			      // Yes we can
+			       console.log("success");
+
+			    }, function(err) {
+			      // Nope
+			       console.log("failed");
+			    });
+		});
+		}
+		})
+		.error(function(data) {
 			$ionicLoading.hide();
 			var alertPopup = $ionicPopup.alert({
-				title: 'Request Failed!',
-				template: 'Error get user post data'
+				title: 'Get Data Failed!',
+				template: 'Gagal ambil data post'
 			});
 		});
+	});
 })
 
 .controller('Forgot_passwordCtrl', function($scope, $state, $ionicPopup, $ionicPlatform,$ionicLoading) {  
@@ -182,20 +340,30 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 	}
 })
 
-.controller('Create_postCtrl', function($scope, $state, PostService, $ionicPopup, $ionicPlatform,$ionicLoading) {  
+.controller('Create_postCtrl', function($scope, $state, PostService, $ionicPopup, $ionicPlatform, $ionicLoading, $cordovaImagePicker) {  
 	//implement logic here
+	document.addEventListener("deviceready", function () {
+		$scope.uploadImage = function() {
+			var options = {
+				maximumImagesCount: 1,
+				width: 600,
+				height: 600,
+				quality: 100
+			};
 
-	 // $scope.data = {
-	 // 	receiver1 : "a",
-  //  		receiver2 : "b",
-  //  		receiver3 : "c",
-  //  		receiver4 : "d",
-  //  		receiver5 : "e"
-  //    };
+			$cordovaImagePicker.getPictures(options).then(function (results) {
+				for (var i = 0; i < results.length; i++) {
+					$scope.image=results[i];
+					window.plugins.Base64.encodeFile($scope.image, function(base64){  // Encode URI to Base64 needed for contacts plugin
+						$scope.data.photo = base64;
+					});
+				}
+			}, function(error) {
+				$scope.data.photo="n/a"
+			});
+		}
+	}, false);
 
- // //    var receiverCollect = $scope.data.receiver1 + ', ' + $scope.data.receiver2;
- //    console.log(receiverCollect);
- //    console.log($scope.data.receiver2);
 	$scope.profile = {};
 	$scope.data={};
 	$scope.division={};
@@ -203,10 +371,10 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 	$scope.data.category = "Healthy";
 	$scope.data.privacy = "Public";
 	$scope.data.priority = "Low";
-	// $scope.data.receiver = receiverCollect;
 	PostService.getUser(localStorage.getItem("userid"),localStorage.getItem("token")).success(function(data) {
 		$scope.profile = data;
-		$scope.data.employee = $scope.profile.username;
+		$scope.data.writer = $scope.profile.username;
+		$scope.data.employee = $scope.profile.id;
 		$scope.profile.password="";
 		console.log($scope.data.employee);
 		$ionicLoading.hide();
@@ -218,35 +386,7 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 		});
 	});
 
-	
 	$scope.tambahPost = function(){
-		// var receiver1 = $scope.data.receiver1;
-		// var receiver2 = $scope.data.receiver2;
-		// var receiver3 = $scope.data.receiver3;
-		// var receiver4 = $scope.data.receiver4;
-		// var receiver5 = $scope.data.receiver5;
-		//  console.log(receiver1 + ' ' + receiver2 + ' ' + receiver3 + ' ' + receiver4 + ' ' + receiver5);
-		// if(receiver1 === "General Business Solution, Jasa Teknologi Informasi, Division Name 3, Division Name 4"){
-		// $scope.data.receiver = receiver1; 
-		// console.log($scope.data.receiver);
-		// } 
-		// else if(receiver2 === "General Business Solution"){
-		// $scope.data.receiver = receiver2; 
-		// console.log($scope.data.receiver);
-		// } 
-		// else if(receiver3 === "Jasa Teknologi Informasi"){
-		// $scope.data.receiver = receiver3; 
-		// console.log($scope.data.receiver);
-		// } 
-		// else if(receiver4 === "Division Name 3"){
-		// $scope.data.receiver = receiver4; 
-		// console.log($scope.data.receiver);
-		// } 
-		// else if(receiver5 === "Division Name 4"){
-		// $scope.data.receiver = receiver5; 
-		// console.log($scope.data.receiver);
-		// }
-		// else console.log("yiha");
 		$scope.data.receiver = $scope.division.receiver1 + $scope.division.receiver2 + $scope.division.receiver3 + $scope.division.receiver4 + $scope.division.receiver5;		
 		PostService.tambahPost($scope.data).success(function(data) {
 			$ionicLoading.hide();
@@ -293,3 +433,120 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 		});
 	});
 })
+
+// .controller('SocialCtrl', function($scope, $cordovaSocialSharing, $ionicPlatform) {
+
+// 	$scope.shareNative = function() {
+// 	     $ionicPlatform.ready(function() {
+// 		  console.log($cordovaSocialSharing);
+		  
+// 	  $cordovaSocialSharing
+// 	    .share("message", "subject", "https://www.google.nl/images/srpr/logo4w.png", "www.google.com") // Share via native share sheet
+// 	    .then(function(result) {
+// 	      // Success!
+// 	       console.log("success");
+// 	    }, function(err) {
+// 	      // An error occured. Show a message to the user
+// 	      console.log("failed");
+// 	    });
+
+// 	  $cordovaSocialSharing
+// 	    .shareViaTwitter("message", "https://www.google.nl/images/srpr/logo4w.png", "www.google.com")
+// 	    .then(function(result) {
+// 	      // Success!
+// 	       console.log("success");
+// 	    }, function(err) {
+// 	      // An error occurred. Show a message to the user
+// 	       console.log("failed");
+// 	    });
+
+// 	  // $cordovaSocialSharing
+// 	  //   .shareViaWhatsApp("message", "https://www.google.nl/images/srpr/logo4w.png", "www.google.com")
+// 	  //   .then(function(result) {
+// 	  //     // Success!
+// 	  //      console.log("success");
+// 	  //   }, function(err) {
+// 	  //     // An error occurred. Show a message to the user
+// 	  //      console.log("failed");
+// 	  //   });
+
+// 	  $cordovaSocialSharing
+// 	    .shareViaFacebook("message", "https://www.google.nl/images/srpr/logo4w.png", "www.google.com")
+// 	    .then(function(result) {
+// 	      // Success!
+// 	       console.log("success");
+// 	    }, function(err) {
+// 	      // An error occurred. Show a message to the user
+// 	       console.log("failed");
+// 	    });
+
+// 	    $cordovaSocialSharing
+// 	    .shareViaInstagram("message", "https://www.google.nl/images/srpr/logo4w.png", "www.google.com")
+// 	    .then(function(result) {
+// 	      // Success!
+// 	       console.log("success");
+// 	    }, function(err) {
+// 	      // An error occurred. Show a message to the user
+// 	       console.log("failed");
+// 	    });
+
+// 	  // access multiple numbers in a string like: '0612345678,0687654321'
+// 	  $cordovaSocialSharing
+// 	    .shareViaSMS("message", '089521000542')
+// 	    .then(function(result) {
+// 	      // Success!
+// 	       console.log("success");
+
+// 	    }, function(err) {
+// 	      // An error occurred. Show a message to the user
+// 	       console.log("failed");
+// 	    });
+
+// 	// toArr, ccArr and bccArr must be an array, file can be either null, string or array
+// 	  $cordovaSocialSharing
+// 	    .shareViaEmail(message, subject, toArr, ccArr, ['bcc', 'bcc'], null)
+// 	    .then(function(result) {
+// 	      // Success!
+// 	       console.log("success");
+
+// 	    }, function(err) {
+// 	      // An error occurred. Show a message to the user
+// 	       console.log("failed");
+// 	    });
+
+// 	  // $cordovaSocialSharing
+// 	  //   .canShareVia('whatsapp', 'msg', null, null)
+// 	  //   .then(function(result) {
+// 	  //     // Success!
+// 	  //      console.log("success");
+
+// 	  //   }, function(err) {
+// 	  //     // An error occurred. Show a message to the user
+// 	  //      console.log("failed");
+// 	  //   });
+
+// 	    $cordovaSocialSharing
+// 	    .canShareVia('instagram', 'msg', null, null)
+// 	    .then(function(result) {
+// 	      // Success!
+// 	       console.log("success");
+
+// 	    }, function(err) {
+// 	      // An error occurred. Show a message to the user
+// 	       console.log("failed");
+// 	    });
+
+// 	  $cordovaSocialSharing
+// 	    .canShareViaEmail()
+// 	    .then(function(result) {
+// 	      // Yes we can
+// 	       console.log("success");
+
+// 	    }, function(err) {
+// 	      // Nope
+// 	       console.log("failed");
+// 	    });
+// });
+// }
+// });
+

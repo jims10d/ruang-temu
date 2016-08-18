@@ -61,7 +61,7 @@ angular.module('starter', ['ionic', 'ionic-material', 'starter.controllers', 'st
     }
   })
   .state('app.post', {
-    url: '/post',
+    url: '/post/:dataId',
     views: {
       'home': {
         templateUrl: 'templates/post.html',

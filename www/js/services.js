@@ -278,27 +278,29 @@ angular.module('starter.services', [])
 		tambahKomentar: function(data){
 			var deferred = $q.defer();
 			var promise = deferred.promise;
-			$http.post(BACKEND.URL+'/komenklubas',data,
-				{ headers: { 'Content-Type': 'application/json' } }
-				).success(function(response){
-					deferred.resolve(response);
-				}).error(function(response,error){
-					if(error == 500){
-						deferred.reject(error);
-					}else{
-						deferred.reject(error);
-					}
-				});				
-				promise.success = function(fn){
-					promise.then(fn);
-					return promise;
-				}			
-				promise.error = function(fn){
-					promise.then(null, fn);
-					return promise;
-				}			
+			$http.post(BACKEND.URL+'/Posts/da860da1ab68875354fceddfb310f124?access_token=jWpoW9Wi5WyQBwxy5RhcQ1pNVcCuQVMYoR02i1KABwU5yccAMqBvrApScnF4uptI',data,{ headers: { 'Content-Type': 'application/json' } }).success(function(response){
+				console.log(response);
+				deferred.resolve(response);
+			}).error(function(response,error){
+				console.log(response)
+				if(error == 500){
+					console.log(response)
+					deferred.reject(error);
+				}else{
+					console.log(response)
+					deferred.reject(error);
+				}
+			});				
+			promise.success = function(fn){
+				promise.then(fn);
 				return promise;
-			}
+			}			
+			promise.error = function(fn){
+				promise.then(null, fn);
+				return promise;
+			}			
+			return promise;
+		}
 		}
 	})
 
