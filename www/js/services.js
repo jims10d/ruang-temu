@@ -220,10 +220,10 @@ angular.module('starter.services', [])
 			}
 			return promise;
 		},
-		getByUsername: function(id) {
+		getComment: function(id) {
 			var deferred = $q.defer();
 			var promise = deferred.promise;
-			$http.get(BACKEND.URL+'/userklubas/'+id+'/punyaLaporan').success(function(response){
+			$http.get(BACKEND.URL+'/Posts/'+id+'/comments?filter=%7B%22order%22%3A%22date%20asc%22%7D').success(function(response){
 				deferred.resolve(response);
 			}).error(function(response){
 				deferred.reject(response);
@@ -237,26 +237,61 @@ angular.module('starter.services', [])
 				return promise;
 			}
 			return promise;
-		},
-		getComment: function(id) {
+			},
+		getCommentCount: function(id) {
 			var deferred = $q.defer();
 			var promise = deferred.promise;
-		https://batukotapintar.mybluemix.net/api/komenklubas?filter=%7B%22where%22%3A%7B%22laporanklubaid%22%3A1%7D%7D
-		$http.get(BACKEND.URL+'/komenklubas?filter=%7B%22where%22%3A%7B%22laporanklubaid%22%3A'+id+'%7D%7D').success(function(response){
-			deferred.resolve(response);
-		}).error(function(response){
-			deferred.reject(response);
-		});
-		promise.success = function(fn){
-			promise.then(fn);
+			$http.get(BACKEND.URL+'/Posts/'+id+'/comments/count').success(function(response){
+				deferred.resolve(response);
+			}).error(function(response){
+				deferred.reject(response);
+			});
+			promise.success = function(fn){
+				promise.then(fn);
+				return promise;
+			}
+			promise.error = function(fn){
+				promise.then(null, fn);
+				return promise;
+			}
 			return promise;
-		}
-		promise.error = function(fn){
-			promise.then(null, fn);
+			},
+		getLike: function(id) {
+			var deferred = $q.defer();
+			var promise = deferred.promise;
+			$http.get(BACKEND.URL+'/Posts/'+id+'/likes').success(function(response){
+				deferred.resolve(response);
+			}).error(function(response){
+				deferred.reject(response);
+			});
+			promise.success = function(fn){
+				promise.then(fn);
+				return promise;
+			}
+			promise.error = function(fn){
+				promise.then(null, fn);
+				return promise;
+			}
 			return promise;
-		}
-		return promise;
-		},
+			},
+		getLikeCount: function(id) {
+			var deferred = $q.defer();
+			var promise = deferred.promise;
+			$http.get(BACKEND.URL+'/Posts/'+id+'/likes/count?where=%7B%22likeStatus%22%3A%22true%22%7D').success(function(response){
+				deferred.resolve(response);
+			}).error(function(response){
+				deferred.reject(response);
+			});
+			promise.success = function(fn){
+				promise.then(fn);
+				return promise;
+			}
+			promise.error = function(fn){
+				promise.then(null, fn);
+				return promise;
+			}
+			return promise;
+			},			
 		getUser: function(id,token) {
 			var deferred = $q.defer();
 			var promise = deferred.promise;
@@ -278,7 +313,33 @@ angular.module('starter.services', [])
 		tambahKomentar: function(data){
 			var deferred = $q.defer();
 			var promise = deferred.promise;
-			$http.post(BACKEND.URL+'/Posts/da860da1ab68875354fceddfb310f124?access_token=jWpoW9Wi5WyQBwxy5RhcQ1pNVcCuQVMYoR02i1KABwU5yccAMqBvrApScnF4uptI',data,{ headers: { 'Content-Type': 'application/json' } }).success(function(response){
+			$http.post(BACKEND.URL+'Comments',data, { headers: { 'Content-Type': 'application/json' } }).success(function(response){
+				console.log(response);
+				deferred.resolve(response);
+			}).error(function(response,error){
+				console.log(response)
+				if(error == 500){
+					console.log(response)
+					deferred.reject(error);
+				}else{
+					console.log(response)
+					deferred.reject(error);
+				}
+			});				
+			promise.success = function(fn){
+				promise.then(fn);
+				return promise;
+			}			
+			promise.error = function(fn){
+				promise.then(null, fn);
+				return promise;
+			}			
+			return promise;
+		},
+		tambahLike: function(data){
+			var deferred = $q.defer();
+			var promise = deferred.promise;
+			$http.post(BACKEND.URL+'Likes',data, { headers: { 'Content-Type': 'application/json' } }).success(function(response){
 				console.log(response);
 				deferred.resolve(response);
 			}).error(function(response,error){

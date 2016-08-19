@@ -86,6 +86,10 @@ input[id="comment"]::-moz-placeholder, textarea[id="comment"]::-moz-placeholder 
     color: #aaa !important;
 }
 
+.list[id="komentar"]{
+  margin-bottom: -10px;
+}
+
 .login-title{
   color:#fff !important;
   font-size:1.618em;

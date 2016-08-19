@@ -6,11 +6,7 @@
 <ion-content overflow-scroll=true scroll-sista="tabs" style="background-color: #ececec;">
  <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh()" refreshing-text="Fetching ..." refreshing-icon="ion-loading-b"></ion-refresher>
 <!--List Posting-->
-<<<<<<< HEAD
-<div ng-href="#/app/post/{{data.id}}" class="list card" class="padding" ng-repeat="data in dataPost" >
-=======
-<div class="list card" class="padding" ng-repeat="data in dataPost" style="padding:10px 10px 10px 10px;">
->>>>>>> 1a88105b0566799e026808cc44db8366e758628c
+<div ng-href="#/app/post/{{data.id}}" class="list card" class="padding" ng-repeat="data in dataPost" style="margin:11px;">
 
   <div class="item item-avatar" style="min-height: 60px;">
     <img ng-src="img/ben.png">
@@ -19,7 +15,7 @@
   </div>
 
   <div class="item item-body" style="padding-top:0px; padding-left:0px; padding-right:0px; padding-bottom:10px; border-bottom: 1px solid; border-color: #ececec;">
-    <img class="full-image" ng-src="img\healthy-food.jpg">
+    <img class="full-image" ng-src="{{data.photo}}" style="height:250px;">
     <h1 style="padding-left:16px; padding-right:16px; margin-top:8px; margin-bottom: 8px; font-size:24px">
       {{data.title}}
     </h1>
