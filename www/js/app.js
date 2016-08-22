@@ -14,7 +14,7 @@ angular.module('starter', ['ionic', 'ionic-material', 'starter.controllers', 'st
 })
 
 .config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider,$compileProvider) {
-  $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel):/);
+  $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel):|data:image\//);
   // Enable Native Scrolling on Android
   $ionicConfigProvider.platform.android.scrolling.jsScrolling(false);
   $stateProvider

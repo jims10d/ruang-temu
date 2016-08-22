@@ -202,6 +202,24 @@ angular.module('starter.services', [])
 			}
 			return promise;
 		},
+		getPostByRole: function(role) {
+			var deferred = $q.defer();
+			var promise = deferred.promise;
+			$http.get(BACKEND.URL+'/Posts?filter=%7B%22order%22%3A%22date%20desc%22%2C%22where%22%3A%20%7B%22or%22%3A%5B%7B%22div_'+role+'%22%3Atrue%7D%2C%20%7B%22div_all%22%3Atrue%7D%5D%7D%7D').success(function(response){
+				deferred.resolve(response);
+			}).error(function(response){
+				deferred.reject(response);
+			});
+			promise.success = function(fn){
+				promise.then(fn);
+				return promise;
+			}
+			promise.error = function(fn){
+				promise.then(null, fn);
+				return promise;
+			}
+			return promise;
+		},
 		getPost: function(id,token){
 			var deferred = $q.defer();
 			var promise = deferred.promise;
@@ -340,6 +358,102 @@ angular.module('starter.services', [])
 			var deferred = $q.defer();
 			var promise = deferred.promise;
 			$http.post(BACKEND.URL+'Likes',data, { headers: { 'Content-Type': 'application/json' } }).success(function(response){
+				console.log(response);
+				deferred.resolve(response);
+			}).error(function(response,error){
+				console.log(response)
+				if(error == 500){
+					console.log(response)
+					deferred.reject(error);
+				}else{
+					console.log(response)
+					deferred.reject(error);
+				}
+			});				
+			promise.success = function(fn){
+				promise.then(fn);
+				return promise;
+			}			
+			promise.error = function(fn){
+				promise.then(null, fn);
+				return promise;
+			}			
+			return promise;
+		},
+		hapusLike: function(id){
+			var deferred = $q.defer();
+			var promise = deferred.promise;
+			$http.delete(BACKEND.URL+'/Likes/'+id).success(function(response){
+				console.log(response);
+				deferred.resolve(response);
+			}).error(function(response,error){
+				console.log(response)
+				if(error == 500){
+					console.log(response)
+					deferred.reject(error);
+				}else{
+					console.log(response)
+					deferred.reject(error);
+				}
+			});				
+			promise.success = function(fn){
+				promise.then(fn);
+				return promise;
+			}			
+			promise.error = function(fn){
+				promise.then(null, fn);
+				return promise;
+			}			
+			return promise;
+		},
+		addLike: function(data){
+			var deferred = $q.defer();
+			var promise = deferred.promise;
+			$http.put(BACKEND.URL+'/Employees/addLike',data, { headers: { 'Content-Type': 'application/json' } }).success(function(response){
+				console.log(response);
+				deferred.resolve(response);
+			}).error(function(response,error){
+				console.log(response)
+				if(error == 500){
+					console.log(response)
+					deferred.reject(error);
+				}else{
+					console.log(response)
+					deferred.reject(error);
+				}
+			});				
+			promise.success = function(fn){
+				promise.then(fn);
+				return promise;
+			}			
+			promise.error = function(fn){
+				promise.then(null, fn);
+				return promise;
+			}			
+			return promise;
+		},
+		getLikeCounter: function(id) {
+			var deferred = $q.defer();
+			var promise = deferred.promise;
+			$http.get(BACKEND.URL+'Employees/likeCounter?postId='+id).success(function(response){
+				deferred.resolve(response);
+			}).error(function(response){
+				deferred.reject(response);
+			});
+			promise.success = function(fn){
+				promise.then(fn);
+				return promise;
+			}
+			promise.error = function(fn){
+				promise.then(null, fn);
+				return promise;
+			}
+			return promise;
+			},	
+		addUnlike: function(data){
+			var deferred = $q.defer();
+			var promise = deferred.promise;
+			$http.put(BACKEND.URL+'/Employees/addUnlike',data, { headers: { 'Content-Type': 'application/json' } }).success(function(response){
 				console.log(response);
 				deferred.resolve(response);
 			}).error(function(response,error){

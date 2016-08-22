@@ -78,7 +78,11 @@ small, .font_small {font-family: 'Roboto','Helvetica Neue',Arial,sans-serif;font
     color: #aaa !important;
 }
 
-.platform-android input[id="comment"]::-webkit-placeholder, textarea[id="comment"]::-webkit-placeholder {
+.platform-android input[id="comment"]::-webkit-input-placeholder, textarea[id="comment"]::-webkit-input-placeholder {
+    color: #aaa !important;
+}
+
+.platform-android input[id="search"]::-webkit-input-placeholder, textarea[id="search"]::-webkit-input-placeholder {
     color: #aaa !important;
 }
 
@@ -88,6 +92,10 @@ input[id="comment"]::-moz-placeholder, textarea[id="comment"]::-moz-placeholder 
 
 .list[id="komentar"]{
   margin-bottom: -10px;
+}
+
+.item-select select{
+  color:#fff;
 }
 
 .login-title{
@@ -200,4 +208,18 @@ input[id="comment"]::-moz-placeholder, textarea[id="comment"]::-moz-placeholder 
   color:gray;
   font-size:1.618em;
   font-weight:300;
+}
+
+.buttons.buttons-right{
+  margin-top: 5px;
+  margin-right: 5px;
+  position: fixed;
+}
+
+div.title.title-left.header-item{
+  left:0px !important;
+}
+
+.bar .title.title-left{
+  text-align: center;
 }

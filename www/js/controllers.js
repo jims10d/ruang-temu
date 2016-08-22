@@ -106,21 +106,60 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 	};
 	$ionicLoading.hide();
 
-	$scope.dataPost={};
-	$scope.$on('$ionicView.enter', function(){
-		PostService.getAll(localStorage.getItem("token")).success(function(data) {
-			console.log(data);
-			$scope.dataPost=data;
+	$scope.profile = {};
+	PostService.getUser(localStorage.getItem("userid"),localStorage.getItem("token")).success(function(data) {
+		$scope.profile = data;
+		$scope.profile.password="";
+		console.log($scope.profile.role);
+		$ionicLoading.hide();
 
-		})
-		.error(function(data) {
+		$scope.dataPost= {};
+		PostService.getPostByRole($scope.profile.role).success(function(data) {
+			$scope.dataPost = data;
+			$ionicLoading.hide();
+		}).error(function(data) {
 			$ionicLoading.hide();
 			var alertPopup = $ionicPopup.alert({
-				title: 'Get Data Failed!',
-				template: 'Gagal ambil data post'
+				title: 'Error!',
+				template: 'Tidak dapat mengambil data post'
 			});
 		});
+
+		$scope.noMoreItemsAvailable = false;
+  
+			  $scope.loadMore = function() {
+			    $scope.dataPost.push({ id: $scope.dataPost.length});
+			   
+			    if ( $scope.dataPost.length == 10 ) {
+			      $scope.noMoreItemsAvailable = true;
+			    }
+			    $scope.$broadcast('scroll.infiniteScrollComplete');
+			  };
+			  
+			  $scope.dataPost = [];
+
+	}).error(function(data) {
+		$ionicLoading.hide();
+		var alertPopup = $ionicPopup.alert({
+			title: 'Error!',
+			template: 'Tidak dapat mengambil profil!'
+		});
 	});
+
+	// $scope.dataPost={};
+	// $scope.$on('$ionicView.enter', function(){
+	// 	PostService.getAll(localStorage.getItem("token")).success(function(data) {
+	// 		console.log(data);
+	// 		$scope.dataPost=data;
+	// 	})
+	// 	.error(function(data) {
+	// 		$ionicLoading.hide();
+	// 		var alertPopup = $ionicPopup.alert({
+	// 			title: 'Get Data Failed!',
+	// 			template: 'Gagal ambil data post'
+	// 		});
+	// 	});
+	// });
 
 
 })
@@ -130,9 +169,50 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 	ionicMaterialInk.displayEffect();
 	$scope.itemData={};
 	$scope.$on('$ionicView.enter', function(){
+		$scope.checked = false;
+		$scope.profile = {};
+		$scope.formKomentar={};
+		$scope.formLike={};
+		
 		PostService.getPost($stateParams.dataId).success(function(data) {
 			$scope.itemData=data;
 			console.log(data.id);
+
+			PostService.getUser(localStorage.getItem("userid"),localStorage.getItem("token")).success(function(data) {
+			$scope.profile = data;
+			console.log($scope.profile.postLiked);
+
+
+			$scope.formKomentar.employeeId = $scope.profile.id;		
+			$scope.formKomentar.employeeName = $scope.profile.name;
+			$scope.formKomentar.date = moment().format();
+			$scope.formLike.employeeId = $scope.profile.id;
+			//$scope.formLike.employeeName = $scope.profile.name;
+			$scope.profile.password="";
+			console.log($scope.formKomentar.employeeId);
+			console.log($scope.formLike.employeeId);
+			$ionicLoading.hide();
+
+			$scope.postLikedArray = $scope.profile.postLiked.split(',');
+			
+			for(var i = 0; i < $scope.postLikedArray.length; i++){
+				console.log($scope.postLikedArray[i]);
+				console.log($scope.itemData);
+				if($scope.postLikedArray[i] === $scope.itemData.id){
+					$scope.checked = true;
+					console.log($scope.checked);
+				}
+			}
+			}).error(function(data) {
+				$ionicLoading.hide();
+				var alertPopup = $ionicPopup.alert({
+					title: 'Error!',
+					template: 'Tidak dapat mengambil profil!'
+				});
+			});
+
+
+			
 
 			//Komentar 
 			PostService.getComment(data.id).success(function(data) {
@@ -179,7 +259,7 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 				});
 			});
 
-			PostService.getLikeCount(data.id).success(function(data) {
+			PostService.getLikeCounter(data.id).success(function(data) {
 				$ionicLoading.hide();
 				$scope.jumlahLike=data;
 				if($scope.jumlahLike.count==0){
@@ -201,7 +281,7 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 			  console.log($cordovaSocialSharing);
 				  
 			  $cordovaSocialSharing
-			    .share($scope.itemData.content, $scope.itemData.title, "https://www.google.nl/images/srpr/logo4w.png", "www.google.com") // Share via native share sheet
+			    .share($scope.itemData.content, $scope.itemData.title, $scope.itemData.photo, "www.ruangtemu.com") // Share via native share sheet
 			    .then(function(result) {
 			      // Success!
 			       console.log("success");
@@ -210,28 +290,28 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 			      console.log("failed");
 			    });
 
-			  $cordovaSocialSharing
-			    .shareViaTwitter($scope.itemData.content, "https://www.google.nl/images/srpr/logo4w.png", "www.google.com")
-			    .then(function(result) {
-			      // Success!
-			       console.log("success");
-			    }, function(err) {
-			      // An error occurred. Show a message to the user
-			       console.log("failed");
-			    });
+			  // $cordovaSocialSharing
+			  //   .shareViaTwitter($scope.itemData.content, $scope.itemData.photo, "www.ruangtemu.com")
+			  //   .then(function(result) {
+			  //     // Success!
+			  //      console.log("success");
+			  //   }, function(err) {
+			  //     // An error occurred. Show a message to the user
+			  //      console.log("failed");
+			  //   });
 
-			  $cordovaSocialSharing
-			    .shareViaFacebook($scope.itemData.content, "https://www.google.nl/images/srpr/logo4w.png", "www.google.com")
-			    .then(function(result) {
-			      // Success!
-			       console.log("success");
-			    }, function(err) {
-			      // An error occurred. Show a message to the user
-			       console.log("failed");
-			    });
+			  // $cordovaSocialSharing
+			  //   .shareViaFacebook($scope.itemData.content, $scope.itemData.photo, "www.ruangtemu.com")
+			  //   .then(function(result) {
+			  //     // Success!
+			  //      console.log("success");
+			  //   }, function(err) {
+			  //     // An error occurred. Show a message to the user
+			  //      console.log("failed");
+			  //   });
 
 			    $cordovaSocialSharing
-			    .shareViaInstagram($scope.itemData.content, "https://www.google.nl/images/srpr/logo4w.png", "www.google.com")
+			    .shareViaInstagram($scope.itemData.content, $scope.itemData.photo, "www.ruangtemu.com")
 			    .then(function(result) {
 			      // Success!
 			       console.log("success");
@@ -295,27 +375,7 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 				template: 'Gagal ambil data post'
 			});
 		});
-		$scope.profile = {};
-		$scope.formKomentar={};
-		$scope.formLike={};
-		PostService.getUser(localStorage.getItem("userid"),localStorage.getItem("token")).success(function(data) {
-		$scope.profile = data;
-		$scope.formKomentar.employeeId = $scope.profile.id;		
-		$scope.formKomentar.employeeName = $scope.profile.name;
-		$scope.formKomentar.date = moment().format();
-		$scope.formLike.employeeId = $scope.profile.id;
-		$scope.formLike.employeeName = $scope.profile.name;
-		$scope.profile.password="";
-		console.log($scope.formKomentar.employeeId);
-		console.log($scope.formLike.employeeId);
-		$ionicLoading.hide();
-		}).error(function(data) {
-			$ionicLoading.hide();
-			var alertPopup = $ionicPopup.alert({
-				title: 'Error!',
-				template: 'Tidak dapat mengambil profil!'
-			});
-		});
+		
 		//Komentar
 		$scope.formKomentar={};
 			$scope.addKomentar = function(){
@@ -339,24 +399,15 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 		//Komentar
 
 		//Like
-		$scope.formLike={};
-		$scope.formLike.likeStatus = false;
-		console.log($scope.formLike);
-		console.log($scope.formLike.id);
-		if($scope.formLike.id == undefined){
-			console.log("asda");
-			$scope.addLike = function(){
-			//console.log($scope.formLike.likeStatus);	
+		// $scope.checked=false;
+		console.log($scope.checked);
+		$scope.addLike = function(){
+			$scope.checked=true;
+			console.log($scope.checked);
 			$scope.formLike.postId=$scope.itemData.id;
-			$scope.formLike.id=$scope.formLike.employeeId+$scope.formLike.postId;
-			console.log($scope.formLike.id);
+			//$scope.formLike.employeeId = 
 			console.log($scope.formLike.employeeId);
-			console.log($scope.formLike.likeStatus);
-			console.log($scope.formLike.likeStatus == false);
-			if($scope.formLike.likeStatus == false){
-			$scope.formLike.likeStatus = true;
-			console.log($scope.formLike.likeStatus);
-			PostService.tambahLike($scope.formLike).success(function(data) {
+			PostService.addLike($scope.formLike).success(function(data) {
 				// $ionicLoading.hide();
 				// var alertPopup = $ionicPopup.alert({
 				// 	title: 'Succes!',
@@ -372,9 +423,30 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 			});
 		}
 
+		$scope.addUnlike = function(){
+			$scope.checked=false;
+			console.log($scope.checked);
+			$scope.formLike.postId=$scope.itemData.id;
+			//$scope.formLike.employeeId = 
+			console.log($scope.formLike.employeeId);
+			PostService.addUnlike($scope.formLike).success(function(data) {
+				// $ionicLoading.hide();
+				// var alertPopup = $ionicPopup.alert({
+				// 	title: 'Succes!',
+				// 	template: 'Berhasil like'
+				// });
+				$state.go($state.current, {}, {reload: true});
+			}).error(function(data) {
+				// $ionicLoading.hide();
+				// var alertPopup = $ionicPopup.alert({
+				// 	title: 'Post Data Failed!',
+				// 	template: 'Gagal like'
+				// });
+			});
 		}
-	}
+		console.log($scope.checked);
 		//Like
+
 	});
 })
 
@@ -406,9 +478,7 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 
 .controller('Create_postCtrl', function($scope, $state, PostService, $ionicPopup, $ionicPlatform, $ionicLoading, $cordovaImagePicker, $cordovaCamera) {  
 	//implement logic here
-	$scope.collection = {
-        selectedImage : ''
-    };
+	
     $scope.data={};
 	document.addEventListener("deviceready", function () {
 		$scope.uploadImage = function() {
@@ -421,14 +491,15 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 
 			$cordovaImagePicker.getPictures(options).then(function (results) {
 				for (var i = 0; i < results.length; i++) {
-					$scope.collection.selectedImage = results[i];
+					$scope.image = results[i];
 					console.log('Image URI: ' + results[i]);
 					// $scope.data.category = "Healthy";
 					// $scope.data.photo = $scope.image;
 					
-					window.plugins.Base64.encodeFile($scope.collection.selectedImage, function(base64){  // Encode URI to Base64 needed for contacts plugin
-                        $scope.collection.selectedImage = base64;
-                      
+					window.plugins.Base64.encodeFile($scope.image, function(base64){  // Encode URI to Base64 needed for contacts plugin
+                        $scope.data.photo = base64;
+						$scope.data.photo = $scope.data.foto.replace(/(\r\n|\n|\r)/gm,"");
+						console.log($scope.data.photo);
                     });
 				}
 			}, function(error) {
@@ -437,8 +508,7 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 		}
 	}, false);
 
-	$scope.data.photo = $scope.collection.selectedImage;
-
+	$scope.profile = {};
 	PostService.getUser(localStorage.getItem("userid"),localStorage.getItem("token")).success(function(data) {
 		$scope.profile = data;
 		$scope.data.writer = $scope.profile.username;
@@ -453,12 +523,9 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 			template: 'Tidak dapat mengambil profil!'
 		});
 	});
-
-
-	$scope.profile = {};
+	
 	$scope.division={};
 	$scope.data.date = moment().format();
-	
 	$scope.data.privacy = "Public";
 	$scope.data.priority = "Low";
 	
@@ -510,119 +577,4 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 	});
 })
 
-// .controller('SocialCtrl', function($scope, $cordovaSocialSharing, $ionicPlatform) {
-
-// 	$scope.shareNative = function() {
-// 	     $ionicPlatform.ready(function() {
-// 		  console.log($cordovaSocialSharing);
-		  
-// 	  $cordovaSocialSharing
-// 	    .share("message", "subject", "https://www.google.nl/images/srpr/logo4w.png", "www.google.com") // Share via native share sheet
-// 	    .then(function(result) {
-// 	      // Success!
-// 	       console.log("success");
-// 	    }, function(err) {
-// 	      // An error occured. Show a message to the user
-// 	      console.log("failed");
-// 	    });
-
-// 	  $cordovaSocialSharing
-// 	    .shareViaTwitter("message", "https://www.google.nl/images/srpr/logo4w.png", "www.google.com")
-// 	    .then(function(result) {
-// 	      // Success!
-// 	       console.log("success");
-// 	    }, function(err) {
-// 	      // An error occurred. Show a message to the user
-// 	       console.log("failed");
-// 	    });
-
-// 	  // $cordovaSocialSharing
-// 	  //   .shareViaWhatsApp("message", "https://www.google.nl/images/srpr/logo4w.png", "www.google.com")
-// 	  //   .then(function(result) {
-// 	  //     // Success!
-// 	  //      console.log("success");
-// 	  //   }, function(err) {
-// 	  //     // An error occurred. Show a message to the user
-// 	  //      console.log("failed");
-// 	  //   });
-
-// 	  $cordovaSocialSharing
-// 	    .shareViaFacebook("message", "https://www.google.nl/images/srpr/logo4w.png", "www.google.com")
-// 	    .then(function(result) {
-// 	      // Success!
-// 	       console.log("success");
-// 	    }, function(err) {
-// 	      // An error occurred. Show a message to the user
-// 	       console.log("failed");
-// 	    });
-
-// 	    $cordovaSocialSharing
-// 	    .shareViaInstagram("message", "https://www.google.nl/images/srpr/logo4w.png", "www.google.com")
-// 	    .then(function(result) {
-// 	      // Success!
-// 	       console.log("success");
-// 	    }, function(err) {
-// 	      // An error occurred. Show a message to the user
-// 	       console.log("failed");
-// 	    });
-
-// 	  // access multiple numbers in a string like: '0612345678,0687654321'
-// 	  $cordovaSocialSharing
-// 	    .shareViaSMS("message", '089521000542')
-// 	    .then(function(result) {
-// 	      // Success!
-// 	       console.log("success");
-
-// 	    }, function(err) {
-// 	      // An error occurred. Show a message to the user
-// 	       console.log("failed");
-// 	    });
-
-// 	// toArr, ccArr and bccArr must be an array, file can be either null, string or array
-// 	  $cordovaSocialSharing
-// 	    .shareViaEmail(message, subject, toArr, ccArr, ['bcc', 'bcc'], null)
-// 	    .then(function(result) {
-// 	      // Success!
-// 	       console.log("success");
-
-// 	    }, function(err) {
-// 	      // An error occurred. Show a message to the user
-// 	       console.log("failed");
-// 	    });
-
-// 	  // $cordovaSocialSharing
-// 	  //   .canShareVia('whatsapp', 'msg', null, null)
-// 	  //   .then(function(result) {
-// 	  //     // Success!
-// 	  //      console.log("success");
-
-// 	  //   }, function(err) {
-// 	  //     // An error occurred. Show a message to the user
-// 	  //      console.log("failed");
-// 	  //   });
-
-// 	    $cordovaSocialSharing
-// 	    .canShareVia('instagram', 'msg', null, null)
-// 	    .then(function(result) {
-// 	      // Success!
-// 	       console.log("success");
-
-// 	    }, function(err) {
-// 	      // An error occurred. Show a message to the user
-// 	       console.log("failed");
-// 	    });
-
-// 	  $cordovaSocialSharing
-// 	    .canShareViaEmail()
-// 	    .then(function(result) {
-// 	      // Yes we can
-// 	       console.log("success");
-
-// 	    }, function(err) {
-// 	      // Nope
-// 	       console.log("failed");
-// 	    });
-// });
-// }
-// });
 

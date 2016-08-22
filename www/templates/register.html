@@ -23,10 +23,20 @@ true" class="login">
           <span class="input-label">Email</span>
           <input type="email" placeholder="Email" ng-model="data.email" class="input-login">
         </label>
-        <label class="item item-input item-floating-label">
+        <!-- <label class="item item-input item-floating-label">
           <span class="input-label">Role</span>
           <input type="text" placeholder="Role" ng-model="data.role" class="input-login">
+        </label> -->
+        <div class="list">
+        <label class="item item-input item-select">
+          <div class="input-label" style="font-weight:unset; padding-right:0px;">Role</div>
+          <select ng-model="data.role" style="background:rgba(255, 255, 255, 0);">
+              <option selected value="gbs" class="input-login">GBS</option>
+              <option value="jti" class="input-login">JTI</option>
+          </select>
         </label>
+        </div>
+
       </div>
 
       <div class="row">

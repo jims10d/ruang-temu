@@ -9,6 +9,14 @@
   </author>
   <content src="index.html"/>
   <access origin="*"/>
+    <access launch-external="yes" origin="tel:*"/>
+    <access launch-external="yes" origin="mailto:*"/>
+    <access launch-external="yes" origin="file:*"/>
+    <access launch-external="yes" origin="ftp:*"/>
+    <allow-navigation href="http://*/*"/>
+    <allow-navigation href="https://*/*"/>
+    <allow-navigation href="data:*"/>
+    <allow-intent href="*"/>
   <access launch-external="yes" origin="tel:*"/>
   <access launch-external="yes" origin="mailto:*"/>
   <access launch-external="yes" origin="file:*"/>

@@ -4,7 +4,7 @@
 </ion-nav-buttons>
 
 <ion-content overflow-scroll=true scroll-sista="tabs" style="background-color: #ececec;">
-<div class="list card" class="padding" >
+<div class="list card" class="padding" style="margin:11px; margin-bottom:60px;">
 
   <div class="item item-avatar" style="min-height: 60px;">
     <img src="img\ben.png">
@@ -13,7 +13,7 @@
   </div>
 
   <div class="item item-body" style="padding-top:0px; padding-left:0px; padding-right:0px; padding-bottom:10px; border-bottom: 1px solid; border-color: #ececec;">
-    <img class="full-image" ng-src="img\healthy-food.jpg">
+    <img class="full-image" ng-src="{{itemData.photo}}" ng-hide="data.photo=='n/a'||data.photo==undefined" style="height:250px;">
     <h1 style="padding-left:16px; padding-right:16px; margin-top:8px; margin-bottom: 8px; font-size:24px">
      {{itemData.title}}
     </h1>
@@ -21,13 +21,32 @@
       {{itemData.content}}
     </p>
     <p style="padding-left:16px; padding-right:16px; color:black;">
-      <a class="subdued" ng-click="addLike()">{{jumlahLike.count}} Like</a>
-     <!--  <a class="subdued" ng-click="addUnlike()" ng-hide="formLike.likeStatus==false">{{jumlahLike.count}} Unlike</a> -->
+      <a class="subdued">{{jumlahLike.count}} Like</a>
+     <!--  <a class="subdued">{{jumlahLike.count}} Unlike</a> -->
       <a class="subdued">{{jumlahKomentar.count}} Comment</a>
-      <a class="subdued" ng-controller="PostDetailCtrl" ng-click="shareNative()">Share</a>
-     <!--  <i class="icon ion-heart" style="padding-top:1px; padding-left: 4px; float:right; color:gray"></i> -->
+      <!-- <a class="subdued" ng-controller="PostDetailCtrl" ng-click="shareNative()">Share</a> -->
+      <!--  <i class="icon ion-heart" style="padding-top:1px; padding-left: 4px; float:right; color:gray"></i> -->
       <!-- <a href="#" class="subdued" style="float:right;">10k</a> -->
     </p>
+
+    <div class="item tabs tabs-secondary tabs-icon-left" style="border-top: 1px solid rgb(210, 210, 210); margin-bottom:-10px;">
+    <a class="tab-item" ng-model="checked" ng-click="addLike()" ng-hide="checked==true" ng-show="checked==false">
+      <i class="icon ion-thumbsup"></i>
+      Like
+    </a>
+     <a class="tab-item" ng-model="checked" ng-click="addUnlike()" ng-show="checked==true" ng-hide="checked==false">
+      <i class="icon ion-thumbsdown"></i>
+      Unlike
+    </a>
+    <a class="tab-item" ng-click="comment()">
+      <i class="icon ion-chatbox"></i>
+      Comment
+    </a>
+    <a class="tab-item" ng-controller="PostDetailCtrl" ng-click="shareNative()">
+      <i class="icon ion-share"></i>
+      Share
+    </a>
+  </div>
   </div>
 
   <div class="list" id="komentar" ng-repeat="data in komentar">
@@ -42,14 +61,14 @@
 
  </div>
 </div>
+</ion-content>
 
-<div class="bar bar-footer bar-balanced">
+<div class="bar bar-footer bar-balanced" style="position:fixed; height:50px;">
 <p class="item item-icon-left item-icon-right" style="padding:0px;">
-     <textarea id="comment" ng-model="formKomentar.content" placeholder="Enter your comment here..." style="width:80%; padding-top:10px; padding-left:10px;"></textarea>
-    <i ng-click="addKomentar()" class="icon ion-android-send" style="background-color:#24afe5; color:white; right:0px; padding-left:20px; padding-right:20px;"></i>
+     <textarea id="comment" ng-model="formKomentar.content" placeholder="Enter your comment here..." style="width:80%; padding-top:10px; height:50px; padding-left:10px;"></textarea>
+    <i type="submit" ng-click="addKomentar()" class="icon ion-android-send" style="background-color:#24afe5; color:white; right:0px; padding-left:20px; height:50px; padding-right:20px; position:fixed"></i>
 </p>
 </div>
 
-</ion-content>
 </ion-view>
 

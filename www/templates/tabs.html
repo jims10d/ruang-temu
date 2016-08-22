@@ -15,7 +15,7 @@
     <ion-header-bar class="expanded bar bar-header disable-user-behavior sidemenu-header">
       <img src="img/adam.jpg" class="avatar motion spin fade">
       <div class="menu-bottom">
-        <p class="sidemenu-nama" style=" margin-left:4px;">{{menuProfile.username}}</p>
+        <p class="sidemenu-nama" style=" margin-left:4px; font-weight:bold;">{{menuProfile.username}}</p>
         <p class="sidemenu-nama" style="font-size:15px; margin-left:4px;">{{menuProfile.email}}</p>
         <!--<p class="sidemenu-email">email</p>-->
       </div>
@@ -24,13 +24,13 @@
       <ion-list class="disable-user-behavior">
         <div class="list side-menu">
           <ion-item class="item item-complex" nav-clear="" menu-close="" ng-href="#/app/home">
-            <i class="icon ion-android-time"></i> Timeline
+            <i class="icon ion-clock" style="margin-right:10px; font-size:18px;"></i>   Timeline
           </ion-item>
           <ion-item class="item item-complex" nav-clear="" menu-close="" ng-href="#/app/profile">
-            <i class="icon ion-android-contact"></i> Profile
+            <i class="icon ion-android-contact" style="margin-right:10px; font-size:20px;"></i>   Profile
           </ion-item>
           <ion-item class="item item-complex" nav-clear="" menu-close="" ng-href="" ng-click="logout()">
-            <i class="icon ion-log-out"></i> Logout
+            <i class="icon ion-android-exit" style="margin-right:10px; font-size:20px;"></i>    Logout
           </ion-item>
         </div>
       </ion-list>
