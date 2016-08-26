@@ -87,6 +87,24 @@ angular.module('starter', ['ionic', 'ionic-material', 'starter.controllers', 'st
       }
     }
   })
+  .state('app.leaderboard', {
+    url: '/leaderboard',
+    views: {
+      'home': {
+        templateUrl: 'templates/leaderboard.html',
+        controller: 'LeaderboardCtrl'
+      }
+    }
+  })
+   .state('app.edit_profile', {
+    url: '/edit_profile',
+    views: {
+      'home': {
+        templateUrl: 'templates/edit_profile.html',
+        controller: 'ProfileCtrl'
+      }
+    }
+  })
   .state('app.create_post', {
     url: '/create_post',
     views: {

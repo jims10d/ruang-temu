@@ -78,6 +78,14 @@ small, .font_small {font-family: 'Roboto','Helvetica Neue',Arial,sans-serif;font
     color: #aaa !important;
 }
 
+input[id="title"]::-moz-placeholder, textarea[id="title"]::-moz-placeholder {
+    color: #aaa !important;
+}
+
+input[id="content"]::-moz-placeholder, textarea[id="content"]::-moz-placeholder {
+    color: #aaa !important;
+}
+
 .platform-android input[id="comment"]::-webkit-input-placeholder, textarea[id="comment"]::-webkit-input-placeholder {
     color: #aaa !important;
 }
@@ -218,6 +226,7 @@ input[id="comment"]::-moz-placeholder, textarea[id="comment"]::-moz-placeholder 
 
 div.title.title-left.header-item{
   left:0px !important;
+  right:0px !important;
 }
 
 .bar .title.title-left{

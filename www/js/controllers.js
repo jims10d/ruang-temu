@@ -125,18 +125,18 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 			});
 		});
 
-		$scope.noMoreItemsAvailable = false;
+		// $scope.noMoreItemsAvailable = false;
   
-			  $scope.loadMore = function() {
-			    $scope.dataPost.push({ id: $scope.dataPost.length});
+		// 	  $scope.loadMore = function() {
+		// 	    $scope.dataPost.push({ id: $scope.dataPost.length});
 			   
-			    if ( $scope.dataPost.length == 10 ) {
-			      $scope.noMoreItemsAvailable = true;
-			    }
-			    $scope.$broadcast('scroll.infiniteScrollComplete');
-			  };
+		// 	    if ( $scope.dataPost.length == 10 ) {
+		// 	      $scope.noMoreItemsAvailable = true;
+		// 	    }
+		// 	    $scope.$broadcast('scroll.infiniteScrollComplete');
+		// 	  };
 			  
-			  $scope.dataPost = [];
+		// 	  $scope.dataPost = [];
 
 	}).error(function(data) {
 		$ionicLoading.hide();
@@ -173,6 +173,7 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 		$scope.profile = {};
 		$scope.formKomentar={};
 		$scope.formLike={};
+		$scope.formLiker={};
 		
 		PostService.getPost($stateParams.dataId).success(function(data) {
 			$scope.itemData=data;
@@ -180,25 +181,25 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 
 			PostService.getUser(localStorage.getItem("userid"),localStorage.getItem("token")).success(function(data) {
 			$scope.profile = data;
-			console.log($scope.profile.postLiked);
+			console.log($scope.itemData.liker);
 
 
 			$scope.formKomentar.employeeId = $scope.profile.id;		
 			$scope.formKomentar.employeeName = $scope.profile.name;
 			$scope.formKomentar.date = moment().format();
 			$scope.formLike.employeeId = $scope.profile.id;
-			//$scope.formLike.employeeName = $scope.profile.name;
+			$scope.formLiker.employeeUsername = $scope.profile.name;
 			$scope.profile.password="";
 			console.log($scope.formKomentar.employeeId);
 			console.log($scope.formLike.employeeId);
 			$ionicLoading.hide();
 
-			$scope.postLikedArray = $scope.profile.postLiked.split(',');
+			$scope.postLikedArray = $scope.itemData.liker.split(',');
 			
 			for(var i = 0; i < $scope.postLikedArray.length; i++){
 				console.log($scope.postLikedArray[i]);
-				console.log($scope.itemData);
-				if($scope.postLikedArray[i] === $scope.itemData.id){
+				console.log($scope.profile);
+				if($scope.postLikedArray[i] === $scope.profile.name){
 					$scope.checked = true;
 					console.log($scope.checked);
 				}
@@ -210,9 +211,6 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 					template: 'Tidak dapat mengambil profil!'
 				});
 			});
-
-
-			
 
 			//Komentar 
 			PostService.getComment(data.id).success(function(data) {
@@ -246,18 +244,17 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 			//Komentar 
 
 			//Like
-			PostService.getLike(data.id).success(function(data) {
-				$ionicLoading.hide();
-				$scope.Like=data;
+			// PostService.getLike(data.id).success(function(data) {
+			// 	$ionicLoading.hide();
+			// 	$scope.Like=data;
 			
-
-			}).error(function(data) {
-				$ionicLoading.hide();
-				var alertPopup = $ionicPopup.alert({
-					title: 'Get Data Failed!',
-					template: 'Gagal ambil like post'
-				});
-			});
+			// }).error(function(data) {
+			// 	$ionicLoading.hide();
+			// 	var alertPopup = $ionicPopup.alert({
+			// 		title: 'Get Data Failed!',
+			// 		template: 'Gagal ambil like post'
+			// 	});
+			// });
 
 			PostService.getLikeCounter(data.id).success(function(data) {
 				$ionicLoading.hide();
@@ -267,7 +264,6 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 					console.log($scope.jumlahLike);	
 				}
 			
-
 			}).error(function(data) {
 				$ionicLoading.hide();
 				var alertPopup = $ionicPopup.alert({
@@ -383,17 +379,17 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 			console.log($scope.formKomentar.employeeId);
 			PostService.tambahKomentar($scope.formKomentar).success(function(data) {
 				$ionicLoading.hide();
-				var alertPopup = $ionicPopup.alert({
-					title: 'Succes!',
-					template: 'Berhasil post data komentar'
-				});
+				// var alertPopup = $ionicPopup.alert({
+				// 	title: 'Succes!',
+				// 	template: 'Berhasil post data komentar'
+				// });
 				$state.go($state.current, {}, {reload: true});
 			}).error(function(data) {
 				$ionicLoading.hide();
-				var alertPopup = $ionicPopup.alert({
-					title: 'Post Data Failed!',
-					template: 'Gagal post data komentar'
-				});
+				// var alertPopup = $ionicPopup.alert({
+				// 	title: 'Post Data Failed!',
+				// 	template: 'Gagal post data komentar'
+				// });
 			});
 		}
 		//Komentar
@@ -405,17 +401,35 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 			$scope.checked=true;
 			console.log($scope.checked);
 			$scope.formLike.postId=$scope.itemData.id;
+			$scope.formLiker.postId=$scope.itemData.id;
 			//$scope.formLike.employeeId = 
-			console.log($scope.formLike.employeeId);
+			console.log($scope.formLike);
+			console.log($scope.formLiker);
+
 			PostService.addLike($scope.formLike).success(function(data) {
-				// $ionicLoading.hide();
+				$ionicLoading.hide();
 				// var alertPopup = $ionicPopup.alert({
 				// 	title: 'Succes!',
 				// 	template: 'Berhasil like'
 				// });
 				$state.go($state.current, {}, {reload: true});
 			}).error(function(data) {
-				// $ionicLoading.hide();
+				$ionicLoading.hide();
+				// var alertPopup = $ionicPopup.alert({
+				// 	title: 'Post Data Failed!',
+				// 	template: 'Gagal like'
+				// });
+			});
+
+			PostService.addLiker($scope.formLiker).success(function(data) {
+				$ionicLoading.hide();
+				// var alertPopup = $ionicPopup.alert({
+				// 	title: 'Succes!',
+				// 	template: 'Berhasil like'
+				// });
+				$state.go($state.current, {}, {reload: true});
+			}).error(function(data) {
+				$ionicLoading.hide();
 				// var alertPopup = $ionicPopup.alert({
 				// 	title: 'Post Data Failed!',
 				// 	template: 'Gagal like'
@@ -427,17 +441,35 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 			$scope.checked=false;
 			console.log($scope.checked);
 			$scope.formLike.postId=$scope.itemData.id;
+			$scope.formLiker.postId=$scope.itemData.id;
 			//$scope.formLike.employeeId = 
-			console.log($scope.formLike.employeeId);
+			console.log($scope.formLike);
+			console.log($scope.formLiker);
+			
 			PostService.addUnlike($scope.formLike).success(function(data) {
-				// $ionicLoading.hide();
+				$ionicLoading.hide();
 				// var alertPopup = $ionicPopup.alert({
 				// 	title: 'Succes!',
 				// 	template: 'Berhasil like'
 				// });
 				$state.go($state.current, {}, {reload: true});
 			}).error(function(data) {
-				// $ionicLoading.hide();
+				$ionicLoading.hide();
+				// var alertPopup = $ionicPopup.alert({
+				// 	title: 'Post Data Failed!',
+				// 	template: 'Gagal like'
+				// });
+			});
+
+			PostService.addUnliker($scope.formLiker).success(function(data) {
+				$ionicLoading.hide();
+				// var alertPopup = $ionicPopup.alert({
+				// 	title: 'Succes!',
+				// 	template: 'Berhasil like'
+				// });
+				$state.go($state.current, {}, {reload: true});
+			}).error(function(data) {
+				$ionicLoading.hide();
 				// var alertPopup = $ionicPopup.alert({
 				// 	title: 'Post Data Failed!',
 				// 	template: 'Gagal like'
@@ -457,6 +489,9 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 .controller('RegisterCtrl', function($scope, $state, RegisterService, $ionicPopup, $ionicPlatform,$ionicLoading) {  
 	//implement logic here
 	$scope.data={};
+	$scope.data.postLiked = "";
+	$scope.data.postShared = "";
+	$scope.data.postSeen = "";
 	$scope.register = function(){
 		RegisterService.tambahUser($scope.data).success(function(data) {
 			$ionicLoading.hide();
@@ -528,6 +563,9 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 	$scope.data.date = moment().format();
 	$scope.data.privacy = "Public";
 	$scope.data.priority = "Low";
+	$scope.data.seen = "";
+	$scope.data.liker = "";
+	$scope.data.sharer = "";
 	
 	$scope.tambahPost = function(){
 		$scope.data.receiver = $scope.division.receiver1 + $scope.division.receiver2 + $scope.division.receiver3 + $scope.division.receiver4 + $scope.division.receiver5;		
@@ -566,8 +604,29 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 		$scope.profile = data;
 		console.log(data);
 		$scope.profile.password="";
-		localStorage.setItem("profile_data", JSON.stringify(data));
+		// localStorage.setItem("profile_data", JSON.stringify(data));
 		$ionicLoading.hide();
+
+		 $scope.editProfil = function(){
+		 	console.log($scope.profile);
+		 	$scope.profile = data;
+	    	LoginService.editUser(localStorage.getItem("userid"),localStorage.getItem("token"),data).success(function(data) {
+	    		$ionicLoading.hide();
+	    		$scope.profile = data;
+	    		var alertPopup = $ionicPopup.alert({
+	    			title: 'Edit Data Berhasil!',
+	    			template: 'Edit data profil berhasil dilakukan'
+	    		});
+	    		$state.go($state.current, {}, {reload: true});
+	    	}).error(function(data) {
+	    		$ionicLoading.hide();
+	    		var alertPopup = $ionicPopup.alert({
+	    			title: 'Get Data Failed!',
+	    			template: 'Gagal edit profil'
+	    		});
+	    	});
+	    }
+
 	}).error(function(data) {
 		$ionicLoading.hide();
 		var alertPopup = $ionicPopup.alert({
@@ -575,6 +634,54 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 			template: 'Tidak dapat mengambil profil!'
 		});
 	});
+
+})
+
+.controller('LeaderboardCtrl', function($scope, $state, $ionicPopup, $ionicPlatform, $ionicLoading, LoginService) {  
+	//implement logic here
+	$scope.profile = {};
+	$ionicLoading.show({
+		content: 'Loading',
+		animation: 'fade-in',
+		showBackdrop: true,
+	
+	});
+	
+	LoginService.getUser(localStorage.getItem("userid"),localStorage.getItem("token")).success(function(data) {
+		$scope.profile = data;
+		console.log(data);
+		$scope.profile.password="";
+		// localStorage.setItem("profile_data", JSON.stringify(data));
+		$ionicLoading.hide();
+
+		 $scope.editProfil = function(){
+		 	console.log($scope.profile);
+		 	$scope.profile = data;
+	    	LoginService.editUser(localStorage.getItem("userid"),localStorage.getItem("token"),data).success(function(data) {
+	    		$ionicLoading.hide();
+	    		$scope.profile = data;
+	    		var alertPopup = $ionicPopup.alert({
+	    			title: 'Edit Data Berhasil!',
+	    			template: 'Edit data profil berhasil dilakukan'
+	    		});
+	    		$state.go($state.current, {}, {reload: true});
+	    	}).error(function(data) {
+	    		$ionicLoading.hide();
+	    		var alertPopup = $ionicPopup.alert({
+	    			title: 'Get Data Failed!',
+	    			template: 'Gagal edit profil'
+	    		});
+	    	});
+	    }
+
+	}).error(function(data) {
+		$ionicLoading.hide();
+		var alertPopup = $ionicPopup.alert({
+			title: 'Error!',
+			template: 'Tidak dapat mengambil profil!'
+		});
+	});
+
 })
 
 
