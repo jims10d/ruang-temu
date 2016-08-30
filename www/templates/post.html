@@ -13,7 +13,7 @@
   </div>
 
   <div class="item item-body" style="padding-top:0px; padding-left:0px; padding-right:0px; padding-bottom:10px; border-bottom: 1px solid rgb(242, 242, 242);">
-    <img class="full-image" ng-src="{{itemData.photo}}" ng-hide="data.photo=='n/a'||data.photo==undefined" style="height:250px;">
+    <img class="full-image" ng-src="{{itemData.photo}}" ng-hide="itemData.photo=='n/a'||itemData.photo==undefined" style="height:250px;">
     <h1 style="padding-left:16px; padding-right:16px; margin-top:8px; margin-bottom: 8px; font-size:24px">
      {{itemData.title}}
     </h1>
@@ -22,11 +22,8 @@
     </p>
     <p style="padding-left:16px; padding-right:16px; margin-bottom:5px; color:black;">
       <a class="subdued" style="font-size:12px;">{{jumlahLike.count}} like</a>
-     <!--  <a class="subdued">{{jumlahLike.count}} Unlike</a> -->
       <a class="subdued" style="font-size:12px;">{{jumlahKomentar.count}} comment</a>
-      <!-- <a class="subdued" ng-controller="PostDetailCtrl" ng-click="shareNative()">Share</a> -->
-      <!--  <i class="icon ion-heart" style="padding-top:1px; padding-left: 4px; float:right; color:gray"></i> -->
-      <!-- <a href="#" class="subdued" style="float:right;">10k</a> -->
+      <a class="subdued" style="font-size:12px;">{{jumlahSharer.count}} share</a>
     </p>
 
     <div class="item tabs tabs-secondary tabs-icon-left" style="border-top: 1px solid rgb(242, 242, 242); margin-bottom:-10px;">

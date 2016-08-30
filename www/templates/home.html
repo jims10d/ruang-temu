@@ -15,7 +15,7 @@
  <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh()" refreshing-text="Fetching ..." refreshing-icon="ion-loading-b"></ion-refresher>
 <!--List Posting-->
 
-<div ng-href="#/app/post/{{data.id}}" class="list card" class="padding" ng-repeat="data in dataPost | filter:search" style="margin:11px;">
+<div class="list card" class="padding" ng-repeat="data in dataPost" style="margin:11px;">
 
   <div class="item item-avatar" style="min-height: 60px; border-bottom: 1px solid rgb(242, 242, 242);">
     <img ng-src="img/ben.png">
@@ -31,12 +31,13 @@
     <p style="padding-left:16px; padding-right:16px; color:black; margin-top:0px; margin-bottom:0px; height:20px; overflow:hidden; text-align:justify">
       {{data.content}}
     </p>
-       <a style="padding-left:16px; padding-right:16px; font-weight:bold; color:#24afe5; text-decoration:none;" ng-href="#/app/post/{{data.id}}">See More</a>
-<!-- 
+       <a style="padding-left:16px; padding-right:16px; font-weight:bold; color:#24afe5; text-decoration:none;" ng-click="postDetail('{{data.id}}')">See More</a>
+
     <p style="padding-left:16px; padding-right:16px; color:black;">
-      <a href="#" class="subdued">{{data.like}} Like</a>
-      <a href="#" class="subdued">{{data.comment}} Comments</a>
-      <a class="subdued" ng-controller="PostDetailCtrl" ng-click="shareNative()">Share</a> -->
+      <a class="subdued">{{data.jumlahLike}} like</a>
+      <a class="subdued">{{data.jumlahKomentar}} comment</a>
+      <a class="subdued">{{data.jumlahSharer}} share</a>
+<!--       <a class="subdued" ng-show="data.sharer==''"> share</a> -->
      <!--  <i class="icon ion-heart" style="padding-top:1px; padding-left: 4px; float:right; color:gray"></i> -->
       <!-- <a href="#" class="subdued" style="float:right;">10k</a> -->
     <!-- </p> -->

@@ -26,7 +26,7 @@
 
       <ul ng-show="Share" class="list" style="background:#fafafa;">
         <ion-list>
-          <ion-checkbox ng-model="data.div_all" ng-checked="true">All</ion-checkbox>
+          <ion-checkbox ng-model="data.div_all" ng-checked="data.div_all">All</ion-checkbox>
           <ion-checkbox ng-model="data.div_gbs" ng-checked="data.div_all">General Business Solution</ion-checkbox>
           <ion-checkbox ng-model="data.div_jti" ng-checked="data.div_all">Jasa Teknologi Informasi</ion-checkbox>
         </ion-list>
@@ -34,38 +34,35 @@
 
       <ul ng-show="Privacy" class="list" style="background:#fafafa;">
         <ion-list>
-          <ion-radio ng-model="data.privacy" ng-true-value="public">Public</ion-radio>
-          <ion-radio ng-model="data.privacy" ng-true-value="internal">Internal Only</ion-radio>
+          <ion-radio ng-model="data.privacy" ng-value="'public'">Public</ion-radio>
+          <ion-radio ng-model="data.privacy" ng-value="'internal'">Internal Only</ion-radio>
         </ion-list>
       </ul>
 
       <ul ng-show="Category" class="list" style="background:#fafafa;">
         <ion-list>
-          <ion-checkbox ng-model="data.priority" ng-true-value="important" ng-checked="true">Important</ion-checkbox>
           <ion-checkbox ng-model="data.category_technology">Technology</ion-checkbox>
           <ion-checkbox ng-model="data.category_business">Business</ion-checkbox>
         </ion-list>
       </ul>
 
+      <ion-toggle ng-model="data.priority" toggle-class="toggle-calm">Important</ion-toggle>
+
       <div class="list padding">
         <label class="item item-input item-floating-label" style="padding:0">
           <span class="input-label">Title</span>
-          <input id="title" type="text" placeholder="Title" ng-model="data.title">
+          <input id="title" type="text" placeholder="Title   *Set DIVISION, PRIVACY and CATEGORY" ng-model="data.title">
         </label>
         <label class="item item-input item-floating-label" style="padding:0">
           <span class="input-label">Content Information</span>
-          <textarea id="content" style="height:200px;background:transparent" placeholder="Content Information" ng-model="data.content"></textarea>
+          <textarea id="content" style="height:200px;background:transparent;resize:none" placeholder="Content Information" ng-model="data.content"></textarea>
         </label>
       </div>
-
-      <img class="full-image" ng-src="{{image}}" width="100%" style="height:250px; border="none" "/>  
-
   
           <input type="submit" id="upload" value="Upload Photo" class="button button-block button-calm-900 text-center" ng-click="uploadImage()" style="display: none;"></input>
-    
+                        
           <input type="submit" value="Create" class="button button-block button-calm-900 text-center" ng-click="tambahPost()" id="createpost" style="display:none"></input>
        
-
     </form>
   </ion-content>
-</ion-view>
+</ion-view

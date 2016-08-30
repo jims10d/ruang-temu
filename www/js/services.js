@@ -80,7 +80,61 @@ angular.module('starter.services', [])
 			}
 
 			return promise;1
-		}
+		},
+		getSeenCounter: function(id) {
+			var deferred = $q.defer();
+			var promise = deferred.promise;
+			$http.get(BACKEND.URL+'Employees/seenCounter?employeeId='+id).success(function(response){
+				deferred.resolve(response);
+			}).error(function(response){
+				deferred.reject(response);
+			});
+			promise.success = function(fn){
+				promise.then(fn);
+				return promise;
+			}
+			promise.error = function(fn){
+				promise.then(null, fn);
+				return promise;
+			}
+			return promise;
+		},
+		getLikeCounter: function(id) {
+			var deferred = $q.defer();
+			var promise = deferred.promise;
+			$http.get(BACKEND.URL+'Employees/likeCounter?employeeId='+id).success(function(response){
+				deferred.resolve(response);
+			}).error(function(response){
+				deferred.reject(response);
+			});
+			promise.success = function(fn){
+				promise.then(fn);
+				return promise;
+			}
+			promise.error = function(fn){
+				promise.then(null, fn);
+				return promise;
+			}
+			return promise;
+		},
+		getSharedCounter: function(id) {
+			var deferred = $q.defer();
+			var promise = deferred.promise;
+			$http.get(BACKEND.URL+'Employees/sharedCounter?employeeId='+id).success(function(response){
+				deferred.resolve(response);
+			}).error(function(response){
+				deferred.reject(response);
+			});
+			promise.success = function(fn){
+				promise.then(fn);
+				return promise;
+			}
+			promise.error = function(fn){
+				promise.then(null, fn);
+				return promise;
+			}
+			return promise;
+		},						
 	}
 })
 .service('ProfileService', function($http,PARSE_CREDENTIALS,BACKEND,$q){
@@ -423,21 +477,7 @@ angular.module('starter.services', [])
 					console.log(response)
 					deferred.reject(error);
 				}
-			});
-
-			// $http.put(BACKEND.URL+'/Posts/addLiker',data, { headers: { 'Content-Type': 'application/json' } }).success(function(response){
-			// 	console.log(response);
-			// 	deferred.resolve(response);
-			// }).error(function(response,error){
-			// 	console.log(response)
-			// 	if(error == 500){
-			// 		console.log(response)
-			// 		deferred.reject(error);
-			// 	}else{
-			// 		console.log(response)
-			// 		deferred.reject(error);
-			// 	}
-			// });			
+			});		
 
 			promise.success = function(fn){
 				promise.then(fn);
@@ -475,10 +515,37 @@ angular.module('starter.services', [])
 			}			
 			return promise;
 		},
-		addShare: function(data){
+		addShared: function(data){
 			var deferred = $q.defer();
 			var promise = deferred.promise;
 			$http.put(BACKEND.URL+'/Employees/addShared',data, { headers: { 'Content-Type': 'application/json' } }).success(function(response){
+				console.log(response);
+				deferred.resolve(response);
+			}).error(function(response,error){
+				console.log(response)
+				if(error == 500){
+					console.log(response)
+					deferred.reject(error);
+				}else{
+					console.log(response)
+					deferred.reject(error);
+				}
+			});		
+
+			promise.success = function(fn){
+				promise.then(fn);
+				return promise;
+			}			
+			promise.error = function(fn){
+				promise.then(null, fn);
+				return promise;
+			}			
+			return promise;
+		},
+		addSharer: function(data){
+			var deferred = $q.defer();
+			var promise = deferred.promise;
+			$http.put(BACKEND.URL+'/Posts/addSharer',data, { headers: { 'Content-Type': 'application/json' } }).success(function(response){
 				console.log(response);
 				deferred.resolve(response);
 			}).error(function(response,error){
@@ -505,6 +572,33 @@ angular.module('starter.services', [])
 			var deferred = $q.defer();
 			var promise = deferred.promise;
 			$http.put(BACKEND.URL+'/Employees/addSeen',data, { headers: { 'Content-Type': 'application/json' } }).success(function(response){
+				console.log(response);
+				deferred.resolve(response);
+			}).error(function(response,error){
+				console.log(response)
+				if(error == 500){
+					console.log(response)
+					deferred.reject(error);
+				}else{
+					console.log(response)
+					deferred.reject(error);
+				}
+			});		
+
+			promise.success = function(fn){
+				promise.then(fn);
+				return promise;
+			}			
+			promise.error = function(fn){
+				promise.then(null, fn);
+				return promise;
+			}			
+			return promise;
+		},
+		addSeer: function(data){
+			var deferred = $q.defer();
+			var promise = deferred.promise;
+			$http.put(BACKEND.URL+'/Posts/addSeer',data, { headers: { 'Content-Type': 'application/json' } }).success(function(response){
 				console.log(response);
 				deferred.resolve(response);
 			}).error(function(response,error){
@@ -545,10 +639,10 @@ angular.module('starter.services', [])
 			}
 			return promise;
 		},
-		getShareCounter: function(id) {
+		getSharerCounter: function(id) {
 			var deferred = $q.defer();
 			var promise = deferred.promise;
-			$http.get(BACKEND.URL+'Posts/shareCounter?postId='+id).success(function(response){
+			$http.get(BACKEND.URL+'Posts/sharerCounter?postId='+id).success(function(response){
 				deferred.resolve(response);
 			}).error(function(response){
 				deferred.reject(response);

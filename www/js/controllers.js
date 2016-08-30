@@ -92,7 +92,9 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 	};
 })
 .controller('HomeCtrl', function($scope, $state, $stateParams, $ionicPopup, $ionicPlatform,$ionicLoading, PostService, $cordovaSocialSharing, $window) { 
-	
+	 $scope.formSeen={};
+	 $scope.formSeer={};
+
 	$ionicLoading.show({
 		content: 'Loading',
 		animation: 'fade-in',
@@ -109,14 +111,89 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 	$scope.profile = {};
 	PostService.getUser(localStorage.getItem("userid"),localStorage.getItem("token")).success(function(data) {
 		$scope.profile = data;
+		$scope.formSeen.employeeId = $scope.profile.id;
+		$scope.formSeer.employeeUsername = $scope.profile.name;
 		$scope.profile.password="";
 		console.log($scope.profile.role);
 		$ionicLoading.hide();
 
 		$scope.dataPost= {};
+
 		PostService.getPostByRole($scope.profile.role).success(function(data) {
 			$scope.dataPost = data;
+			console.log($scope.dataPost);
 			$ionicLoading.hide();
+
+			data.forEach(function(entry) {
+			    console.log(entry.id);			
+
+			    // Comment Count
+				PostService.getCommentCount(entry.id).success(function(datatmp) {
+					$ionicLoading.hide();
+					$scope.jumlahKomentar=datatmp;
+					if($scope.jumlahKomentar.count==0){
+						$scope.jumlahKomentar.count="";
+					}
+
+					console.log($scope.jumlahKomentar);	
+					entry.jumlahKomentar = $scope.jumlahKomentar.count;
+
+				}).error(function(datatmp) {
+					$ionicLoading.hide();
+					var alertPopup = $ionicPopup.alert({
+						title: 'Get Data Failed!',
+						template: 'Gagal ambil jumlah komentar post'
+					});
+				});
+
+			});
+
+			data.forEach(function(entry) {
+			    console.log(entry.id);			
+
+				PostService.getLikeCounter(entry.id).success(function(datalike) {
+					$ionicLoading.hide();
+					$scope.jumlahLike=datalike;
+					if($scope.jumlahLike.count==0){
+						$scope.jumlahLike.count="";
+					}
+
+					console.log($scope.jumlahLike);	
+					entry.jumlahLike = $scope.jumlahLike.count;
+
+				}).error(function(datalike) {
+					$ionicLoading.hide();
+					var alertPopup = $ionicPopup.alert({
+						title: 'Get Data Failed!',
+						template: 'Gagal ambil jumlah like post'
+					});
+				});
+
+			});
+
+			data.forEach(function(entry) {
+			    console.log(entry.id);			
+
+				PostService.getSharerCounter(entry.id).success(function(datashare) {
+					$ionicLoading.hide();
+					$scope.jumlahSharer=datashare;
+					if($scope.jumlahSharer.count==0){
+						$scope.jumlahSharer.count="";
+					}
+
+					console.log($scope.jumlahSharer);	
+					entry.jumlahSharer = $scope.jumlahSharer.count;
+
+				}).error(function(datashare) {
+					$ionicLoading.hide();
+					var alertPopup = $ionicPopup.alert({
+						title: 'Get Data Failed!',
+						template: 'Gagal ambil jumlah share post'
+					});
+				});
+
+			});
+			
 		}).error(function(data) {
 			$ionicLoading.hide();
 			var alertPopup = $ionicPopup.alert({
@@ -146,21 +223,46 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 		});
 	});
 
-	// $scope.dataPost={};
-	// $scope.$on('$ionicView.enter', function(){
-	// 	PostService.getAll(localStorage.getItem("token")).success(function(data) {
-	// 		console.log(data);
-	// 		$scope.dataPost=data;
-	// 	})
-	// 	.error(function(data) {
-	// 		$ionicLoading.hide();
-	// 		var alertPopup = $ionicPopup.alert({
-	// 			title: 'Get Data Failed!',
-	// 			template: 'Gagal ambil data post'
-	// 		});
-	// 	});
-	// });
+	$scope.postDetail = function(id){
+	 
+	  			$scope.formSeen.postId=id;
+				$scope.formSeer.postId=id;
 
+				console.log($scope.formSeen);
+				console.log($scope.formSeer);
+
+				PostService.addSeen($scope.formSeen).success(function(data) {
+					$ionicLoading.hide();
+					// var alertPopup = $ionicPopup.alert({
+					// 	title: 'Succes!',
+					// 	template: 'Berhasil like'
+					// });
+					// $state.go($state.current, {}, {reload: true});
+				}).error(function(data) {
+					$ionicLoading.hide();
+					// var alertPopup = $ionicPopup.alert({
+					// 	title: 'Post Data Failed!',
+					// 	template: 'Gagal like'
+					// });
+				});
+
+				PostService.addSeer($scope.formSeer).success(function(data) {
+					$ionicLoading.hide();
+					// var alertPopup = $ionicPopup.alert({
+					// 	title: 'Succes!',
+					// 	template: 'Berhasil like'
+					// });
+					// $state.go($state.current, {}, {reload: true});
+				}).error(function(data) {
+					$ionicLoading.hide();
+					// var alertPopup = $ionicPopup.alert({
+					// 	title: 'Post Data Failed!',
+					// 	template: 'Gagal like'
+					// });
+				});
+	  $state.go('app.post', {'dataId': id});
+	 
+	};
 
 })
 
@@ -174,7 +276,8 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 		$scope.formKomentar={};
 		$scope.formLike={};
 		$scope.formLiker={};
-		
+		$scope.formShared={};
+		$scope.formSharer={};
 		PostService.getPost($stateParams.dataId).success(function(data) {
 			$scope.itemData=data;
 			console.log(data.id);
@@ -189,6 +292,8 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 			$scope.formKomentar.date = moment().format();
 			$scope.formLike.employeeId = $scope.profile.id;
 			$scope.formLiker.employeeUsername = $scope.profile.name;
+			$scope.formShared.employeeId = $scope.profile.id;
+			$scope.formSharer.employeeUsername = $scope.profile.name;
 			$scope.profile.password="";
 			console.log($scope.formKomentar.employeeId);
 			console.log($scope.formLike.employeeId);
@@ -212,11 +317,11 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 				});
 			});
 
+
 			//Komentar 
 			PostService.getComment(data.id).success(function(data) {
 				$ionicLoading.hide();
 				$scope.komentar=data;
-			
 
 			}).error(function(data) {
 				$ionicLoading.hide();
@@ -243,19 +348,6 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 			});
 			//Komentar 
 
-			//Like
-			// PostService.getLike(data.id).success(function(data) {
-			// 	$ionicLoading.hide();
-			// 	$scope.Like=data;
-			
-			// }).error(function(data) {
-			// 	$ionicLoading.hide();
-			// 	var alertPopup = $ionicPopup.alert({
-			// 		title: 'Get Data Failed!',
-			// 		template: 'Gagal ambil like post'
-			// 	});
-			// });
-
 			PostService.getLikeCounter(data.id).success(function(data) {
 				$ionicLoading.hide();
 				$scope.jumlahLike=data;
@@ -272,7 +364,60 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 				});
 			});
 
+			PostService.getSharerCounter(data.id).success(function(data) {
+				$ionicLoading.hide();
+				$scope.jumlahSharer=data;
+				if($scope.jumlahSharer.count==0){
+					$scope.jumlahSharer.count="";
+					console.log($scope.jumlahSharer);	
+				}
+			
+			}).error(function(data) {
+				$ionicLoading.hide();
+				var alertPopup = $ionicPopup.alert({
+					title: 'Get Data Failed!',
+					template: 'Gagal ambil jumlah share post'
+				});
+			});
+
 			$scope.shareNative = function() {
+
+				$scope.formShared.postId=$scope.itemData.id;
+				$scope.formSharer.postId=$scope.itemData.id;
+				//$scope.formLike.employeeId = 
+				console.log($scope.formShared);
+				console.log($scope.formSharer);
+
+				PostService.addShared($scope.formShared).success(function(data) {
+					$ionicLoading.hide();
+					// var alertPopup = $ionicPopup.alert({
+					// 	title: 'Succes!',
+					// 	template: 'Berhasil like'
+					// });
+					$state.go($state.current, {}, {reload: true});
+				}).error(function(data) {
+					$ionicLoading.hide();
+					// var alertPopup = $ionicPopup.alert({
+					// 	title: 'Post Data Failed!',
+					// 	template: 'Gagal like'
+					// });
+				});
+
+				PostService.addSharer($scope.formSharer).success(function(data) {
+					$ionicLoading.hide();
+					// var alertPopup = $ionicPopup.alert({
+					// 	title: 'Succes!',
+					// 	template: 'Berhasil like'
+					// });
+					$state.go($state.current, {}, {reload: true});
+				}).error(function(data) {
+					$ionicLoading.hide();
+					// var alertPopup = $ionicPopup.alert({
+					// 	title: 'Post Data Failed!',
+					// 	template: 'Gagal like'
+					// });
+				});
+
 		     $ionicPlatform.ready(function() {
 			  console.log($cordovaSocialSharing);
 				  
@@ -285,26 +430,6 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 			      // An error occured. Show a message to the user
 			      console.log("failed");
 			    });
-
-			  // $cordovaSocialSharing
-			  //   .shareViaTwitter($scope.itemData.content, $scope.itemData.photo, "www.ruangtemu.com")
-			  //   .then(function(result) {
-			  //     // Success!
-			  //      console.log("success");
-			  //   }, function(err) {
-			  //     // An error occurred. Show a message to the user
-			  //      console.log("failed");
-			  //   });
-
-			  // $cordovaSocialSharing
-			  //   .shareViaFacebook($scope.itemData.content, $scope.itemData.photo, "www.ruangtemu.com")
-			  //   .then(function(result) {
-			  //     // Success!
-			  //      console.log("success");
-			  //   }, function(err) {
-			  //     // An error occurred. Show a message to the user
-			  //      console.log("failed");
-			  //   });
 
 			    $cordovaSocialSharing
 			    .shareViaInstagram($scope.itemData.content, $scope.itemData.photo, "www.ruangtemu.com")
@@ -379,23 +504,13 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 			console.log($scope.formKomentar.employeeId);
 			PostService.tambahKomentar($scope.formKomentar).success(function(data) {
 				$ionicLoading.hide();
-				// var alertPopup = $ionicPopup.alert({
-				// 	title: 'Succes!',
-				// 	template: 'Berhasil post data komentar'
-				// });
 				$state.go($state.current, {}, {reload: true});
 			}).error(function(data) {
 				$ionicLoading.hide();
-				// var alertPopup = $ionicPopup.alert({
-				// 	title: 'Post Data Failed!',
-				// 	template: 'Gagal post data komentar'
-				// });
 			});
 		}
 		//Komentar
-
-		//Like
-		// $scope.checked=false;
+		
 		console.log($scope.checked);
 		$scope.addLike = function(){
 			$scope.checked=true;
@@ -492,6 +607,7 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 	$scope.data.postLiked = "";
 	$scope.data.postShared = "";
 	$scope.data.postSeen = "";
+	$scope.data.poin = 0;
 	$scope.register = function(){
 		RegisterService.tambahUser($scope.data).success(function(data) {
 			$ionicLoading.hide();
@@ -566,6 +682,7 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 	$scope.data.seen = "";
 	$scope.data.liker = "";
 	$scope.data.sharer = "";
+	$scope.data.comment = [];
 	
 	$scope.tambahPost = function(){
 		$scope.data.receiver = $scope.division.receiver1 + $scope.division.receiver2 + $scope.division.receiver3 + $scope.division.receiver4 + $scope.division.receiver5;		
@@ -604,7 +721,6 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 		$scope.profile = data;
 		console.log(data);
 		$scope.profile.password="";
-		// localStorage.setItem("profile_data", JSON.stringify(data));
 		$ionicLoading.hide();
 
 		 $scope.editProfil = function(){
@@ -648,8 +764,14 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 	});
 	
 	LoginService.getUser(localStorage.getItem("userid"),localStorage.getItem("token")).success(function(data) {
+		$scope.seen = 0;
+		$scope.like = 0;
+		var comment = 0;
+		$scope.share = 0;
+		$scope.poin = 0;
 		$scope.profile = data;
 		console.log(data);
+		console.log(data.id);
 		$scope.profile.password="";
 		// localStorage.setItem("profile_data", JSON.stringify(data));
 		$ionicLoading.hide();
@@ -673,6 +795,85 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 	    		});
 	    	});
 	    }
+
+	    LoginService.getSeenCounter(data.id).success(function(data) {
+				$ionicLoading.hide();
+				$scope.jumlahSeen=data;
+				if($scope.jumlahSeen.count==0){
+					$scope.jumlahSeen.count="";
+					console.log($scope.jumlahSeen);	
+				}else{
+					$scope.seen = $scope.jumlahSeen.count * 1;
+					$scope.poin += $scope.seen;
+					console.log($scope.poin);
+				}
+			
+			}).error(function(data) {
+				$ionicLoading.hide();
+				var alertPopup = $ionicPopup.alert({
+					title: 'Get Data Failed!',
+					template: 'Gagal ambil jumlah like post'
+				});
+			});
+
+	    LoginService.getLikeCounter(data.id).success(function(data) {
+				$ionicLoading.hide();
+				$scope.jumlahLike=data;
+				if($scope.jumlahLike.count==0){
+					$scope.jumlahLike.count="";
+					console.log($scope.jumlahLike);	
+				}else{
+					$scope.like = $scope.jumlahLike.count * 3;
+					$scope.poin += $scope.like;
+					console.log($scope.poin);
+				}
+			
+			}).error(function(data) {
+				$ionicLoading.hide();
+				var alertPopup = $ionicPopup.alert({
+					title: 'Get Data Failed!',
+					template: 'Gagal ambil jumlah like post'
+				});
+			});
+
+		// LoginService.getCommentCounter(data.id).success(function(data) {
+		// 		$ionicLoading.hide();
+		// 		$scope.jumlahComment=data;
+		// 		if($scope.jumlahComment.count==0){
+		// 			$scope.jumlahComment.count="";
+		// 			console.log($scope.jumlahComment);	
+		// 		}else{
+		// 			comment = $scope.jumlahComment.count * 5;
+		// 			console.log(like);
+		// 		}
+			
+		// 	}).error(function(data) {
+		// 		$ionicLoading.hide();
+		// 		var alertPopup = $ionicPopup.alert({
+		// 			title: 'Get Data Failed!',
+		// 			template: 'Gagal ambil jumlah like post'
+		// 		});
+		// 	});	
+
+		LoginService.getSharedCounter(data.id).success(function(data) {
+				$ionicLoading.hide();
+				$scope.jumlahShared=data;
+				if($scope.jumlahShared.count==0){
+					$scope.jumlahShared.count="";
+					console.log($scope.jumlahShared);	
+				}else{
+					$scope.share = $scope.jumlahShared.count * 7;
+					$scope.poin += $scope.share;
+					console.log($scope.poin);
+				}
+			
+			}).error(function(data) {
+				$ionicLoading.hide();
+				var alertPopup = $ionicPopup.alert({
+					title: 'Get Data Failed!',
+					template: 'Gagal ambil jumlah like post'
+				});
+			});		
 
 	}).error(function(data) {
 		$ionicLoading.hide();
