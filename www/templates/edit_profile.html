@@ -5,7 +5,9 @@
 
   <ion-content overflow-scroll=true scroll-sista="tabs" style="background-color:#fff;">
     <div style="background-color:#24afe5; height:150px;padding-top:15px;">
-    <div ng-src="{{image}}" style="background-image: url('img/profile.jpg');width:100px;height:97px;background-size:cover;border-radius:50%;margin-left:20px;">
+    <!-- <div ng-src="{{image}}" style="background-image: url('img/profile.jpg');width:100px;height:97px;background-size:cover;border-radius:50%;margin-left:20px;"> -->
+    <img ng-hide="profile.photo=='n/a'||profile.photo==undefined" ng-src={{image}} class="avatar" style="left:22px;top:26px;margin:0px auto;width:70px;height:70px;">
+    <img ng-show="profile.photo=='n/a'||profile.photo==undefined" ng-src="img/profile.jpg" class="avatar" style="left:22px;top:26px;margin:0px auto;width:70px;height:70px;">
       <input style="margin-left:120px; margin-top:25px; width:200px; color:#24afe5; background:white; font-weight:bold;" type="submit" id="upload" value="Upload Photo" class="button button-block button-calm-900 text-center" ng-click="uploadImage()"></input>
     </div>
     </div>

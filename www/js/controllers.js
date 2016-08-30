@@ -757,7 +757,7 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 	    			title: 'Edit Data Berhasil!',
 	    			template: 'Edit data profil berhasil dilakukan'
 	    		});
-	    		$state.go($state.current, {}, {reload: true});
+	    		$state.go('app.profile');
 	    	}).error(function(data) {
 	    		$ionicLoading.hide();
 	    		var alertPopup = $ionicPopup.alert({
