@@ -139,6 +139,60 @@
 				</div>
 			</div>
 		</div>
+		<!-- <div id="command-bar" class="command-bar">
+			<div class="row" ng-show="(screenState=='selectPickupPoint')||(screenState=='selectDestination')" style="padding-bottom:0px;">
+				<div class="col">
+					<i class="location-icon ion-location" style="padding-left:10px;"></i>
+					<p id="labelJemputTujuan" style="font-size:16px;color:#fff;margin-top:0px;">{{labels.selectPointType}}</p>
+				</div>
+			</div>
+			<div class="row" ng-show="(screenState=='selectPickupPoint')||(screenState=='selectDestination')">
+				<p type="item-text-wrap" id="resv_from" style="font-size:small;color:#fff;padding-left:10px;margin-top:0px;padding-top:0px;"></p>
+			</div>
+			<div ng-show="screenState == 'searchTaxi'" ng-click="checkAndUpdateTrip()">
+				<div class="row center">
+					<img ng-src="img/loading.gif" width="20%" height="20%">
+				</div>
+				<div class="row center">
+					<p style="color:#fff;font-size:18px;">Mencari Taksi Terdekat...</p>
+				</div>
+			</div>
+			<div class="row" ng-show="(screenState == 'driverEnroute')||(screenState == 'onTrip')">
+				<h3 style="color:#fff;" ng-show="screenState=='driverEnroute'">{{driverArrivalStatus}} {{ETA}}</h3>
+				<h3 style="color:#fff;" ng-show="(screenState=='onTrip') && (trip.destination_name!='n/a')">Estimasi tiba di tujuan dalam {{ETA}}</h3>
+				<p ng-show="screenState=='onTrip'" style="color:#FFF;font-size:16px;">Nikmati perjalanan anda dengan in taxi entertainment kami</p>
+				<p ng-show="screenState=='driverEnroute'" style="color:#CCC;">Silahkan hubungi jika pengemudi kami tidak sampai di tempat anda</p>
+			</div>
+			<div class="row" ng-show="(screenState == 'driverEnroute')||(screenState == 'onTrip')">
+				<img ng-src="img/driver_1.jpg" ng-click="checkAndUpdateTrip()">
+				<h3 style="color:#fff;">{{driver.name}}</h3>
+				<rating style="color:gold;" class="small" readonly="true" ng-model="driver.rating" max="driverRating.max" ></rating>
+				<p style="color:#fff;">Nomor Taksi: {{hullNumber}}</p>
+				<a ng-hide="screenState=='onTrip'" class="button icon-right ion-ios-telephone button-balanced" href="tel:085761357333" ng-click="checkAndUpdateTrip()"></a>
+			</div>
+			<div class="row">
+				<div class="col">
+					<button ng-hide="(screenState == 'searchTaxi')||(screenState == 'driverEnroute')||(screenState=='onTrip')" id="mapLeftButton" class="button button-bar button-assertive" ng-click="mapLeftButtonClick()">
+						{{labels.mapLeftButton}}
+					</button>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<button ng-hide="(screenState == 'searchTaxi')||(screenState == 'driverEnroute')||(screenState=='onTrip')" id="mapRightButton" class="button button-bar button-calm login-loginbutton" ng-click="mapRightButtonClick()">
+						{{labels.mapRightButton}}
+					</button>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<button ng-show="(screenState == 'searchTaxi')||(screenState == 'driverEnroute')||(screenState=='onTrip')"
+					id="bigFootButton" class='button button-bar button-{{bigButtonColor}}' ng-click="mapBigButtonClick()">
+					{{labels.bigButton}}
+					</button>
+				</div>
+			</div>
+		</div> -->
 	</ion-content>
 
 	<!-- Modal screen for reservation additional info and confirmation -->

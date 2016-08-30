@@ -1,26 +1,29 @@
 <ion-view view-title="Create Post" hide-back-button="true" text-center cache-view="false">
-  <!-- Back button -->
   <ion-nav-buttons side="left">
     <button class="button button-clear icon-button mdi mdi-arrow-left" ng-click="back()"></button>
   </ion-nav-buttons>
-  <!-- Upload Image and Post button -->
+
   <ion-nav-buttons side="right">
     <button class="button button-clear icon-button icon ion-android-attach" onclick="document.getElementById('upload').click()" type="button"></button>
     <button class="button button-clear icon-button icon ion-android-send" onclick="document.getElementById('createpost').click()"></button>
   </ion-nav-buttons>
   <ion-content overflow-scroll=true scroll-sista="tabs" style="background-color:#fff;">
-    <!-- Form post -->
+
+    <!-- list post -->
     <form method="post" enctype="text/plain">    
-      <!-- Divsion, Privacy and Label Option -->
+
+      <!-- button -->
       <div class="button-bar">
         <button id="share" ng-click="Share = !Share; Privacy = false; Category = false;" class="button icon ion-android-people" style="padding-top:10px; border-radius:0px; background:#24afe5; color:white;">
         </button>
+
         <button ng-click="Privacy = !Privacy; Share = false; Category = false;" class="button icon ion-android-lock" style="padding-top:10px; background:#24afe5; color:white;">
         </button>
+
         <button ng-click="Category = !Category; Privacy = false; Share = false;" class="button icon ion-pricetag" style="padding-top:10px; border-radius:0px; background:#24afe5; color:white;">
         </button>
       </div>
-      <!-- Division Option -->
+
       <ul ng-show="Share" class="list" style="background:#fafafa;">
         <ion-list>
           <ion-checkbox ng-model="data.div_all" ng-checked="data.div_all">All</ion-checkbox>
@@ -28,39 +31,42 @@
           <ion-checkbox ng-model="data.div_jti" ng-checked="data.div_all">Jasa Teknologi Informasi</ion-checkbox>
         </ion-list>
       </ul>
-      <!-- Privacy Option -->
+
       <ul ng-show="Privacy" class="list" style="background:#fafafa;">
         <ion-list>
           <ion-radio ng-model="data.privacy" ng-value="'public'">Public</ion-radio>
           <ion-radio ng-model="data.privacy" ng-value="'internal'">Internal Only</ion-radio>
         </ion-list>
       </ul>
-      <!-- Category Option -->
+
       <ul ng-show="Category" class="list" style="background:#fafafa;">
         <ion-list>
           <ion-checkbox ng-model="data.category_technology">Technology</ion-checkbox>
           <ion-checkbox ng-model="data.category_business">Business</ion-checkbox>
         </ion-list>
       </ul>
-      <!-- Priority Option -->
+
       <ion-toggle ng-model="data.priority" toggle-class="toggle-calm">Important</ion-toggle>
-      <!-- Image Priview -->
-      <img ng-src="{{image}}" width="100%" style="height:250px;border:none;width:100%;height:auto"/> 
-      <!-- Input Text -->
+
       <div class="list padding">
         <label class="item item-input item-floating-label" style="padding:0">
-        <span class="input-label">Title</span>
-        <input id="title" type="text" placeholder="Title   *Set DIVISION, PRIVACY and CATEGORY" ng-model="data.title">
+          <span class="input-label">Title</span>
+          <input id="title" type="text" placeholder="Title   *Set DIVISION, PRIVACY and CATEGORY" ng-model="data.title">
         </label>
         <label class="item item-input item-floating-label" style="padding:0">
-        <span class="input-label">Content Information</span>
-        <textarea id="content" style="height:200px;background:transparent;resize:none" placeholder="Content Information" ng-model="data.content"></textarea>
+          <span class="input-label">Content Information</span>
+          <textarea id="content" style="height:200px;background:transparent;resize:none" placeholder="Content Information" ng-model="data.content"></textarea>
         </label>
-      </div> 
-      <!-- Upload Image Button Linked -->
-      <input type="submit" id="upload" value="Upload Photo" class="button button-block button-calm-900 text-center" ng-click="uploadImage()" style="display: none;"></input>
-      <!-- Posting Button Linked -->
-      <input type="submit" value="Create" class="button button-block button-calm-900 text-center" ng-click="tambahPost()" id="createpost" style="display:none"></input>
+      </div>
+
+        <img class="full-image" ng-src="{{image}}" width="100%" style="height:250px; border="none" "/>  
+  
+          <input type="submit" id="upload" value="Upload Photo" class="button button-block button-calm-900 text-center" ng-click="uploadImage()" style="display: none;"></input>
+                        
+          <input type="submit" value="Create" class="button button-block button-calm-900 text-center" ng-click="tambahPost()" id="createpost" style="display:none"></input>
+       
     </form>
   </ion-content>
+
 </ion-view>
+

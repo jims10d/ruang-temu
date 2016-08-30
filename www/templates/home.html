@@ -1,58 +1,36 @@
 <ion-view view-title="Timeline" title-center cache-view="false">
-
-<div class="bar item-input-inset" style="margin-top:40px;">
-          <i class="icon ion-ios-search placeholder-icon" style="background:white; height:50px; padding-top:16px; padding-left:11px;"></i><input id="search" type="text" placeholder=" Search..." ng-model="search.title" style="width:100%; height:60px;" />
-</div>
-<ion-content overflow-scroll=true scroll-sista="tabs" style="background-color: #ececec; z-index:0; margin-top:50px;">
- <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh()" refreshing-text="Fetching ..." refreshing-icon="ion-loading-b"></ion-refresher>
-<!--List Posting-->
-
-<div class="list card" class="padding" ng-repeat="data in dataPost" style="margin:11px;">
-
-  <div class="item item-avatar" style="min-height: 60px; border-bottom: 1px solid rgb(242, 242, 242);">
-    <img ng-src="img/ben.png">
-    <h2>{{data.title}}</h2>
-    <p>{{data.date | date:'yyyy-MM-dd, h:mm a'}}</p>
-  </div>
-
-  <div class="item item-body" style="padding-top:0px; padding-left:0px; padding-right:0px; padding-bottom:10px; border-bottom: 1px solid; border-color: #ececec;">
-    <img class="full-image" ng-src="{{data.photo}}" ng-hide="data.photo=='n/a'||data.photo==undefined" style="height:250px;">
-    <h1 style="padding-left:16px; padding-right:16px; margin-top:8px; margin-bottom: 8px; font-size:24px">
-      {{data.title}}
-    </h1>
-    <p style="padding-left:16px; padding-right:16px; color:black; margin-top:0px; margin-bottom:0px; height:20px; overflow:hidden; text-align:justify">
-      {{data.content}}<br/>
-    </p>
-
-   <!--  <p style="padding-left:16px; padding-right:16px; color:black; margin-top:0px; margin-bottom:0px; height:20px; overflow:hidden; text-align:justify">
-      {{data.jumlahKomentar}} Komentar<br/>
-    </p> -->
-       <a style="padding-left:16px; padding-right:16px; font-weight:bold; color:#24afe5; text-decoration:none;" ng-click="postDetail('{{data.id}}')">See More</a>
-
-    <p style="padding-left:16px; padding-right:16px; color:black;">
-      <a class="subdued">{{data.jumlahLike}} like</a>
-      <a class="subdued">{{data.jumlahKomentar}} comment</a>
-      <a class="subdued">{{data.jumlahSharer}} share</a>
-<!--       <a class="subdued" ng-show="data.sharer==''"> share</a> -->
-     <!--  <i class="icon ion-heart" style="padding-top:1px; padding-left: 4px; float:right; color:gray"></i> -->
-      <!-- <a href="#" class="subdued" style="float:right;">10k</a> -->
-    <!-- </p> -->
-  </div>
-
-   <!-- <div class="item" style="border-bottom: 1px solid; border-color: #ececec;text-align:center;background-color:#24afe5;height:10px">
-    <a style="font-size:16px; color:white; text-decoration:none;" ng-href="#/app/post/{{data.id}}">Read more</a>
-   </div> -->
-</div>
-
-
-<!--End List Posting-->
-
-
-
-</ion-content>
-<!--Create Post Button-->
-<ion-buttons start id="floating-button" style="margin-right:10px; background-color:#24afe5;" onclick="location.href='#/app/create_post'">
-  <i class="icon ion-plus" style="font-size:30px"></i>
-</ion-buttons>
-<!--End Create Post Button-->
+  <!-- div class="bar item-input-inset" style="margin-top:40px;">
+    <i class="icon ion-ios-search placeholder-icon" style="background:white; height:50px; padding-top:16px; padding-left:11px;"></i><input id="search" type="text" placeholder=" Search..." ng-model="search.title" style="width:100%; height:60px;" />
+  </div> -->
+  <ion-content overflow-scroll=true scroll-sista="tabs" style="background-color: #ececec; z-index:0;">
+    <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh()" refreshing-text="Fetching ..." refreshing-icon="ion-loading-b"></ion-refresher>
+    <!--List Posting-->
+    <div class="list card" ng-repeat="data in dataPost" style="margin:11px;">
+      <div class="item item-avatar" style="min-height: 60px; border-bottom: 1px solid rgb(242, 242, 242);">
+        <img ng-src="img/ben.png">
+        <h2>{{data.title}}</h2>
+        <p>{{data.date | date:'yyyy-MM-dd, h:mm a'}}</p>
+      </div>
+      <div class="item item-body" style="padding-top:0px; padding-left:0px; padding-right:0px; padding-bottom:10px; border-bottom: 1px solid; border-color: #ececec;">
+        <img class="full-image" ng-src="{{data.photo}}" ng-hide="data.photo=='n/a'||data.photo==undefined" style="height:250px;">
+        <h1 style="padding-left:16px; padding-right:16px; margin-top:8px; margin-bottom: 8px; font-size:24px">
+        {{data.title}}
+        </h1>
+        <p style="padding-left:16px; padding-right:16px; color:black; margin-top:0px; margin-bottom:0px; height:20px; overflow:hidden; text-align:justify">
+        {{data.content}}<br/>
+        </p>
+        <a style="padding-left:16px; padding-right:16px; font-weight:bold; color:#24afe5; text-decoration:none;" ng-click="postDetail('{{data.id}}')">See More</a>
+        <p style="padding-left:16px; padding-right:16px; color:black;">
+        <a class="subdued">{{data.jumlahLike}} like</a>
+        <a class="subdued">{{data.jumlahKomentar}} comment</a>
+        <a class="subdued">{{data.jumlahSharer}} share</a>
+      </div>
+    </div>
+    <!--End List Posting-->
+  </ion-content>
+  <!--Create Post Button-->
+  <ion-buttons start id="floating-button" style="margin-right:10px; background-color:#24afe5;" onclick="location.href='#/app/create_post'">
+    <i class="icon ion-plus" style="font-size:30px"></i>
+  </ion-buttons>
+  <!--End Create Post Button-->
 </ion-view>

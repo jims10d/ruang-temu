@@ -6,71 +6,56 @@
 		<div class="col" style="margin-top:20px;">
 			<center>
 			<div style="background-image: url('img/ben.png');width:60px;height:60px;background-size:cover;border-radius:50%;"></div>
-			<p style="color:white; font-size:17px; margin-top:10px;">Troy Grant</p>
-			<p style="color:white; font-size:12px; margin-top:-8px;">6005 points</p>
+			<p style="color:white; font-size:17px; margin-top:10px;">{{pemenangKedua.username}}</p>
+			<p style="color:white; font-size:12px; margin-top:-8px;">{{pemenangKedua.poin}} points</p>
 			</center>
 		</div>
 		<div class="col" style="margin-bottom:10px;">
 			<center>
 			<div style="background-image: url('img/adam.jpg');width:80px;height:80px;background-size:cover;border-radius:50%;"></div>
-			<p style="color:white; font-size:17px; margin-top:10px;">Edna Blake</p>
-			<p style="color:white; font-size:12px; margin-top:-8px;">6005 points</p>
+			<p style="color:white; font-size:17px; margin-top:10px;">{{pemenangPertama.username}}</p>
+			<p style="color:white; font-size:12px; margin-top:-8px;">{{pemenangPertama.poin}} points</p>
 			</center>
 		</div>
 		<div class="col" style="margin-top:20px;">
 			<center>
 			<div style="background-image: url('img/ben.png');width:60px;height:60px;background-size:cover;border-radius:50%;"></div>
-			<p style="color:white; font-size:17px; margin-top:10px;">Isabella G.</p>
-			<p style="color:white; font-size:12px; margin-top:-8px;">6005 points</p>
+			<p style="color:white; font-size:17px; margin-top:10px;">{{pemenangKetiga.username}}</p>
+			<p style="color:white; font-size:12px; margin-top:-8px;">{{pemenangKetiga.poin}} points</p>
 			</center>
 		</div>
 	</div>
-		 <div class="list" style="Background:white;">
-			   <h4 style="margin-bottom:-20px; font-size:17px; margin-top:30px; font-weight:unset; padding-bottom:30px; margin-bottom:-78px;padding-left:20px;">1</h4>
-		    <a class="item item-avatar" style="padding-bottom:0px; margin-bottom:-29px; margin-top:-45px; margin-left:20px;">
-		      <img ng-src="img\adam.jpg" style="margin-left:20px;">
-		      <h2 style="margin-bottom:6px;">Inez Parsons</h2>
-		      <div class="item item-text-wrap" style="padding:0px;">
-		      <p style="padding-right:16px;">Level 12 . 1155 points . 9 badges</p>
-		      </div>  
-		    </a>
+	<style>
+		.blue{background-color:#24afe5;}
+		.blue h2, .blue p{color:white;}
 
-		      <h4 style="margin-bottom:-20px; font-size:17px; margin-top:20px; font-weight:unset; padding-top:30px; padding-bottom:30px; margin-bottom:-78px;padding-left:20px;">2</h4>
-		    <a class="item item-avatar" style="padding-bottom:0px; margin-bottom:-29px; margin-top:-45px; margin-left:20px;">
-		      <img ng-src="img\adam.jpg" style="margin-left:20px;">
-		      <h2 style="margin-bottom:6px;">Esther Hopkins</h2>
-		      <div class="item item-text-wrap" style="padding:0px;">
-		      <p style="padding-right:16px;">Level 11 . 1155 points . 9 badges</p>
-		      </div>  
-		    </a>
+		.blue-fixed{background-color:#24afe5;position: fixed; bottom:0;z-index: 999999;width: 100%;padding:2px 0px 15px 0px;margin:0}
+		.blue-fixed h2, .blue p{color:white;}
+	</style>
+	<div ng-repeat="data in leaderboard | limitTo: 8 : 3" class="list" ng-class="{'blue':menuProfile.username == data.username}" style="padding:2px 0px 15px 0px;margin:0">
+	   	<h4 style="margin-bottom:-20px; font-size:17px; margin-top:30px; font-weight:unset; padding-bottom:30px; margin-bottom:-78px;padding-left:20px;">{{$index+4}}</h4>
+		<a class="item item-avatar" style="padding-bottom:0px; margin-bottom:-29px; margin-top:-45px; margin-left:20px;">
+		  <img ng-src="img\adam.jpg" style="margin-left:20px;">
+		  <h2 style="margin-bottom:6px;">{{data.username}}</h2>
+		  <div class="item item-text-wrap" style="padding:0px;">
+		  <p style="padding-right:16px;">{{data.poin}} points</p>
+		  </div>  
+		</a>
+	</div> 
 
-		     <h4 style="margin-bottom:-20px; font-size:17px; margin-top:20px; font-weight:unset; padding-top:30px; padding-bottom:30px; margin-bottom:-78px;padding-left:20px;">3</h4>
-		    <a class="item item-avatar" style="padding-bottom:0px; margin-bottom:-29px; margin-top:-45px; margin-left:20px;">
-		      <img ng-src="img\adam.jpg" style="margin-left:20px;">
-		      <h2 style="margin-bottom:6px;">Alexander Glover</h2>
-		      <div class="item item-text-wrap" style="padding:0px;">
-		      <p style="padding-right:16px;">Level 9 . 1155 points . 9 badges</p>
-		      </div>  
-		    </a>
+ 
 
-		     <h4 style="margin-bottom:-20px; font-size:17px; margin-top:20px; font-weight:unset; padding-top:30px; padding-bottom:30px; margin-bottom:-78px;padding-left:20px;">4</h4>
-		    <a class="item item-avatar" style="padding-bottom:0px; margin-bottom:-29px; margin-top:-45px; margin-left:20px;">
-		      <img ng-src="img\adam.jpg" style="margin-left:20px;">
-		      <h2 style="margin-bottom:6px;">Ruth Nelson</h2>
-		      <div class="item item-text-wrap" style="padding:0px;">
-		      <p style="padding-right:16px;">Level 8 . 1155 points . 9 badges</p>
-		      </div>  
-		    </a>
-
-		    <h4 style="margin-bottom:-20px; font-size:17px; margin-top:20px; font-weight:unset; padding-top:30px; padding-bottom:30px; margin-bottom:-78px; Background:#24afe5; padding-left:20px; color:white;">32</h4>
-		    <a class="item item-avatar" style="padding-bottom:0px; margin-bottom:-29px; margin-top:-45px; margin-left:20px;">
-		      <img ng-src="img\adam.jpg" style="margin-left:20px;">
-		      <h2 style="margin-bottom:6px; color:white">Abhishek Shah</h2>
-		      <div class="item item-text-wrap" style="padding:0px;">
-		      <p style="padding-right:16px; color:white;">Level 3 . 1155 points . 9 badges</p>
-		      </div>  
-		    </a>
-
-		 </div>
 </ion-content>
+	<div ng-show="myLeaderboardend == true" class="list blue-fixed">
+	   	<divclass="list blue-fixed">
+		   	<h4 style="margin-bottom:-20px; font-size:17px; margin-top:30px; font-weight:unset; padding-bottom:30px; margin-bottom:-78px;padding-left:20px;">{{myLeaderboard.position}}</h4>
+			<a class="item item-avatar" style="padding-bottom:0px; margin-bottom:-29px; margin-top:-45px; margin-left:20px;">
+			  <img ng-src="img\adam.jpg" style="margin-left:20px;">
+			  <h2 style="margin-bottom:6px;">{{myLeaderboard.username}}</h2>
+			  <div class="item item-text-wrap" style="padding:0px;">
+			  <p style="padding-right:16px;">{{myLeaderboard.poin}} points</p>
+			  </div>  
+			</a>
+		</div> 
+	</div>
 </ion-view>
