@@ -682,7 +682,6 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 	$scope.data.seen = "";
 	$scope.data.liker = "";
 	$scope.data.sharer = "";
-	$scope.data.comment = [];
 	
 	$scope.tambahPost = function(){
 		$scope.data.receiver = $scope.division.receiver1 + $scope.division.receiver2 + $scope.division.receiver3 + $scope.division.receiver4 + $scope.division.receiver5;		
@@ -707,9 +706,34 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 	}
 })
 
-.controller('ProfileCtrl', function($scope, $state, $ionicPopup, $ionicPlatform, $ionicLoading, LoginService) {  
+.controller('ProfileCtrl', function($scope, $state, $ionicPopup, $ionicPlatform, $ionicLoading, LoginService, $cordovaImagePicker, $cordovaCamera) {  
 	//implement logic here
 	$scope.profile = {};
+	document.addEventListener("deviceready", function () {
+		$scope.uploadImage = function() {
+			var options = {
+				maximumImagesCount: 1,
+				width: 600,
+				height: 600,
+				quality: 100
+			};
+
+			$cordovaImagePicker.getPictures(options).then(function (results) {
+				for (var i = 0; i < results.length; i++) {
+					$scope.image = results[i];
+					console.log('Image URI: ' + results[i]);
+					window.plugins.Base64.encodeFile($scope.image, function(base64){  // Encode URI to Base64 needed for contacts plugin
+                        $scope.profile.photo = base64;
+						$scope.profile.photo = $scope.profile.foto.replace(/(\r\n|\n|\r)/gm,"");
+						console.log($scope.profile.photo);
+                    });
+				}
+			}, function(error) {
+				$scope.profile.photo="n/a"
+			});
+		}
+	}, false);
+
 	$ionicLoading.show({
 		content: 'Loading',
 		animation: 'fade-in',
@@ -720,7 +744,7 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 	LoginService.getUser(localStorage.getItem("userid"),localStorage.getItem("token")).success(function(data) {
 		$scope.profile = data;
 		console.log(data);
-		$scope.profile.password="";
+		// $scope.profile.password="";
 		$ionicLoading.hide();
 
 		 $scope.editProfil = function(){

@@ -54,11 +54,9 @@ angular.module('starter.services', [])
 			}
 			return promise;
 		},
-		editUser: function(id,token){
+		editUser: function(id,token,data){
 			var deferred = $q.defer();
 			var promise = deferred.promise;
-			var data = data;
-			console.log(data);
 			$http.put(BACKEND.URL+'/Employees/'+id+'?access_token='+token,data,{headers:{'Content-Type':'application/json'}}).success(function(response){
 				deferred.resolve(response);
 			}).error(function(response,error){
