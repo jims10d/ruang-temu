@@ -426,7 +426,33 @@ angular.module('starter.services', [])
 			}			
 			return promise;
 		},
-	
+		addKomentar: function(data){
+			var deferred = $q.defer();
+			var promise = deferred.promise;
+			$http.put(BACKEND.URL+'/Employees/addComment',data, { headers: { 'Content-Type': 'application/json' } }).success(function(response){
+				console.log(response);
+				deferred.resolve(response);
+			}).error(function(response,error){
+				console.log(response)
+				if(error == 500){
+					console.log(response)
+					deferred.reject(error);
+				}else{
+					console.log(response)
+					deferred.reject(error);
+				}
+			});		
+
+			promise.success = function(fn){
+				promise.then(fn);
+				return promise;
+			}			
+			promise.error = function(fn){
+				promise.then(null, fn);
+				return promise;
+			}			
+			return promise;
+		},
 		addLike: function(data){
 			var deferred = $q.defer();
 			var promise = deferred.promise;

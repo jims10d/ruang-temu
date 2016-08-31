@@ -94,10 +94,12 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 .controller('HomeCtrl', function($scope, $state, $stateParams, $ionicPopup, $ionicPlatform, $ionicLoading, PostService, $cordovaSocialSharing, $window, $ionicModal) { 
 	 $scope.formSeen={};
 	 $scope.formSeer={};
+	 // $scope.data=["JavaScript","Java","Ruby","Python"];
 
-	  $scope.toggle = function() {
-        $scope.myVar = !$scope.myVar;
-    };
+
+        // $scope.toggleLeft = function() {
+        //     $ionicSideMenuDelegate.toggleLeft();
+        // };
 
 	$ionicLoading.show({
 		content: 'Loading',
@@ -125,6 +127,13 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 		PostService.getPostByRole($scope.profile.role).success(function(data) {
 			$scope.dataPost = data;
 			$ionicLoading.hide();
+
+			$scope.arr = [];
+			for (var item in data) { 
+			   $scope.arr.push(data[item]); 
+
+			}
+			console.log($scope.arr);
 
 			data.forEach(function(entry) {	
 
@@ -296,7 +305,7 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 			PostService.getComment(data.id).success(function(data) {
 				$ionicLoading.hide();
 				$scope.komentar=data;
-
+				console.log(data);
 			}).error(function(data) {
 				$ionicLoading.hide();
 				var alertPopup = $ionicPopup.alert({
@@ -455,13 +464,20 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 				template: 'Gagal ambil data post'
 			});
 		});
-		
+
 		//Komentar
 		$scope.formKomentar={};
 			$scope.addKomentar = function(){
 			$scope.formKomentar.postId=$scope.itemData.id;
 
-			PostService.tambahKomentar($scope.formKomentar).success(function(data) {
+			// PostService.tambahKomentar($scope.formKomentar).success(function(data) {
+			// 	$ionicLoading.hide();
+			// 	$state.go($state.current, {}, {reload: true});
+			// }).error(function(data) {
+			// 	$ionicLoading.hide();
+			// });
+
+			PostService.addKomentar($scope.formKomentar).success(function(data) {
 				$ionicLoading.hide();
 				$state.go($state.current, {}, {reload: true});
 			}).error(function(data) {
@@ -670,8 +686,17 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 	
 	LoginService.getUser(localStorage.getItem("userid"),localStorage.getItem("token")).success(function(data) {
 		$scope.profile = data;
+		$scope.badge = {};
 		$ionicLoading.hide();
 
+		data.badges.sort(function(a, b){
+		    var dateA=new Date(a.achieved_date), dateB=new Date(b.achieved_date)
+		    return dateB-dateA //sort by date ascending
+		})
+
+		console.log(data.badges);
+		$scope.badge = data.badges[0];
+	
 		 $scope.editProfil = function(){
 		 
 		 	$scope.profile = data;
@@ -764,4 +789,58 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 	});
 })
 
-
+// .directive('searchBar', [function () {
+// 	return {
+// 		scope: {
+// 			ngModel: '='
+// 		},
+// 		require: ['^ionNavBar', '?ngModel'],
+// 		restrict: 'E',
+// 		replace: true,
+// 		template: '<ion-nav-buttons side="right">'+
+// 						'<div class="searchBar">'+
+// 							'<div class="searchTxt" ng-show="ngModel.show">'+
+// 						  		'<div class="bgdiv"></div>'+
+// 						  		'<div class="bgtxt">'+
+// 						  			'<input type="text" placeholder="Search..." ng-model="search.title">'+
+// 						  		'</div>'+
+// 					  		'</div>'+
+// 						  	'<i class="icon placeholder-icon" ng-click="ngModel.txt=\'\';ngModel.show=!ngModel.show"></i>'+
+// 						'</div>'+
+// 					'</ion-nav-buttons>',
+		
+// 		compile: function (element, attrs) {
+// 			var icon=attrs.icon
+// 					|| (ionic.Platform.isAndroid() && 'ion-android-search')
+// 					|| (ionic.Platform.isIOS()     && 'ion-ios7-search')
+// 					|| 'ion-search';
+// 			angular.element(element[0].querySelector('.icon')).addClass(icon);
+			
+// 			return function($scope, $element, $attrs, ctrls) {
+// 				var navBarCtrl = ctrls[0];
+// 				$scope.navElement = $attrs.side === 'right' ? navBarCtrl.rightButtonsElement : navBarCtrl.leftButtonsElement;
+				
+// 			};
+// 		},
+// 		controller: ['$scope','$ionicNavBarDelegate', function($scope,$ionicNavBarDelegate){
+// 			var title, definedClass;
+// 			$scope.$watch('ngModel.show', function(showing, oldVal, scope) {
+// 				if(showing!==oldVal) {
+// 					if(showing) {
+// 						if(!definedClass) {
+// 							var numicons=$scope.navElement.children().length;
+// 							angular.element($scope.navElement[0].querySelector('.searchBar')).addClass('numicons'+numicons);
+// 						}
+						
+// 						title = $ionicNavBarDelegate.getTitle();
+// 						$ionicNavBarDelegate.setTitle('');
+// 					} else {
+// 						$ionicNavBarDelegate.setTitle(title);
+// 					}
+// 				} else if (!title) {
+// 					title = $ionicNavBarDelegate.getTitle();
+// 				}
+// 			});
+// 		}]
+// 	};
+// }])
