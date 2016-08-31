@@ -91,9 +91,13 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 		$state.go('login');
 	};
 })
-.controller('HomeCtrl', function($scope, $state, $stateParams, $ionicPopup, $ionicPlatform,$ionicLoading, PostService, $cordovaSocialSharing, $window) { 
+.controller('HomeCtrl', function($scope, $state, $stateParams, $ionicPopup, $ionicPlatform, $ionicLoading, PostService, $cordovaSocialSharing, $window, $ionicModal) { 
 	 $scope.formSeen={};
 	 $scope.formSeer={};
+
+	  $scope.toggle = function() {
+        $scope.myVar = !$scope.myVar;
+    };
 
 	$ionicLoading.show({
 		content: 'Loading',

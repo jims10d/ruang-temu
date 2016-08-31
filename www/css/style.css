@@ -232,3 +232,29 @@ div.title.title-left.header-item{
 .bar .title.title-left{
   text-align: center;
 }
+
+.blue{
+  background-color:#24afe5;
+}
+
+.blue h2, .blue p, .blue h4{
+  color:white;
+}
+
+.blue-fixed{
+  background-color:#24afe5;
+  position: fixed; 
+  bottom:0;
+  z-index: 999999;
+  width: 100%;
+  padding:2px 0px 15px 0px;
+  margin:0
+}
+
+.blue-fixed h2, .blue-fixed p, .blue-fixed h4{
+  color:white;
+}
+
+.margin{
+  margin-bottom: 70px;
+}

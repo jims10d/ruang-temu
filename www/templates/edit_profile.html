@@ -9,7 +9,7 @@
   </ion-nav-buttons>
   <ion-content overflow-scroll=true scroll-sista="tabs" style="background-color:#fff;">
     <div style="background-color:#24afe5; height:150px;padding-top:15px;">
-      <img ng-hide="profile.photo=='n/a'||profile.photo==undefined" ng-src={{image}} class="avatar" style="left:22px;top:26px;margin:0px auto;width:70px;height:70px;">
+      <img ng-hide="profile.photo=='n/a'||profile.photo==undefined" src={{image}} ng-src={{profile.photo}} class="avatar" style="left:22px;top:26px;margin:0px auto;width:70px;height:70px;">
       <img ng-show="profile.photo=='n/a'||profile.photo==undefined" ng-src="img/profile.jpg" class="avatar" style="left:22px;top:26px;margin:0px auto;width:70px;height:70px;">
       <input style="margin-left:120px; margin-top:25px; width:200px; color:#24afe5; background:white; font-weight:bold;" type="submit" id="upload" value="Upload Photo" class="button button-block button-calm-900 text-center" ng-click="uploadImage()"></input>
     </div>
@@ -46,7 +46,7 @@
         </label>
         <label id="editSelect" class="item item-input item-select" style="padding-left:0px;">
           <div class="input-label" style="font-weight:unset; padding-right:0px;">Role</div>
-          <select ng-model="profile.role" value="{{profile.role}}" style="background:rgba(255, 255, 255, 0);">
+          <select ng-model="profile.role" value="{{profile.role}}" style="background:rgba(255, 255, 255, 0);color:black;">
             <option value="gbs" class="input-login">GBS</option>
             <option value="jti" class="input-login">JTI</option>
           </select>

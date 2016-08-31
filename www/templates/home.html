@@ -1,14 +1,17 @@
-<ion-view view-title="Timeline" title-center cache-view="false">
+<ion-view ng-hide="myVar" view-title="Timeline" title-center cache-view="false">
   <!-- div class="bar item-input-inset" style="margin-top:40px;">
     <i class="icon ion-ios-search placeholder-icon" style="background:white; height:50px; padding-top:16px; padding-left:11px;"></i><input id="search" type="text" placeholder=" Search..." ng-model="search.title" style="width:100%; height:60px;" />
   </div> -->
+<!--   <ion-nav-buttons side="right">
+    <button class="button button-clear icon-button mdi ion-search" ng-click="toggle()"></button>
+  </ion-nav-buttons> -->
   <ion-content overflow-scroll=true scroll-sista="tabs" style="background-color: #ececec; z-index:0;">
     <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh()" refreshing-text="Fetching ..." refreshing-icon="ion-loading-b"></ion-refresher>
     <!--List Posting-->
     <div class="list card" ng-repeat="data in dataPost" style="margin:11px;">
       <div class="item item-avatar" style="min-height: 60px; border-bottom: 1px solid rgb(242, 242, 242);">
         <img ng-src="img/ben.png">
-        <h2>{{data.title}}</h2>
+        <h2>{{data.writer}}</h2>
         <p>{{data.date | date:'yyyy-MM-dd, h:mm a'}}</p>
       </div>
       <div class="item item-body" style="padding-top:0px; padding-left:0px; padding-right:0px; padding-bottom:10px; border-bottom: 1px solid; border-color: #ececec;">
@@ -21,7 +24,7 @@
         </p>
         <a style="padding-left:16px; padding-right:16px; font-weight:bold; color:#24afe5; text-decoration:none;" ng-click="postDetail('{{data.id}}')">See More</a>
         <p style="padding-left:16px; padding-right:16px; color:black;">
-        <a class="subdued">{{data.jumlahLike}} like</a>
+        <a class="subdued" ng-click="modal.show()">{{data.jumlahLike}} like</a>
         <a class="subdued">{{data.jumlahKomentar}} comment</a>
         <a class="subdued">{{data.jumlahSharer}} share</a>
       </div>
