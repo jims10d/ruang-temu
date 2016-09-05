@@ -1,0 +1,28 @@
+<ion-view view-title="Message" hide-back-button="true" text-center cache-view="false">
+  <!-- Back button -->
+  <ion-nav-buttons side="left">
+    <button class="button button-clear icon-button icon ion-ios-arrow-back" ng-click="back()"></button>
+  </ion-nav-buttons>
+  <!-- Upload Image and Post button -->
+  <ion-nav-buttons side="right">
+    <a class="button button-clear icon-button icon ion-android-send" onclick="document.getElementById('addMessage').click()"></a>
+  </ion-nav-buttons>
+  <ion-content overflow-scroll=true scroll-sista="tabs" style="background-color:#fff;">
+    <!-- Form post -->
+    <form method="post" enctype="text/plain">    
+      <!-- Input Text -->
+      <div class="list padding">
+        <label class="item item-input item-floating-label" style="padding:0">
+        <span class="input-label">Receiver</span>
+        <input id="title" type="text" placeholder="Receiver" ng-model="data.receiver">
+        </label>
+        <label class="item item-input item-floating-label" style="padding:0">
+        <span class="input-label">Text Message</span>
+        <textarea id="content" style="height:200px;background:transparent;resize:none" placeholder="Text Massage" ng-model="data.content"></textarea>
+        </label>
+      </div> 
+      <!-- Posting Button Linked -->
+      <input type="submit" class="button button-block button-calm-900 text-center" ng-click="addMessage()" id="addMessage" style="display:none"></input>
+    </form>
+  </ion-content>
+</ion-view>

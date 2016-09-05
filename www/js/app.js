@@ -10,6 +10,17 @@ angular.module('starter', ['ionic', 'ionic-material', 'starter.controllers', 'st
     if (window.StatusBar) {
       StatusBar.styleLightContent();
     }
+
+    var notificationOpenedCallback = function(jsonData) {
+    console.log('didReceiveRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
+    };
+
+    window.plugins.OneSignal.init("AIzaSyBezJaqwAvdkThPIkgWNy2xn9xefoNb1Z0",
+                                   {googleProjectNumber: "767579808901"},
+                                   notificationOpenedCallback);
+    
+    // Show an alert box if a notification comes in when the user is in your app.
+    window.plugins.OneSignal.enableInAppAlertNotification(true);
   });
 })
 
@@ -87,12 +98,58 @@ angular.module('starter', ['ionic', 'ionic-material', 'starter.controllers', 'st
       }
     }
   })
+  .state('app.userProfile', {
+    url: '/userProfile/:username',
+    views: {
+      'home': {
+        templateUrl: 'templates/userProfile.html',
+        controller: 'UserProfileCtrl'
+      }
+    }
+  })
+  .state('app.create_Message', {
+    url: '/create_Message',
+    views: {
+      'home': {
+        templateUrl: 'templates/create_message.html',
+        controller: 'Create_MessageCtrl'
+      }
+    }
+  })
   .state('app.leaderboard', {
     url: '/leaderboard',
     views: {
       'home': {
         templateUrl: 'templates/leaderboard.html',
         controller: 'LeaderboardCtrl'
+      }
+    }
+  })
+   .state('app.message', {
+    url: '/message',
+    views: {
+      'home': {
+        templateUrl: 'templates/message.html',
+        controller: 'MessageCtrl'
+      }
+    }
+  })
+
+  .state('app.message_detail', {
+  url: '/message_detail/:username',
+  views: {
+    'home': {
+      templateUrl: 'templates/message_detail.html',
+      controller: 'MessageDetailCtrl'
+    }
+  }
+  })
+ .state('app.contacts', {
+    url: '/contacts',
+    views: {
+      'home': {
+        templateUrl: 'templates/contacts.html',
+        controller: 'MessageCtrl'
       }
     }
   })

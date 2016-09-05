@@ -5,8 +5,8 @@
   </ion-nav-buttons>
   <!-- Upload Image and Post button -->
   <ion-nav-buttons side="right">
-    <button class="button button-clear icon-button icon ion-android-attach" onclick="document.getElementById('upload').click()" type="button"></button>
-    <button class="button button-clear icon-button icon ion-android-send" onclick="document.getElementById('createpost').click()"></button>
+    <button class="button button-clear icon-button icon ion-android-attach" onclick="document.getElementById('upload').click()"  style="min-height:0"></button>
+    <button class="button button-clear icon-button icon ion-android-send" onclick="document.getElementById('createpost').click()"  style="min-height:0"></button>
   </ion-nav-buttons>
   <ion-content overflow-scroll=true scroll-sista="tabs" style="background-color:#fff;">
     <!-- Form post -->
@@ -23,9 +23,9 @@
       <!-- Division Option -->
       <ul ng-show="Share" class="list" style="background:#fafafa;">
         <ion-list>
-          <ion-checkbox ng-model="data.div_all" ng-checked="data.div_all">All</ion-checkbox>
-          <ion-checkbox ng-model="data.div_gbs" ng-checked="data.div_all">General Business Solution</ion-checkbox>
-          <ion-checkbox ng-model="data.div_jti" ng-checked="data.div_all">Jasa Teknologi Informasi</ion-checkbox>
+          <ion-checkbox ng-model="data.div_all" ng-click="data.div_jti = !data.div_jti; data.div_gbs = !data.div_gbs;">All</ion-checkbox>
+          <ion-checkbox ng-model="data.div_gbs" ng-click="data.div_all = false">General Business Solution</ion-checkbox>
+          <ion-checkbox ng-model="data.div_jti" ng-click="data.div_all = false">Jasa Teknologi Informasi</ion-checkbox>
         </ion-list>
       </ul>
       <!-- Privacy Option -->
@@ -50,7 +50,7 @@
       <div class="list padding">
         <label class="item item-input item-floating-label" style="padding:0">
         <span class="input-label">Title</span>
-        <input id="title" type="text" placeholder="Title   *Set DIVISION, PRIVACY and CATEGORY" ng-model="data.title">
+        <input id="title" type="text" placeholder="Title" ng-model="data.title">
         </label>
         <label class="item item-input item-floating-label" style="padding:0">
         <span class="input-label">Content Information</span>

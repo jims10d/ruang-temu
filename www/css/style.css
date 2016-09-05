@@ -258,3 +258,76 @@ div.title.title-left.header-item{
 .margin{
   margin-bottom: 70px;
 }
+
+ .content-msg {
+    height: auto;
+    width: auto;
+  }
+  .div-left{
+    float:left;
+    clear:both;
+  }
+  .bubble-left {
+    float:left;
+    display: inline-block;
+    margin:20px 0px 0px 20px;
+    position: relative;
+    width: auto;
+    height: auto;
+    max-width: 250px;
+    min-width: 50px;
+    color:white;
+    padding: 10px;
+    background: #88BC72;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+  }
+
+  .bubble-left:after {
+    content: "";
+    position: absolute;
+    left: -10px;
+    border-style: solid;
+    border-width: 0 10px 10px;
+    border-color: #88BC72 transparent;
+    display: block;
+    width: 0;
+    z-index: 1;
+  }
+  .div-right{
+    float:right;
+    clear:both;
+  }
+  .bubble-right {
+    float: right;
+    display: inline-block;
+    margin:20px 20px 0px 0px;
+    position: relative;
+    width: auto;
+    height: auto;
+    max-width: 250px;
+    min-width: 50px;
+    padding: 10px;
+    color:white;
+    background: #95C2EC;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+  .bubble-right:after {
+    content: "";
+    position: absolute;
+    right: -10px;
+    border-style: solid;
+    border-width: 0 10px 10px;
+    border-color: #95C2EC transparent;
+    display: block;
+    width: 0;
+    z-index: 1;
+}
+
+.tab-item{
+  max-width: none;
+}

@@ -1,17 +1,36 @@
 <ion-view view-title="Timeline" title-center cache-view="false">
  <!-- <search-bar ng-model="search"></search-bar> -->
 
- <!--  <div class="bar item-input-inset" style="margin-top:40px;">
-    <i class="icon ion-ios-search placeholder-icon" style="background:white; height:50px; padding-top:16px; padding-left:11px;"></i><input id="search" type="text" placeholder=" Search..." ng-model="search" style="width:100%; height:60px;" />
-  </div> -->
+  <ion-nav-buttons side="right">
+    <button class="button button-clear icon-button icon ion-android-funnel" onclick="document.getElementById('filterbutton').click()" style="min-height:0"></button>
+    <button class="button button-clear icon-button icon ion-android-search" onclick="document.getElementById('searchbutton').click()" style="min-height:0"></button>
+  </ion-nav-buttons>
 
-  <ion-content overflow-scroll=true scroll-sista="tabs" style="background-color: #ececec; z-index:0;">
+  <!-- Fake button -->
+  <button ng-click="searchbutton = !searchbutton; filterbutton = false" id="searchbutton" style="display:none"></button>
+  <button ng-click="filterbutton = !filterbutton; searchbutton = false" id="filterbutton" style="display:none"></button>
+
+  <!-- Search bar -->
+  <div class="bar item-input-inset" style="border:none;margin-top:40px" ng-show="searchbutton">
+    <i class="icon ion-ios-search placeholder-icon" style="background:white; height:50px; padding-top:16px; padding-left:11px;"></i><input id="search" type="text" placeholder=" Search..." ng-model="search" style="width:100%; height:60px;" />
+  </div>
+
+  <ion-content overflow-scroll=true scroll-sista="tabs" style="background-color: #ececec; z-index:0; margin-top:0px;">
     <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh()" refreshing-text="Fetching ..." refreshing-icon="ion-loading-b"></ion-refresher>
+
+    <!-- Filter bar -->
+  <ul ng-show="filterbutton" class="list" style="background:white; position:fixed;top:40px;width: 100%; max-height: 200px; overflow:scroll; z-index:9">
+    <ion-list>
+      <ion-radio ng-model="division" ng-value="jti" ng-click="selection('jti')">JTI</ion-radio>
+      <ion-radio ng-model="division" ng-value="gbs" ng-click="selection('gbs')">GBS</ion-radio>
+    </ion-list>
+  </ul>
+
     <!--List Posting-->
-    <div class="list card" ng-repeat="data in arr | filter:search" style="margin:11px;">
+    <div class="list card" ng-repeat="data in arr | filter:search | filter:division" style="margin:11px;">
       <div class="item item-avatar" style="min-height: 60px; border-bottom: 1px solid rgb(242, 242, 242);">
         <img ng-src="img/ben.png">
-        <h2>{{data.writer}}</h2>
+        <h2 ng-click="userDetail('{{data.writer}}')">{{data.writer}}</h2>
         <p>{{data.date | date:'yyyy-MM-dd, h:mm a'}}</p>
       </div>
       <div class="item item-body" style="padding-top:0px; padding-left:0px; padding-right:0px; padding-bottom:10px; border-bottom: 1px solid; border-color: #ececec;">

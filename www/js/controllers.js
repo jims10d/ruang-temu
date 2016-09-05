@@ -94,12 +94,6 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 .controller('HomeCtrl', function($scope, $state, $stateParams, $ionicPopup, $ionicPlatform, $ionicLoading, PostService, $cordovaSocialSharing, $window, $ionicModal) { 
 	 $scope.formSeen={};
 	 $scope.formSeer={};
-	 // $scope.data=["JavaScript","Java","Ruby","Python"];
-
-
-        // $scope.toggleLeft = function() {
-        //     $ionicSideMenuDelegate.toggleLeft();
-        // };
 
 	$ionicLoading.show({
 		content: 'Loading',
@@ -118,14 +112,11 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 	PostService.getUser(localStorage.getItem("userid"),localStorage.getItem("token")).success(function(data) {
 		$scope.profile = data;
 		$scope.formSeen.employeeId = $scope.profile.id;
-		$scope.formSeer.employeeUsername = $scope.profile.name;
+		$scope.formSeer.employeeUsername = $scope.profile.username;
 		$scope.profile.password="";
 		$ionicLoading.hide();
 
-		$scope.dataPost= {};
-
 		PostService.getPostByRole($scope.profile.role).success(function(data) {
-			$scope.dataPost = data;
 			$ionicLoading.hide();
 
 			$scope.arr = [];
@@ -207,6 +198,90 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 			});
 		});
 
+		$scope.selection = function(division){
+			PostService.getPostByRole(division).success(function(data) {
+				$ionicLoading.hide();
+
+				$scope.arr = [];
+				for (var item in data) { 
+				   $scope.arr.push(data[item]); 
+
+				}
+				console.log($scope.arr);
+
+				data.forEach(function(entry) {	
+
+				    // Comment Count
+					PostService.getCommentCount(entry.id).success(function(datatmp) {
+						$ionicLoading.hide();
+						$scope.jumlahKomentar=datatmp;
+						if($scope.jumlahKomentar.count==0){
+							$scope.jumlahKomentar.count="";
+						}
+
+						entry.jumlahKomentar = $scope.jumlahKomentar.count;
+
+					}).error(function(datatmp) {
+						$ionicLoading.hide();
+						var alertPopup = $ionicPopup.alert({
+							title: 'Get Data Failed!',
+							template: 'Gagal ambil jumlah komentar post'
+						});
+					});
+
+				});
+
+				data.forEach(function(entry) {
+				 
+					PostService.getLikeCounter(entry.id).success(function(datalike) {
+						$ionicLoading.hide();
+						$scope.jumlahLike=datalike;
+						if($scope.jumlahLike.count==0){
+							$scope.jumlahLike.count="";
+						}
+
+						entry.jumlahLike = $scope.jumlahLike.count;
+
+					}).error(function(datalike) {
+						$ionicLoading.hide();
+						var alertPopup = $ionicPopup.alert({
+							title: 'Get Data Failed!',
+							template: 'Gagal ambil jumlah like post'
+						});
+					});
+
+				});
+
+				data.forEach(function(entry) {
+				   
+					PostService.getSharerCounter(entry.id).success(function(datashare) {
+						$ionicLoading.hide();
+						$scope.jumlahSharer=datashare;
+						if($scope.jumlahSharer.count==0){
+							$scope.jumlahSharer.count="";
+						}
+
+						entry.jumlahSharer = $scope.jumlahSharer.count;
+
+					}).error(function(datashare) {
+						$ionicLoading.hide();
+						var alertPopup = $ionicPopup.alert({
+							title: 'Get Data Failed!',
+							template: 'Gagal ambil jumlah share post'
+						});
+					});
+
+				});
+				
+			}).error(function(data) {
+				$ionicLoading.hide();
+				var alertPopup = $ionicPopup.alert({
+					title: 'Error!',
+					template: 'Tidak dapat mengambil data post'
+				});
+			});
+		}
+
 		// $scope.noMoreItemsAvailable = false;
   
 		// 	  $scope.loadMore = function() {
@@ -252,6 +327,12 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 	 
 	};
 
+	$scope.userDetail = function(username){
+	 
+	  $state.go('app.userProfile', {'username': username});
+	 
+	};
+
 })
 
 .controller('PostDetailCtrl', function($scope, $state, $stateParams, $ionicPopup, $ionicPlatform, $ionicLoading, PostService, ionicMaterialInk, ionicMaterialMotion, $cordovaSocialSharing) {  
@@ -266,6 +347,7 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 		$scope.formLiker={};
 		$scope.formShared={};
 		$scope.formSharer={};
+		console.log($stateParams.dataId);
 		PostService.getPost($stateParams.dataId).success(function(data) {
 			$scope.itemData=data;
 		
@@ -395,7 +477,7 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 			      // Success!
 			       console.log("success");
 			    }, function(err) {
-			      // An error occured. Show a message to the user
+			      // An error occured. Show a Message to the user
 			      console.log("failed");
 			    });
 
@@ -405,7 +487,7 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 			      // Success!
 			       console.log("success");
 			    }, function(err) {
-			      // An error occurred. Show a message to the user
+			      // An error occurred. Show a Message to the user
 			       console.log("failed");
 			    });
 
@@ -417,19 +499,19 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 			       console.log("success");
 
 			    }, function(err) {
-			      // An error occurred. Show a message to the user
+			      // An error occurred. Show a Message to the user
 			       console.log("failed");
 			    });
 
 			// toArr, ccArr and bccArr must be an array, file can be either null, string or array
 			  $cordovaSocialSharing
-			    .shareViaEmail(message, subject, toArr, ccArr, ['bcc', 'bcc'], null)
+			    .shareViaEmail(Message, subject, toArr, ccArr, ['bcc', 'bcc'], null)
 			    .then(function(result) {
 			      // Success!
 			       console.log("success");
 
 			    }, function(err) {
-			      // An error occurred. Show a message to the user
+			      // An error occurred. Show a Message to the user
 			       console.log("failed");
 			    });
 
@@ -440,7 +522,7 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 			       console.log("success");
 
 			    }, function(err) {
-			      // An error occurred. Show a message to the user
+			      // An error occurred. Show a Message to the user
 			       console.log("failed");
 			    });
 
@@ -727,6 +809,71 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 
 })
 
+.controller('UserProfileCtrl', function($scope, $state, $ionicPopup, $ionicPlatform, $ionicLoading, PostService, $cordovaImagePicker, $cordovaCamera, $stateParams) {  
+	//implement logic here
+	$scope.profile = {};
+	document.addEventListener("deviceready", function () {
+		$scope.uploadImage = function() {
+			var options = {
+				maximumImagesCount: 1,
+				width: 600,
+				height: 600,
+				quality: 100
+			};
+
+			$cordovaImagePicker.getPictures(options).then(function (results) {
+				for (var i = 0; i < results.length; i++) {
+					$scope.image = results[i];
+					
+					window.plugins.Base64.encodeFile($scope.image, function(base64){  // Encode URI to Base64 needed for contacts plugin
+                        $scope.profile.photo = base64;
+						$scope.profile.photo = $scope.profile.foto.replace(/(\r\n|\n|\r)/gm,"");
+						
+                    });
+				}
+			}, function(error) {
+				$scope.profile.photo="n/a"
+			});
+		}
+	}, false);
+
+	$ionicLoading.show({
+		content: 'Loading',
+		animation: 'fade-in',
+		showBackdrop: true,
+	
+	});
+	console.log($stateParams.username);
+	localStorage.setItem("MessageUsername",$stateParams.username);
+	PostService.getEmployeeByUsername($stateParams.username).success(function(data) {
+		$scope.profile = data;
+		$scope.badge = {};
+		$ionicLoading.hide();
+
+		data.badges.sort(function(a, b){
+		    var dateA=new Date(a.achieved_date), dateB=new Date(b.achieved_date)
+		    return dateB-dateA //sort by date ascending
+		})
+
+		console.log(data.badges);
+		$scope.badge = data.badges[0];
+
+	}).error(function(data) {
+		$ionicLoading.hide();
+		var alertPopup = $ionicPopup.alert({
+			title: 'Error!',
+			template: 'Tidak dapat mengambil profil!'
+		});
+	});
+
+	$scope.userDetail = function(username){
+	 
+	  $state.go('app.Message_detail', {'username': username});
+	 
+	};
+
+})
+
 .controller('LeaderboardCtrl', function($scope, $state, $ionicPopup, $ionicPlatform, $ionicLoading, LoginService, ProfileService) {  
 	//implement logic here
 	$scope.leaderboard = {};
@@ -789,58 +936,213 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 	});
 })
 
-// .directive('searchBar', [function () {
-// 	return {
-// 		scope: {
-// 			ngModel: '='
-// 		},
-// 		require: ['^ionNavBar', '?ngModel'],
-// 		restrict: 'E',
-// 		replace: true,
-// 		template: '<ion-nav-buttons side="right">'+
-// 						'<div class="searchBar">'+
-// 							'<div class="searchTxt" ng-show="ngModel.show">'+
-// 						  		'<div class="bgdiv"></div>'+
-// 						  		'<div class="bgtxt">'+
-// 						  			'<input type="text" placeholder="Search..." ng-model="search.title">'+
-// 						  		'</div>'+
-// 					  		'</div>'+
-// 						  	'<i class="icon placeholder-icon" ng-click="ngModel.txt=\'\';ngModel.show=!ngModel.show"></i>'+
-// 						'</div>'+
-// 					'</ion-nav-buttons>',
-		
-// 		compile: function (element, attrs) {
-// 			var icon=attrs.icon
-// 					|| (ionic.Platform.isAndroid() && 'ion-android-search')
-// 					|| (ionic.Platform.isIOS()     && 'ion-ios7-search')
-// 					|| 'ion-search';
-// 			angular.element(element[0].querySelector('.icon')).addClass(icon);
+.controller('MessageCtrl', function($scope, $state, $ionicPopup, $ionicPlatform, $ionicLoading, LoginService, PostService, MessageService, $stateParams) {  
+	$scope.Message = {};
+	$scope.otherProfile = {};
+	$scope.profile = {};
+	$scope.dataMessage = {};
+	$scope.contacts = {};
+	$scope.showme = false;
+
+	MessageService.getContacts(localStorage.getItem("token")).success(function(data) {
+		$scope.contacts = data;
+		$ionicLoading.hide();
+		console.log($scope.contacts);
+
+	}).error(function(data) {
+		$ionicLoading.hide();
+		var alertPopup = $ionicPopup.alert({
+			title: 'Error!',
+			template: 'Tidak dapat mengambil kontak'
+		});
+	});
+
+	LoginService.getUser(localStorage.getItem("userid"),localStorage.getItem("token")).success(function(data) {
+		$scope.profile = data;
+		$ionicLoading.hide();
+
+		console.log(localStorage.getItem("MessageUsername"));
+		PostService.getEmployeeByUsername(localStorage.getItem("MessageUsername")).success(function(data) {
+			$scope.otherProfile = data;
+			$ionicLoading.hide();
+			console.log($scope.otherProfile);
+
+			MessageService.getMessage($scope.profile.username,localStorage.getItem("MessageUsername")).success(function(data) {
+			$scope.Message = data;
+			$ionicLoading.hide();
+			console.log($scope.Message);
+
+			data.sort(function(a, b){
+		    var dateA=new Date(a.date), dateB=new Date(b.date)
+		    return dateA-dateB //sort by date ascending
+			})
+
+			console.log(data);
+			$scope.newMessage = data;
 			
-// 			return function($scope, $element, $attrs, ctrls) {
-// 				var navBarCtrl = ctrls[0];
-// 				$scope.navElement = $attrs.side === 'right' ? navBarCtrl.rightButtonsElement : navBarCtrl.leftButtonsElement;
+			}).error(function(data) {
+				$ionicLoading.hide();
+				var alertPopup = $ionicPopup.alert({
+					title: 'Error!',
+					template: 'Tidak dapat mengambil Message'
+				});
+			});
+
+			$scope.dataMessage.sender = $scope.profile.username;
+			$scope.dataMessage.receiver = localStorage.getItem("MessageUsername");
+			$scope.dataMessage.date = moment().format();
+			console.log($scope.dataMessage);
+			$scope.addMessage = function(){
+				PostService.addMessage($scope.dataMessage).success(function(data) {
+					$ionicLoading.hide();
+					
+					$state.go($state.current, {}, {reload: true});
+
+				}).error(function(data) {
+					$ionicLoading.hide();
 				
-// 			};
-// 		},
-// 		controller: ['$scope','$ionicNavBarDelegate', function($scope,$ionicNavBarDelegate){
-// 			var title, definedClass;
-// 			$scope.$watch('ngModel.show', function(showing, oldVal, scope) {
-// 				if(showing!==oldVal) {
-// 					if(showing) {
-// 						if(!definedClass) {
-// 							var numicons=$scope.navElement.children().length;
-// 							angular.element($scope.navElement[0].querySelector('.searchBar')).addClass('numicons'+numicons);
-// 						}
-						
-// 						title = $ionicNavBarDelegate.getTitle();
-// 						$ionicNavBarDelegate.setTitle('');
-// 					} else {
-// 						$ionicNavBarDelegate.setTitle(title);
-// 					}
-// 				} else if (!title) {
-// 					title = $ionicNavBarDelegate.getTitle();
-// 				}
-// 			});
-// 		}]
-// 	};
-// }])
+					var alertPopup = $ionicPopup.alert({
+						title: 'Post Data Failed!',
+						template: 'Gagal buat Message'
+					});
+				});
+			}
+
+		}).error(function(data) {
+			$ionicLoading.hide();
+			var alertPopup = $ionicPopup.alert({
+				title: 'Error!',
+				template: 'Tidak dapat mengambil profil!'
+			});
+		});
+
+	}).error(function(data) {
+		$ionicLoading.hide();
+		var alertPopup = $ionicPopup.alert({
+			title: 'Error!',
+			template: 'Tidak dapat mengambil profil!'
+		});
+	});
+	console.log('username');
+	$scope.userDetail = function(username){
+	 
+	  $state.go('app.message_detail', {'username': username});
+	 
+	};
+
+})
+
+.controller('MessageDetailCtrl', function($scope, $state, $ionicPopup, $ionicPlatform, $ionicLoading, LoginService, PostService, MessageService, $stateParams) {  
+	$scope.Message = {};
+	$scope.otherProfile = {};
+	$scope.profile = {};
+	$scope.dataMessage = {};
+	console.log($stateParams.username);
+	LoginService.getUser(localStorage.getItem("userid"),localStorage.getItem("token")).success(function(data) {
+		$scope.profile = data;
+		$ionicLoading.hide();
+
+		PostService.getEmployeeByUsername($stateParams.username).success(function(data) {
+			$scope.otherProfile = data;
+			$ionicLoading.hide();
+			console.log($scope.otherProfile);
+
+			MessageService.getMessage($scope.profile.username,$stateParams.username).success(function(data) {
+			$scope.Message = data;
+			$ionicLoading.hide();
+			console.log($scope.Message);
+
+			data.sort(function(a, b){
+		    var dateA=new Date(a.date), dateB=new Date(b.date)
+		    return dateA-dateB //sort by date ascending
+			})
+
+			console.log(data);
+			$scope.newMessage = data;
+			
+			}).error(function(data) {
+				$ionicLoading.hide();
+				var alertPopup = $ionicPopup.alert({
+					title: 'Error!',
+					template: 'Tidak dapat mengambil Message'
+				});
+			});
+
+			$scope.dataMessage.sender = $scope.profile.username;
+			$scope.dataMessage.receiver = $stateParams.username;
+			$scope.dataMessage.date = moment().format();
+			console.log($scope.dataMessage);
+			$scope.addMessage = function(){
+				PostService.addMessage($scope.dataMessage).success(function(data) {
+					$ionicLoading.hide();
+					
+					$state.go($state.current, {}, {reload: true});
+
+				}).error(function(data) {
+					$ionicLoading.hide();
+				
+					var alertPopup = $ionicPopup.alert({
+						title: 'Post Data Failed!',
+						template: 'Gagal buat Message'
+					});
+				});
+			}
+
+		}).error(function(data) {
+			$ionicLoading.hide();
+			var alertPopup = $ionicPopup.alert({
+				title: 'Error!',
+				template: 'Tidak dapat mengambil profil!'
+			});
+		});
+
+	}).error(function(data) {
+		$ionicLoading.hide();
+		var alertPopup = $ionicPopup.alert({
+			title: 'Error!',
+			template: 'Tidak dapat mengambil profil!'
+		});
+	});
+
+
+})
+
+.controller('Create_MessageCtrl', function($scope, PostService,$state, $ionicPopup, $ionicPlatform,$ionicLoading, LoginService) {  
+	$scope.data={};
+	
+
+	LoginService.getUser(localStorage.getItem("userid"),localStorage.getItem("token")).success(function(data) {
+		$scope.profile = data;
+		$ionicLoading.hide();
+		$scope.data.sender = data.username;
+		console.log($scope.data.sender);
+
+		$scope.addMessage = function(){
+		PostService.addMessage($scope.data).success(function(data) {
+			$ionicLoading.hide();
+			
+			var alertPopup = $ionicPopup.alert({
+				title: 'Succes!',
+				template: 'Berhasil buat post'
+			});
+			$state.go('app.home');
+
+		}).error(function(data) {
+			$ionicLoading.hide();
+		
+			var alertPopup = $ionicPopup.alert({
+				title: 'Post Data Failed!',
+				template: 'Gagal buat post'
+			});
+		});
+	}
+
+	}).error(function(data) {
+		$ionicLoading.hide();
+		var alertPopup = $ionicPopup.alert({
+			title: 'Error!',
+			template: 'Tidak dapat mengambil profil!'
+		});
+	});
+
+})

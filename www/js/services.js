@@ -228,8 +228,75 @@ angular.module('starter.services', [])
 	}
 })
 
+.service('MessageService', function($http,PARSE_CREDENTIALS,BACKEND,$q){
+	return{
+		getMessage: function(sender,receiver){
+			var deferred = $q.defer();
+			var promise = deferred.promise;
+			$http.get(BACKEND.URL+'/Messages/getMessage?sender='+sender+'&receiver='+receiver).success(function(response){
+				deferred.resolve(response);
+			}).error(function(response){
+				deferred.reject(response);
+			});
+			promise.success = function(fn){
+				promise.then(fn);
+				return promise;
+			}
+			promise.error = function(fn){
+				promise.then(null, fn);
+				return promise;
+			}
+			return promise;
+		},
+		getContacts: function(token){
+			var deferred = $q.defer();
+			var promise = deferred.promise;
+			$http.get(BACKEND.URL+'/Employees/getContacts?access_token='+token).success(function(response){
+				deferred.resolve(response);
+			}).error(function(response){
+				deferred.reject(response);
+			});
+			promise.success = function(fn){
+				promise.then(fn);
+				return promise;
+			}
+			promise.error = function(fn){
+				promise.then(null, fn);
+				return promise;
+			}
+			return promise;
+		},
+	}
+})
+
 .service('PostService', function($http,PARSE_CREDENTIALS,BACKEND,$q){
 	return{
+		addMessage: function(data){
+			var deferred = $q.defer();
+			var promise = deferred.promise;
+			$http.post(BACKEND.URL+'/Messages',data,{ headers: { 'Content-Type': 'application/json' } }).success(function(response){
+				console.log(response);
+				deferred.resolve(response);
+			}).error(function(response,error){
+				console.log(response)
+				if(error == 500){
+					console.log(response)
+					deferred.reject(error);
+				}else{
+					console.log(response)
+					deferred.reject(error);
+				}
+			});				
+			promise.success = function(fn){
+				promise.then(fn);
+				return promise;
+			}			
+			promise.error = function(fn){
+				promise.then(null, fn);
+				return promise;
+			}			
+			return promise;
+		},
 		tambahPost: function(data){
 			var deferred = $q.defer();
 			var promise = deferred.promise;
@@ -386,6 +453,24 @@ angular.module('starter.services', [])
 			var deferred = $q.defer();
 			var promise = deferred.promise;
 			$http.get(BACKEND.URL+'/Employees/'+id+'?access_token='+token).success(function(response){
+				deferred.resolve(response);
+			}).error(function(response){
+				deferred.reject(response);
+			});
+			promise.success = function(fn){
+				promise.then(fn);
+				return promise;
+			}
+			promise.error = function(fn){
+				promise.then(null, fn);
+				return promise;
+			}
+			return promise;
+		},
+		getEmployeeByUsername: function(username) {
+			var deferred = $q.defer();
+			var promise = deferred.promise;
+			$http.get(BACKEND.URL+'/Employees/getEmployee?username='+username).success(function(response){
 				deferred.resolve(response);
 			}).error(function(response){
 				deferred.reject(response);
@@ -701,5 +786,6 @@ angular.module('starter.services', [])
 		}
 		}
 	})
+
 
 
