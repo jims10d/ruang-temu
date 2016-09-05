@@ -22,10 +22,13 @@
       </div>
       <!-- Division Option -->
       <ul ng-show="Share" class="list" style="background:#fafafa;">
-        <ion-list>
-          <ion-checkbox ng-model="data.div_all" ng-click="data.div_jti = !data.div_jti; data.div_gbs = !data.div_gbs;">All</ion-checkbox>
-          <ion-checkbox ng-model="data.div_gbs" ng-click="data.div_all = false">General Business Solution</ion-checkbox>
-          <ion-checkbox ng-model="data.div_jti" ng-click="data.div_all = false">Jasa Teknologi Informasi</ion-checkbox>
+        <div style="padding: 5px">
+          <b ng-model="selectall"  ng-hide="selectall; data.div_gbs == true || data.div_jti == true" ng-click="data.div_jti = true; data.div_gbs = true; deselectall = !deselectall; selectall = !selectall">Select All</b>
+          <b ng-model="deselectall" ng-show="deselectall;  data.div_gbs == true || data.div_jti == true" ng-click="data.div_jti = false; data.div_gbs = false; deselectall = !deselectall; selectall = !selectall">Deselect All</b>
+        </div>
+        <ion-list>          
+          <ion-checkbox ng-model="data.div_gbs" >General Business Solution</ion-checkbox>
+          <ion-checkbox ng-model="data.div_jti" >Jasa Teknologi Informasi</ion-checkbox>
         </ion-list>
       </ul>
       <!-- Privacy Option -->
