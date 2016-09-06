@@ -122,10 +122,10 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 			$scope.arr = [];
 			for (var item in data) { 
 			   $scope.arr.push(data[item]); 
-
+			   console.log(data[item].liker);
 			}
 			console.log($scope.arr);
-
+			
 			data.forEach(function(entry) {	
 
 			    // Comment Count
@@ -158,6 +158,10 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 					}
 
 					entry.jumlahLike = $scope.jumlahLike.count;
+					// $scope.like.push(entry.jumlahLike); 
+			  //  		console.log($scope.like);
+			  //  		$scope.largest = Math.max.apply(Math, $scope.like);	
+					// console.log($scope.largest);	
 
 				}).error(function(datalike) {
 					$ionicLoading.hide();
@@ -208,7 +212,7 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 
 				}
 				console.log($scope.arr);
-
+				
 				data.forEach(function(entry) {	
 
 				    // Comment Count
@@ -806,6 +810,27 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 			template: 'Tidak dapat mengambil profil!'
 		});
 	});
+	$scope.changePassword = function(){
+		
+		LoginService.changePassword(localStorage.getItem("token"),$scope.formCP).success(function(data) {
+	   		$ionicLoading.hide();
+	   		console.log(data);
+	   		console.log("aaaa");
+	   		//$scope.profile = data;
+	   		var alertPopup = $ionicPopup.alert({
+    			title: 'Edit Password Berhasil!',
+    			template: 'Edit Password berhasil dilakukan'
+	   		});
+	   		$state.go('app.home');
+		}).error(function(data) {
+		   		$ionicLoading.hide();
+		    	console.log("a");
+		    	var alertPopup = $ionicPopup.alert({
+				title: 'Get Data Failed!',
+				template: 'Gagal edit password'
+			});
+		});
+	}
 
 })
 
@@ -943,19 +968,9 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 	$scope.dataMessage = {};
 	$scope.contacts = {};
 	$scope.showme = false;
+	$scope.historyMessage = {};
+	$scope.arrMessage = [];
 
-	MessageService.getContacts(localStorage.getItem("token")).success(function(data) {
-		$scope.contacts = data;
-		$ionicLoading.hide();
-		console.log($scope.contacts);
-
-	}).error(function(data) {
-		$ionicLoading.hide();
-		var alertPopup = $ionicPopup.alert({
-			title: 'Error!',
-			template: 'Tidak dapat mengambil kontak'
-		});
-	});
 
 	LoginService.getUser(localStorage.getItem("userid"),localStorage.getItem("token")).success(function(data) {
 		$scope.profile = data;
@@ -1023,6 +1038,45 @@ angular.module('starter.controllers', ['ngCordova','ionic'])
 			template: 'Tidak dapat mengambil profil!'
 		});
 	});
+
+	MessageService.getContacts(localStorage.getItem("token")).success(function(data) {
+		$scope.contacts = data;
+		$ionicLoading.hide();
+		console.log($scope.contacts);
+
+		for(item in $scope.contacts){
+			console.log($scope.contacts[item].username);
+			console.log($scope.profile.username);
+
+			MessageService.getMessageBySender($scope.profile.username,$scope.contacts[item].username,$scope.contacts[item].username,$scope.profile.username).success(function(data) {
+				$scope.historyMessage = data;
+				$ionicLoading.hide();
+				$scope.arrMessage.push(data); 
+				console.log($scope.arrMessage);
+				console.log($scope.historyMessage);
+				console.log(data.receiver);
+				if(data.receiver == $scope.profile.username){
+					data.receiver = data.sender;
+					console.log(data.receiver);
+				}
+
+			}).error(function(data) {
+				$ionicLoading.hide();
+				// var alertPopup = $ionicPopup.alert({
+				// 	title: 'Error!',
+				// 	template: 'Tidak dapat mengambil history'
+				// });
+			});
+		}
+
+	}).error(function(data) {
+		$ionicLoading.hide();
+		var alertPopup = $ionicPopup.alert({
+			title: 'Error!',
+			template: 'Tidak dapat mengambil kontak'
+		});
+	});
+
 	console.log('username');
 	$scope.userDetail = function(username){
 	 
