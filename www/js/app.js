@@ -71,6 +71,15 @@ angular.module('starter', ['ionic', 'ionic-material', 'starter.controllers', 'st
       }
     }
   })
+  .state('app.homepage', {
+    url: '/homepage',
+    views: {
+      'home': {
+        templateUrl: 'templates/homepage.html',
+        controller: 'HomeCtrl'
+      }
+    }
+  })
   .state('app.post', {
     url: '/post/:dataId',
     views: {
@@ -180,7 +189,15 @@ angular.module('starter', ['ionic', 'ionic-material', 'starter.controllers', 'st
       }
     }
   })
-
+  .state('app.change_password', {
+    url: '/change_password',
+    views: {
+      'home': {
+        templateUrl: 'templates/change_password.html',
+        controller: 'ProfileCtrl'
+      }
+    }
+  })
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/home');
 
