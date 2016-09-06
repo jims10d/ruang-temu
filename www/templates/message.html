@@ -15,41 +15,13 @@
     </div>
 
     <div class="list" ng-hide="showme">
-      <a class="item item-avatar" href="#" style="border-bottom:1px solid #cecece;margin-top:50px">
+     <div style="margin-top:50px"></div>
+      <a class="item item-avatar" ng-repeat="data in arrMessage" style="border-bottom:1px solid #cecece" ng-click="userDetail('{{data.receiver}}')">
         <img src="img\ben.png">
-        <h2>Venkman</h2>
-        <p>Back off, man. I'm a scientist.</p>
+        <h2>{{data.receiver}}</h2>
+        <p>{{data.content}}</p>
       </a>
 
-       <a class="item item-avatar" href="#" style="border-bottom:1px solid #cecece;">
-        <img src="img\ben.png">
-        <h2>Venkman</h2>
-        <p>Back off, man. I'm a scientist.</p>
-      </a>
-
-      <a class="item item-avatar" href="#" style="border-bottom:1px solid #cecece;">
-      <img src="img\ben.png">
-      <h2>Venkman</h2>
-      <p>Back off, man. I'm a scientist.</p>
-      </a>
-
-       <a class="item item-avatar" href="#" style="border-bottom:1px solid #cecece;">
-        <img src="img\ben.png">
-        <h2>Venkman</h2>
-        <p>Back off, man. I'm a scientist.</p>
-      </a>
-
-      <a class="item item-avatar" href="#" style="border-bottom:1px solid #cecece;">
-      <img src="img\ben.png">
-      <h2>Venkman</h2>
-      <p>Back off, man. I'm a scientist.</p>
-      </a>
-
-       <a class="item item-avatar" href="#" style="border-bottom:1px solid #cecece;">
-        <img src="img\ben.png">
-        <h2>Venkman</h2>
-        <p>Back off, man. I'm a scientist.</p>
-      </a>
     </div>
 
     <div class="list" ng-show="showme">
