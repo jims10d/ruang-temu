@@ -12,6 +12,32 @@ angular.module('starter.services', [])
 
 .service('LoginService', function($http,PARSE_CREDENTIALS,BACKEND,$q){
 	return{
+		changePassword: function(token,data){
+			var deferred = $q.defer();
+			var promise = deferred.promise;
+			console.log("hehe")
+			console.log(data);
+			$http.put(BACKEND.URL+'Employees/updatePassword?access_token='+token,data,{headers:{'Content-Type':'application/json'}}).success(function(response){
+				deferred.resolve(response);
+			}).error(function(response,error){
+				if(error == 500){
+					deferred.reject(error);
+				}else{
+					deferred.reject(error);
+				}
+			});			
+			promise.success = function(fn){
+				promise.then(fn);
+				return promise;
+			}
+
+			promise.error = function(fn){
+				promise.then(null, fn);
+				return promise;
+			}
+
+			return promise;
+		},
 		loginUser: function(username,password){
 			var deferred = $q.defer();
 			var promise = deferred.promise;
@@ -266,6 +292,25 @@ angular.module('starter.services', [])
 			}
 			return promise;
 		},
+		getMessageBySender: function(sender,receiver,receiver2,sender2){
+			var deferred = $q.defer();
+			var promise = deferred.promise;
+			$http.get(BACKEND.URL+'/Messages/findOne?filter=%7B%22where%22%3A%7B%22or%22%3A%20%5B%7B%22sender%22%3A%22'+sender+'%22%2C%22receiver%22%3A%22'+receiver+'%22%7D%2C%7B%22sender%22%3A%22'+receiver2+'%22%2C%22receiver%22%3A%22'+sender2+'%22%7D%5D%7D%2C%22order%22%3A%22date%20DESC%22%7D').success(function(response){
+				deferred.resolve(response);
+			}).error(function(response){
+				deferred.reject(response);
+			});
+			promise.success = function(fn){
+				promise.then(fn);
+				return promise;
+			}
+			promise.error = function(fn){
+				promise.then(null, fn);
+				return promise;
+			}
+			return promise;
+		},
+
 	}
 })
 
@@ -300,7 +345,7 @@ angular.module('starter.services', [])
 		tambahPost: function(data){
 			var deferred = $q.defer();
 			var promise = deferred.promise;
-			$http.post(BACKEND.URL+'/Posts',data,{ headers: { 'Content-Type': 'application/json' } }).success(function(response){
+			$http.post(BACKEND.URL+'/Posts/addPost',data,{ headers: { 'Content-Type': 'application/json' } }).success(function(response){
 				console.log(response);
 				deferred.resolve(response);
 			}).error(function(response,error){
